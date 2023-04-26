@@ -1,5 +1,7 @@
 package com.example.application.views;
 
+import com.example.application.controls.RegistrationControl;
+import com.example.application.dtos.RegistrationResult;
 import com.example.application.utils.Globals;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -7,23 +9,27 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.example.application.dtos.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "register")
 @PageTitle(Globals.PageTitles.REGISTER_PAGE_TITLE)
 public class RegistrationView extends Div{
 
-    /*
+
     @Autowired
     private RegistrationControl registrationControl;
+    /*
     @Autowired
     private LoginControl loginControl;
     @Autowired
@@ -36,8 +42,8 @@ public class RegistrationView extends Div{
     TextField title                 = new TextField("Titel");
     EmailField email                = new EmailField("E-Mail");
     EmailField emailRepeat          = new EmailField("E-Mail wiederholen");
-    TextField firstName             = new TextField("Vorname");
-    TextField lastName              = new TextField("Nachname");
+    TextField firstname             = new TextField("Vorname");
+    TextField lastname              = new TextField("Nachname");
     PasswordField password          = new PasswordField("Password");
     PasswordField passwordRepeat    = new PasswordField("Password wiederholen");
     DatePicker dateOfBirth          = new DatePicker("Geburtsdatum");
@@ -49,6 +55,8 @@ public class RegistrationView extends Div{
     TextField   city                = new TextField("Stadt");
     ComboBox<String>   country      = new ComboBox<>("Country");
 
+    private Binder<UserDTO> binderUser = new Binder(UserDTO.class);
+
 
     class RegisterForm extends Div {
 
@@ -57,8 +65,8 @@ public class RegistrationView extends Div{
             // Basic User
             salutation.setRequiredIndicatorVisible(true);
             title.setRequiredIndicatorVisible(true);
-            firstName.setRequiredIndicatorVisible(true);
-            lastName.setRequiredIndicatorVisible(true);
+            firstname.setRequiredIndicatorVisible(true);
+            lastname.setRequiredIndicatorVisible(true);
             dateOfBirth.setRequiredIndicatorVisible(true);
             phone.setRequiredIndicatorVisible(true);
             email.setRequiredIndicatorVisible(true);
@@ -80,7 +88,7 @@ public class RegistrationView extends Div{
             FormLayout formLayout = new FormLayout();
             formLayout.add(
                     salutation, title,
-                    firstName, lastName,
+                    firstname, lastname,
                     dateOfBirth, phone,
                     street, housenumber,
                     postalcode, city,
@@ -98,8 +106,8 @@ public class RegistrationView extends Div{
             UserDTO newUser = new UserDTO();
             newUser.setSalutation(salutation.getValue());
             newUser.setTitle(title.getValue());
-            newUser.setFirstName(firstName.getValue());
-            newUser.setLastName(lastName.getValue());
+            newUser.setFirstname(firstname.getValue());
+            newUser.setLastname(lastname.getValue());
             newUser.setDateOfBirth(dateOfBirth.getValue());
             newUser.setPhone(phone.getValue());
             newUser.setEmail(email.getValue());
@@ -136,7 +144,21 @@ public class RegistrationView extends Div{
 
         siteLayout.add(section);
 
+        // Bindings initialisieren
+        binderUser.setBean(new UserDTO());
+        binderUser.bind(firstname, "firstname");
+        binderUser.bind(lastname, "lastname");
+
         registerButton.addClickListener(e -> {
+            UserDTO userDTO = binderUser.getBean();
+            try{
+                RegistrationResult result = registrationControl.registerUser(userDTO);
+                if (result.OK()){
+                    Notification.show("Registrierung erfolgreich");
+                }
+            } catch (Exception exception){
+                Notification.show("Registrierung fehlgeschlagen");
+            }
             /*try {
                 UserDTO userDTO = form.createNewUserDTO();
                 RegistrationDTOImpl registrationDTO = new RegistrationDTOImpl(userDTO, emailRepeat.getValue(), passwordRepeat.getValue());

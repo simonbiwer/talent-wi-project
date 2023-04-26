@@ -43,14 +43,14 @@ public class UserDTOTest {
 
     @Test
     public void testSetzeUndHoleVorname() {
-        benutzer.setFirstName("Max");
-        assertEquals("Max", benutzer.getFirstName());
+        benutzer.setFirstname("Max");
+        assertEquals("Max", benutzer.getFirstname());
     }
 
     @Test
     public void testSetzeUndHoleNachname() {
-        benutzer.setLastName("Mustermann");
-        assertEquals("Mustermann", benutzer.getLastName());
+        benutzer.setLastname("Mustermann");
+        assertEquals("Mustermann", benutzer.getLastname());
     }
 
     @Test
@@ -83,8 +83,8 @@ public class UserDTOTest {
         benutzer.setId(1);
         benutzer.setSalutation("Herr");
         benutzer.setTitle("Dr.");
-        benutzer.setFirstName("Max");
-        benutzer.setLastName("Mustermann");
+        benutzer.setFirstname("Max");
+        benutzer.setLastname("Mustermann");
         benutzer.setDateOfBirth(LocalDate.of(1990, 1, 1));
         benutzer.setEmail("max.mustermann@example.com");
         benutzer.setPhone("+49 123456789");
