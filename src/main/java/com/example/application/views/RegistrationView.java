@@ -16,8 +16,9 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.example.application.dtos.UserDTO;
+import com.example.application.layout.DefaultView;
 
-@Route(value = "register")
+@Route(value = "register", layout = DefaultView.class)
 @PageTitle(Globals.PageTitles.REGISTER_PAGE_TITLE)
 public class RegistrationView extends Div{
 
