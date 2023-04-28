@@ -1,5 +1,6 @@
 package com.example.application.views;
 
+import com.example.application.layout.DefaultView;
 import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Globals;
 import com.vaadin.flow.component.Key;
@@ -9,7 +10,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Main")
-@Route(value = Globals.Pages.MAIN_VIEW)
+@Route(value = Globals.Pages.MAIN_VIEW, layout = DefaultView.class)
 public class MainView extends VerticalLayout {
 
     private Button registerButton;

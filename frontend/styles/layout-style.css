@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Avenir';
+  src: url('https://fonts.cdnfonts.com/s/12852/Avenir-Next-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+.project-title {
+  font-family: 'Avenir', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+}

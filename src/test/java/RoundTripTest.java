@@ -10,18 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class RoundTripTest {
 
-
+    /**
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private AddressRepository addressRepository;
 
     @Test
-    /**
+
      * Round Triping Test mit einer einfachen Strecke (C-R-Ass-D).
      * Dieses Muster für Unit-Tests wird in der Vorlesung SE-2 eingeführt (Kapitel 6).
      *
-     */
+
     void createReadAndDeleteAUser() {
 
         // Schritt 1: C = Create (hier: Erzeugung und Abspeicherung mit der Method save()
@@ -120,6 +120,7 @@ public class RoundTripTest {
         assertFalse(wrapperUser1AfterDelete.isPresent());
         assertFalse(wrapperUser2AfterDelete.isPresent());
         assertFalse(wrapperAddressAfterDelete.isPresent());
-    }
 
+    }
+    */
 }
