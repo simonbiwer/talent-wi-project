@@ -21,11 +21,11 @@ public class UserDTO{
 
     public void setTitle(String title) { this.title = title; }
 
-    public void setFirstName(String firstname) {
+    public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
-    public void setLastName(String lastname) {
+    public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
@@ -45,11 +45,11 @@ public class UserDTO{
 
     public String getTitle() { return title; }
 
-    public String getFirstName() {
+    public String getFirstname() {
         return this.firstname;
     }
 
-    public String getLastName() {
+    public String getLastname() {
         return this.lastname;
     }
 
