@@ -64,15 +64,14 @@ public class UserDTO{
     public int getId() { return this.id; }
 
     public String toString() {
-        return
-                "id=" + id + '\'' +
-                        ", salutation='" + salutation + '\'' +
-                        ", title='" + title + '\'' +
-                        ", firstname='" + firstname + '\'' +
-                        ", lastname='" + lastname + '\'' +
-                        ", dateOfBirth=" + dateOfBirth +
-                        ", email='" + email + '\'' +
-                        ", phone='" + phone + '\'';
+        return "id=" + id +
+                ", salutation='" + salutation + '\'' +
+                ", title='" + title + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' ;
     }
 }
 
