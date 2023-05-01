@@ -3,7 +3,9 @@ package com.example.application.views;
 import com.example.application.controls.RegistrationControl;
 import com.example.application.dtos.RegistrationResult;
 import com.example.application.dtos.UserDTOImpl;
+import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
+import com.example.application.utils.Utils;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -21,7 +23,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.example.application.layout.DefaultView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -43,24 +44,12 @@ public class RegistrationView extends Div{
     private SettingsControl settingsControl;
      */
 
-
     // Basic User
-//    TextField salutation            = new TextField("Anrede");
-//    TextField title                 = new TextField("Titel");
-    EmailField email                = new EmailField("E-Mail");
-//    EmailField emailRepeat          = new EmailField("E-Mail wiederholen");
-    TextField firstname             = new TextField("Vorname");
-    TextField lastname              = new TextField("Nachname");
-    PasswordField password          = new PasswordField("Password");
-    PasswordField password2         = new PasswordField("Passwort bestätigen");
-//    DatePicker dateOfBirth          = new DatePicker("Geburtsdatum");
-//    TextField   phone               = new TextField("Telefon");
-    // Address
-//    TextField   street              = new TextField("Straße");
-//    TextField   housenumber         = new TextField("Hausnummer");
-//    TextField   postalcode          = new TextField("PLZ");
-//    TextField   city                = new TextField("Stadt");
-//    ComboBox<String>   country      = new ComboBox<>("Country");
+    EmailField email = new EmailField("E-Mail");
+    TextField firstname = new TextField("Vorname");
+    TextField lastname = new TextField("Nachname");
+    PasswordField password  = new PasswordField("Password");
+    PasswordField password2 = new PasswordField("Passwort bestätigen");
 
     private Binder<UserDTOImpl> binderUser = new Binder(UserDTOImpl.class);
 
@@ -68,41 +57,18 @@ public class RegistrationView extends Div{
     class RegisterForm extends Div {
 
         RegisterForm(){
-            // Set required fields option
-            // Basic User
-//            salutation.setRequiredIndicatorVisible(true);
-//            title.setRequiredIndicatorVisible(true);
             firstname.setRequiredIndicatorVisible(true);
             lastname.setRequiredIndicatorVisible(true);
-//            dateOfBirth.setRequiredIndicatorVisible(true);
-//            phone.setRequiredIndicatorVisible(true);
             email.setRequiredIndicatorVisible(true);
-//            emailRepeat.setRequiredIndicatorVisible(true);
+            email.setClearButtonVisible(false); // Deaktiviert die Validierung des EmailFields
+            email.setErrorMessage("E-Mail ungültig"); // Setzt die benutzerdefinierte Fehlermeldung für ungültige Eingaben
             password.setRequiredIndicatorVisible(true);
             password2.setRequiredIndicatorVisible(true);
-//            street.setRequiredIndicatorVisible(true);
-//            housenumber.setRequiredIndicatorVisible(true);
-//            postalcode.setRequiredIndicatorVisible(true);
-//            city.setRequiredIndicatorVisible(true);
-//            country.setRequiredIndicatorVisible(true);
-
-            // Set input length
-            password.setMinLength(4);
-//            passwordRepeat.setMinLength(5);
-
-//            country.setItems(Globals.Countries.getCountries());
 
             FormLayout formLayout = new FormLayout();
             formLayout.add(
-//                    salutation, title,
                     firstname, lastname,
-//                    dateOfBirth, phone,
-//                    street, housenumber,
-//                    postalcode, city,
-//                    country,
-                    email,
-//                    emailRepeat,
-                    password, password2
+                    email,password, password2
             );
             // Stretch country textfield to full row width
 //            formLayout.setColspan(country, 2);
@@ -110,8 +76,6 @@ public class RegistrationView extends Div{
             this.add(formLayout);
         }
     }
-
-
 
     public RegistrationView() {
 
@@ -140,10 +104,27 @@ public class RegistrationView extends Div{
 
         // Bindings initialisieren
         binderUser.setBean(new UserDTOImpl());
-        binderUser.bind(firstname, "firstname");
-        binderUser.bind(lastname, "lastname");
-        binderUser.bind(email, "email");
-        binderUser.bind(password, "password");
+        binderUser.forField(firstname)
+                .withValidator(bindervorname -> bindervorname.length() > 0, "Bitte Vornamen angeben!")
+                .withValidator(Utils::isAlpha, "Vorname darf nur Buchstaben enthalten")
+                .bind(UserDTOImpl::getFirstname, UserDTOImpl::setFirstname);
+        binderUser.forField(lastname)
+                .withValidator(bindernachname -> bindernachname.length() > 0, "Bitte Nachnamen angeben!")
+                .withValidator(Utils::isAlpha, "Nachname darf nur Buchstaben enthalten")
+                .bind(UserDTOImpl::getLastname, UserDTOImpl::setLastname);
+        binderUser.forField(email)
+                .withValidator(binderemailadresse -> binderemailadresse.length() > 0, "Bitte E-Mailadresse angeben!")
+                //klappt hier nicht, da email bereits vorher durch Emailfield validiert wird, somit kommt es nicht zur  message
+                .withValidator(  binderemailadresse ->  email.isInvalid(), "E-Mail ungültig")
+                .bind(UserDTOImpl::getEmail, UserDTOImpl::setEmail);
+        binderUser.forField(password)
+                .withValidator(binderpassword -> binderpassword.length() > 0, "Bitte Passwort angeben!")
+                .withValidator(Utils::passwortCheck, "Mind. 8 Zeichen, davon mind. eine Zahl und ein Großbuchstabe")
+                .bind(UserDTOImpl::getPassword,UserDTOImpl::setPassword);
+        binderUser.forField(password2)
+                .withValidator(binderpasswortwiederholen -> binderpasswortwiederholen.length() > 0, "Bitte Passwort angeben!")
+                .withValidator(binderpasswortwiederholen -> binderpasswortwiederholen.equals(password.getValue()), "Passwörter stimmen nicht überein!")
+                .bind(UserDTOImpl::getPassword, UserDTOImpl::setPassword);
 
         //Email-Adresse
         email.setPrefixComponent(VaadinIcon.GLOBE.create());
