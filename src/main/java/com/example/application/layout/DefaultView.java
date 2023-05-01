@@ -25,7 +25,7 @@ public class DefaultView extends AppLayout {
         header.add(toggle);
 
         // add a logo to the header
-        Image logo = new Image("/icons/img.png", "Logo");
+        Image logo = new Image("/icons/logo_talent.png", "Logo");
         logo.setHeight("50px");
         header.add(logo);
 
