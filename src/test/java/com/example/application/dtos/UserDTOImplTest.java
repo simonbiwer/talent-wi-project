@@ -7,14 +7,14 @@ import org.junit.jupiter.api.BeforeAll;
 import java.time.LocalDate;
 
 
-public class UserDTOTest {
+public class UserDTOImplTest {
 
-    private static UserDTO benutzer;
+    private static UserDTOImpl benutzer;
 
-    // Vor jedem Test eine neue Instanz von UserDTO erstellen
+    // Vor jedem Test eine neue Instanz von UserDTOImpl erstellen
     @BeforeAll
     public static void setUp() {
-        benutzer = new UserDTO();
+        benutzer = new UserDTOImpl();
     }
 
     // Nach jedem Test die Instanz auf null setzen

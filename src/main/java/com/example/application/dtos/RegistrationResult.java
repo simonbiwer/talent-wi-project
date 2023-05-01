@@ -1,5 +1,11 @@
 package com.example.application.dtos;
 
+/**
+ * Klasse, die ein Ergebnis einer Registrierung verwaltet
+ * @author sb
+ * @since 26.04.23
+ */
+
 public class RegistrationResult {
     private String message = "";
     private boolean OK = true;
