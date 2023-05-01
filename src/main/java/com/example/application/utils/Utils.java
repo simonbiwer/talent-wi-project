@@ -7,6 +7,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import org.apache.commons.lang3.StringUtils;
 
 public class Utils {
     private Utils() {
@@ -30,6 +31,69 @@ public class Utils {
         dialogContent.setAlignItems(FlexComponent.Alignment.CENTER);
         dialog.add(dialogContent);
         dialog.open();
+    }
+
+    public static boolean isAlpha(String text) {
+        if(text.length()==0){return false;}
+        for (char c : text.toCharArray()) {
+            // a - z                    // A - Z                       // ö, ü, ä, ß
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == 'ö' || c == 'ß' || c == 'ä' || c == 'ü' )
+                continue;
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isNumber(String text){
+        return StringUtils.isNumeric(text);
+    }
+
+    public static boolean hasNumber(String text){
+        for(char c : text.toCharArray())
+            if( Character.isDigit(c) ) return true;
+
+        return false;
+    }
+
+    public static boolean hasUpperCaseLetter(String text) {
+        for (char c : text.toCharArray()) {
+            // A - Z
+            if (c >= 'A' && c <= 'Z')
+                return true;
+            // Ö, Ü, Ä
+            if (c == 'Ö' || c == 'Ä' || c == 'Ü')
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean passwortCheck(String passwort){
+        boolean longEnough = passwort.length() > 7;
+        boolean hasNumber = Utils.hasNumber(passwort);
+        boolean hasUppercaseLetter = Utils.hasUpperCaseLetter(passwort);
+
+        return longEnough && hasNumber && hasUppercaseLetter;
+    }
+
+    public static boolean emailadresseCheck(String emailadresse) {
+        boolean retValue = true;
+        int i = emailadresse.indexOf("@");
+        int j = emailadresse.indexOf(".", i);
+
+        if (i == 0) { // Anzahl der Zeichen vor dem @
+            retValue = false;
+        }
+
+        if (j == -1)  { // Prüft ob kein Punkt nach dem @ Zeichen kommt
+            retValue = false;
+        }
+        if ((j - i) < 2)  { // Prüft Anzahl der Zeichen zwischen dem @ und dem .
+            retValue = false;
+        }
+        if (j == (emailadresse.length()-1)) { // Mail Adresse muss länger sein, als die Stelle vom Punkt
+            retValue = false;
+        }
+        return retValue;
     }
 
 }
