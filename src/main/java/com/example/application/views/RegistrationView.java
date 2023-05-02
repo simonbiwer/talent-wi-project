@@ -147,7 +147,6 @@ public class RegistrationView extends Div{
                 try{
                     RegistrationResult result = registrationControl.registerUser(userDTOImpl);
                     if (result.OK()){
-                        Notification.show("Registrierung erfolgreich");
                         UI.getCurrent().navigate(Globals.Pages.LOGIN_VIEW);
                         // Eventuell automatischer Login hinzufügen
                     }
