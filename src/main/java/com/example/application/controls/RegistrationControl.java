@@ -36,7 +36,9 @@ public class RegistrationControl {
                 userRep.delete(userEntity);
             }
 
-            result.setMessage("Registrierung erfolgreich!");
+            if (result.OK()) {
+                result.setMessage("Registrierung erfolgreich!");
+            }
         }
         return result;
     }
