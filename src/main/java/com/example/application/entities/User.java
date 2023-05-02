@@ -2,25 +2,21 @@ package com.example.application.entities;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
-//import javax.persistence.*;
-import java.util.Collection;
-
-@Entity(name = "User")
-@Table(name="user", schema= "public")
+@Entity(name = "user")
+@Table(name="user", schema= "talent")
 public class User {
     @Id
     @SequenceGenerator(name = "User_id_use_seq")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user")
-    private int id_user;
+    @Column(name = "userid")
+    private int userid;
 
     public int getUserid() {
-        return id_user;
+        return userid;
     }
 
     public void setUserid(int userid) {
-        this.id_user = userid;
+        this.userid = userid;
     }
 
     @Basic

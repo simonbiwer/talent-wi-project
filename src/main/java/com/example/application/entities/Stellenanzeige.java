@@ -5,7 +5,7 @@
 //import java.util.Objects;
 //
 //@Entity
-//@Table(name = "stellenanzeige", schema = "wi_projekt_mahbobi_sose2023", catalog = "wi_projekt_mahbobi_sose2023")
+//@Table(name = "stellenanzeige", schema = "public", catalog = "wi_projekt_mahbobi_sose2023")
 //public class Stellenanzeige {
 //    @Id
 //    @SequenceGenerator(name = "stellenanzeige_stellenanzeigeid_seq")

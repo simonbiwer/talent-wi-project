@@ -114,8 +114,6 @@ public class RegistrationView extends Div{
                 .bind(UserDTOImpl::getLastname, UserDTOImpl::setLastname);
         binderUser.forField(email)
                 .withValidator(binderemailadresse -> binderemailadresse.length() > 0, "Bitte E-Mailadresse angeben!")
-                //klappt hier nicht, da email bereits vorher durch Emailfield validiert wird, somit kommt es nicht zur  message
-                .withValidator(  binderemailadresse ->  email.isInvalid(), "E-Mail ungültig")
                 .bind(UserDTOImpl::getEmail, UserDTOImpl::setEmail);
         binderUser.forField(password)
                 .withValidator(binderpassword -> binderpassword.length() > 0, "Bitte Passwort angeben!")
