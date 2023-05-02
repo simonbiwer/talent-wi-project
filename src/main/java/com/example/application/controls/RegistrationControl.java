@@ -31,10 +31,12 @@ public class RegistrationControl {
             try{
                 userRep.save(userEntity);
             } catch (Exception e){
-                userRep.delete(userEntity);
                 result.setNotOK();
                 result.setMessage("Fehler beim Abspeichern in die Datenbank: Admin kontaktieren");
+                userRep.delete(userEntity);
+                userDTOImpl.setId(0); // Reset id field to avoid inconsistent data
             }
+
             result.setMessage("Registrierung erfolgreich!");
         }
         return result;
