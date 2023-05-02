@@ -34,7 +34,6 @@ public class RegistrationControl {
                 result.setNotOK();
                 result.setMessage("Fehler beim Abspeichern in die Datenbank: Admin kontaktieren");
                 userRep.delete(userEntity);
-                userDTOImpl.setId(0); // Reset id field to avoid inconsistent data
             }
 
             result.setMessage("Registrierung erfolgreich!");
