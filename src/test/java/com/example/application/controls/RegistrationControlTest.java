@@ -54,7 +54,7 @@ public class RegistrationControlTest {
         userDTOImpl.setEmail("max.mustermann@example.com");
         userDTOImpl.setPassword("password123");
 
-        User userEntity = UserFactory.createUser(userDTOImpl);
+        //User userEntity = UserFactory.createUser(userDTOImpl);
 
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenThrow(new RuntimeException());
 
