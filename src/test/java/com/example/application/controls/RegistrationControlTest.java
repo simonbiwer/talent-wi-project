@@ -1,115 +1,91 @@
 package com.example.application.controls;
 
-import com.example.application.controls.factories.UserFactory;
-import com.example.application.dtos.RegistrationResult;
-import com.example.application.dtos.UserDTOImpl;
+import com.example.application.dtos.impl.UserDTOImpl;
 import com.example.application.entities.User;
 import com.example.application.repositories.UserRepository;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 
-import java.time.LocalDate;
 
+import java.util.List;
+import java.util.Optional;
+
+/*
+ * Bitte nur die Klasse Komplet ausführen
+ */
+
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
-public class RegistrationControlTest {
-    private static UserDTOImpl benutzer;
-
+class RegistrationControlTest {
     @Autowired
-    private RegistrationControl registrationControl;
+    private  UserRepository userRepository;
+    @Autowired
+    private  RegistrationControl registrationControl = new RegistrationControl();
 
-    @MockBean
-    private UserRepository userRepository;
+    private Integer userID = null ;// User ID  fürs Löschen
+    private Integer userIDEmail = null ;// User ID fürs Löschen
+    private String userEmail ="max.mustermann@gmx.de";
+    private String emailAlreadyInDatabase ="theo.bampis@web.de";
 
-    // Vor jedem Test eine neue Instanz von UserDTOImpl erstellen
-    @BeforeAll
-    public static void setUp() {
-        benutzer = new UserDTOImpl();
-    }
 
-    // Nach jedem Test die Instanz auf null setzen
+
     @AfterAll
-    public static void tearDown() {
-        benutzer = null;
+    public void deleteUser(){
+        userRepository.deleteById(userID);
+
     }
 
     @Test
-    public void testRegisterUserWithUnoccupiedEmail() {
-        benutzer.setSalutation("Herr");
-        benutzer.setFirstname("Max");
-        benutzer.setLastname("Mustermann");
-        benutzer.setDateOfBirth(LocalDate.of(1990, 1, 1));
-        benutzer.setEmail("max.mustermann@example.com");
-        benutzer.setPassword("password123");
+    void saveUserTest() {
+        /*
+         * erstelle User
+         */
+        UserDTOImpl user = new UserDTOImpl();
+        user.setPassword( "Abc12345" );
+        user.setFirstname("theo");
+        user.setLastname("bampis");
+        user.setEmail(userEmail);
 
-        User userEntity = UserFactory.createUser(benutzer);
+        //User registrieren
+        assertTrue(registrationControl.registerUser(user).OK());
 
-        Mockito.when(userRepository.findUserByEmail(benutzer.getEmail())).thenReturn(null);
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(userEntity);
+        // User ID holen fürs Löschen (für später)
+        userID = userRepository.findUserByEmail(userEmail).getUserid();
 
-        RegistrationResult result = registrationControl.registerUser(benutzer);
+        //Vergleich, ob Wrapper Email gleich ist mit abgespeicherter Email
+        Optional<User> wrapper = userRepository.findById(userID);
+        if ( wrapper.isPresent() ) {
+            User user1 = wrapper.get();
+            assertEquals(userEmail , user1.getEmail());
+        }
 
-        assertTrue(result.OK());
-        assertEquals("Registrierung erfolgreich!", result.getMessage());
-    }
-    @Test
-    public void testRegisterUserWithOccupiedEmail() {
-        benutzer.setSalutation("Herr");
-        benutzer.setFirstname("Max");
-        benutzer.setLastname("Mustermann");
-        benutzer.setDateOfBirth(LocalDate.of(1990, 1, 1));
-        benutzer.setEmail("max.mustermann@example.com");
-        benutzer.setPassword("password123");
+        /*
+         * erstelle User mit gleichen daten (hier eig nur email wichtig) wie oben
+         */
 
-        Mockito.when(userRepository.findUserByEmail(benutzer.getEmail())).thenReturn(new User());
+        UserDTOImpl userMitGleicherEmail = new UserDTOImpl();
 
-        RegistrationResult result = registrationControl.registerUser(benutzer);
+        // Userdaten setten
+        userMitGleicherEmail.setEmail(userEmail);
+        userMitGleicherEmail.setPassword( "Abc12345" );
+        userMitGleicherEmail.setFirstname("theo");
+        userMitGleicherEmail.setLastname("bampis");
 
-        assertFalse(result.OK());
-        assertEquals("Diese Email ist bereits vergeben", result.getMessage());
-    }
-
-    @Test
-    public void testRegisterUser_success() {
-        benutzer.setSalutation("Herr");
-        benutzer.setFirstname("Max");
-        benutzer.setLastname("Mustermann");
-        benutzer.setDateOfBirth(LocalDate.of(1990, 1, 1));
-        benutzer.setEmail("max.mustermann@example.com");
-        benutzer.setPassword("password123");
-
-        User userEntity = UserFactory.createUser(benutzer);
-
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(userEntity);
-
-        RegistrationResult result = registrationControl.registerUser(benutzer);
-
-        assertTrue(result.OK());
-        assertEquals("Registrierung erfolgreich!", result.getMessage());
+        //versuche User mit gespeicherter Email zu speicheren
+        assertFalse(registrationControl.registerUser(userMitGleicherEmail).OK());
     }
 
+
+
     @Test
-    public void testRegisterUser_error() {
-        benutzer.setSalutation("Herr");
-        benutzer.setFirstname("Max");
-        benutzer.setLastname("Mustermann");
-        benutzer.setDateOfBirth(LocalDate.of(1990, 1, 1));
-        benutzer.setEmail("max.mustermann@example.com");
-        benutzer.setPassword("password123");
-
-        //User userEntity = UserFactory.createUser(userDTOImpl);
-
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenThrow(new RuntimeException());
-
-        RegistrationResult result = registrationControl.registerUser(benutzer);
-
-        assertFalse(result.OK());
-        assertEquals("Fehler beim Abspeichern in die Datenbank: Admin kontaktieren", result.getMessage());
+    void isEmailAlreadyInDatabase() {
+        assertTrue(registrationControl.checkIfEmailOccupied(emailAlreadyInDatabase));
+        assertFalse(registrationControl.checkIfEmailOccupied("dieseemail@gibts.nicht"));
     }
 
 }

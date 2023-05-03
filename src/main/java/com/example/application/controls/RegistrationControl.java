@@ -45,6 +45,6 @@ public class RegistrationControl {
 
     public boolean checkIfEmailOccupied(String email) {
         //Datenbank Zugriff mit boolean Wert ob email bereits in der Datenbank existiert
-        return (userRep.findUserByEmail(email).getEmail().equals(email));
+        return !(userRep.findUserByEmail(email) == null);
     }
 }
