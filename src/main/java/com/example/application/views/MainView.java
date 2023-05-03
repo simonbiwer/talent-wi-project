@@ -13,8 +13,8 @@ import com.vaadin.flow.router.Route;
  * Startseite beim Aufruf der Seite bzw. starten der Applikation.
  */
 
-@PageTitle("Main")
 @Route(value = Globals.Pages.MAIN_VIEW, layout = DefaultView.class)
+@PageTitle(Globals.PageTitles.MAIN_PAGE_TITLE)
 public class MainView extends VerticalLayout {
 
     private Button registerButton;
@@ -22,18 +22,24 @@ public class MainView extends VerticalLayout {
     public MainView() {
 
         registerButton = new Button("Registrieren");
+        loginButton = new Button("Login");
         setWidthFull();
         setHeightFull();
 
         registerButton.addClickListener(e -> {
             UtilNavigation.navigateToRegistration();
         });
-        registerButton.addClickShortcut(Key.ENTER);
+
+        loginButton.addClickListener(e -> {
+            UtilNavigation.navigateToLogin();
+        });
+        loginButton.addClickShortcut(Key.ENTER);
 
         setMargin(true);
-        setHorizontalComponentAlignment(Alignment.CENTER, registerButton);
+        setHorizontalComponentAlignment(Alignment.CENTER, loginButton, registerButton);
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
+        add(loginButton);
         add(registerButton);
     }
 

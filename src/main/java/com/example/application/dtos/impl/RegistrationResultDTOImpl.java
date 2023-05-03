@@ -1,4 +1,4 @@
-package com.example.application.dtos;
+package com.example.application.dtos.impl;
 
 /**
  * Klasse, die ein Ergebnis einer Registrierung verwaltet
@@ -6,11 +6,11 @@ package com.example.application.dtos;
  * @since 26.04.23
  */
 
-public class RegistrationResult {
+public class RegistrationResultDTOImpl {
     private String message = "";
     private boolean OK = true;
 
-    public RegistrationResult(){
+    public RegistrationResultDTOImpl(){
     }
 
     public void setMessage(String message){

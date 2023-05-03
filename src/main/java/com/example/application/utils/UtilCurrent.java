@@ -1,6 +1,6 @@
 package com.example.application.utils;
 
-import com.example.application.dtos.UserDTOImpl;
+import com.example.application.dtos.impl.UserDTOImpl;
 import com.vaadin.flow.component.UI;
 
 

@@ -1,8 +1,7 @@
 package com.example.application.repositories;
 
-import com.example.application.dtos.UserDTO;
-import com.example.application.dtos.UserDTOImpl;
 import com.example.application.entities.User;
+import com.example.application.dtos.UserDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;

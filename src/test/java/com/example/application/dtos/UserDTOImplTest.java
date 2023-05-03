@@ -1,5 +1,6 @@
 package com.example.application.dtos;
 
+import com.example.application.dtos.impl.UserDTOImpl;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterAll;

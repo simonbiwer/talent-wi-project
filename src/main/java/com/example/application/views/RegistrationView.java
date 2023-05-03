@@ -1,8 +1,8 @@
 package com.example.application.views;
 
 import com.example.application.controls.RegistrationControl;
-import com.example.application.dtos.RegistrationResult;
-import com.example.application.dtos.UserDTOImpl;
+import com.example.application.dtos.impl.RegistrationResultDTOImpl;
+import com.example.application.dtos.impl.UserDTOImpl;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
 import com.example.application.utils.Utils;
@@ -145,7 +145,7 @@ public class RegistrationView extends Div{
             } else {
                 UserDTOImpl userDTOImpl = binderUser.getBean();
                 try{
-                    RegistrationResult result = registrationControl.registerUser(userDTOImpl);
+                    RegistrationResultDTOImpl result = registrationControl.registerUser(userDTOImpl);
                     if (result.OK()){
                         UI.getCurrent().navigate(Globals.Pages.LOGIN_VIEW);
                         // Eventuell automatischer Login hinzufügen

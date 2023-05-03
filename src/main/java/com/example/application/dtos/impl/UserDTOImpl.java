@@ -1,4 +1,6 @@
-package com.example.application.dtos;
+package com.example.application.dtos.impl;
+
+import com.example.application.dtos.UserDTO;
 
 import java.time.LocalDate;
 

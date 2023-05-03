@@ -1,6 +1,6 @@
 package com.example.application.controls.factories;
 
-import com.example.application.dtos.UserDTOImpl;
+import com.example.application.dtos.impl.UserDTOImpl;
 import com.example.application.entities.User;
 
 /**

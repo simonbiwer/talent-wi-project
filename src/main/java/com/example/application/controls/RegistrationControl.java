@@ -1,8 +1,8 @@
 package com.example.application.controls;
 
 import com.example.application.controls.factories.UserFactory;
-import com.example.application.dtos.RegistrationResult;
-import com.example.application.dtos.UserDTOImpl;
+import com.example.application.dtos.impl.RegistrationResultDTOImpl;
+import com.example.application.dtos.impl.UserDTOImpl;
 import com.example.application.entities.User;
 import com.example.application.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class RegistrationControl {
     @Autowired
     private UserRepository userRep;
 
-    public RegistrationResult registerUser(UserDTOImpl userDTOImpl){
-        RegistrationResult result = new RegistrationResult();
+    public RegistrationResultDTOImpl registerUser(UserDTOImpl userDTOImpl){
+        RegistrationResultDTOImpl result = new RegistrationResultDTOImpl();
         if (checkIfEmailOccupied(userDTOImpl.getEmail())){
             result.setMessage("Diese Email ist bereits vergeben");
             result.setNotOK();
@@ -45,6 +45,6 @@ public class RegistrationControl {
 
     public boolean checkIfEmailOccupied(String email) {
         //Datenbank Zugriff mit boolean Wert ob email bereits in der Datenbank existiert
-        return (userRep.findUserByEmail(email) != null);
+        return (userRep.findUserByEmail(email).getEmail().equals(email));
     }
 }
