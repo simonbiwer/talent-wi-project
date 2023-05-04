@@ -22,7 +22,7 @@ public class Globals {
         public static final String JOBLIST_VIEW                 = "joblist/";
         public static final String LOGIN_VIEW                   = "login/";
         public static final String MAIN_VIEW                    = "";
-        public static final String MENU_VIEW                    = "main/";
+        public static final String MENU_VIEW                    = "menu/";
         public static final String PROFILE_VIEW                 = "profile/";            // Student
         public static final String PROFILE_EDIT_VIEW            = "profile_edit/";
         public static final String RECRUITMENT_VIEW             = "recruitment_formular/";

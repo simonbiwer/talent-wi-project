@@ -5,8 +5,14 @@
   font-style: normal;
 }
 
-.project-title {
+.project-header {
   font-family: 'Avenir', sans-serif;
   font-size: 24px;
+  font-weight: bold;
+}
+
+.project-title{
+  font-family: 'Avenir', sans-serif;
+  font-size: 50px;
   font-weight: bold;
 }

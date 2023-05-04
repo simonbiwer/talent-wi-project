@@ -16,27 +16,23 @@ import com.vaadin.flow.router.Route;
 @CssImport(value = "./styles/layout-style.css")
 public class DefaultView extends AppLayout {
     public DefaultView() {
-        // create the header
+
         HorizontalLayout header = new HorizontalLayout();
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
 
-        // add a toggle button for the navbar
         DrawerToggle toggle = new DrawerToggle();
         header.add(toggle);
 
-        // add a logo to the header
         Image logo = new Image("/icons/logo_talent.png", "Logo");
         logo.setHeight("50px");
         header.add(logo);
 
         H1 heading = new H1("talent");
-        heading.addClassName("project-title");
+        heading.addClassName("project-header");
         header.add(heading);
 
-        // create the navbar
         HorizontalLayout navbar = new HorizontalLayout();
 
-        // create the navigation buttons
         Button button1 = new Button("Button 1");
         button1.setWidth("100%");
         navbar.add(button1);
@@ -50,7 +46,6 @@ public class DefaultView extends AppLayout {
         navbar.add(button3);
 
 
-        // add the header and navbar to the layout
         addToNavbar(header, navbar);
     }
 }

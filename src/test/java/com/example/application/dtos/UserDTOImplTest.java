@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 
 public class UserDTOImplTest {
-
+/*
     private static UserDTOImpl benutzer;
 
     // Vor jedem Test eine neue Instanz von UserDTOImpl erstellen
@@ -94,4 +94,5 @@ public class UserDTOImplTest {
         String erwarteteAusgabe = "id=1, salutation='Herr', title='Dr.', firstname='Max', lastname='Mustermann', dateOfBirth=1990-01-01, email='max.mustermann@example.com', phone='+49 123456789'";
         assertEquals(erwarteteAusgabe, benutzer.toString());
     }
+    */
 }

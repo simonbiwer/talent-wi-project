@@ -3,7 +3,6 @@ package com.example.application.views;
 import com.example.application.controls.RegistrationControl;
 import com.example.application.dtos.impl.RegistrationResultDTOImpl;
 import com.example.application.dtos.impl.UserDTOImpl;
-import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
 import com.example.application.utils.Utils;
 import com.vaadin.flow.component.UI;
@@ -30,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * last edited: sb 01.05.23
  */
 
-@Route(value = "register", layout = DefaultView.class)
+@Route(value = "register")
 @PageTitle(Globals.PageTitles.REGISTER_PAGE_TITLE)
 public class RegistrationView extends Div{
 
