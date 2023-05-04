@@ -9,7 +9,6 @@ import java.time.LocalDate;
 
 
 public class UserDTOImplTest {
-/*
     private static UserDTOImpl benutzer;
 
     // Vor jedem Test eine neue Instanz von UserDTOImpl erstellen
@@ -30,17 +29,6 @@ public class UserDTOImplTest {
         assertEquals(1, benutzer.getId());
     }
 
-    @Test
-    public void testSetzeUndHoleAnrede() {
-        benutzer.setSalutation("Herr");
-        assertEquals("Herr", benutzer.getSalutation());
-    }
-
-    @Test
-    public void testSetzeUndHoleTitel() {
-        benutzer.setTitle("Dr.");
-        assertEquals("Dr.", benutzer.getTitle());
-    }
 
     @Test
     public void testSetzeUndHoleVorname() {
@@ -54,23 +42,12 @@ public class UserDTOImplTest {
         assertEquals("Mustermann", benutzer.getLastname());
     }
 
-    @Test
-    public void testSetzeUndHoleGeburtsdatum() {
-        LocalDate geburtsdatum = LocalDate.of(1990, 1, 1);
-        benutzer.setDateOfBirth(geburtsdatum);
-        assertEquals(geburtsdatum, benutzer.getDateOfBirth());
-    }
+
 
     @Test
     public void testSetzeUndHoleEmail() {
         benutzer.setEmail("max.mustermann@example.com");
         assertEquals("max.mustermann@example.com", benutzer.getEmail());
-    }
-
-    @Test
-    public void testSetzeUndHoleTelefonnummer() {
-        benutzer.setPhone("+49 123456789");
-        assertEquals("+49 123456789", benutzer.getPhone());
     }
 
     @Test
@@ -82,17 +59,13 @@ public class UserDTOImplTest {
     @Test
     public void testToString() {
         benutzer.setId(1);
-        benutzer.setSalutation("Herr");
-        benutzer.setTitle("Dr.");
         benutzer.setFirstname("Max");
         benutzer.setLastname("Mustermann");
-        benutzer.setDateOfBirth(LocalDate.of(1990, 1, 1));
         benutzer.setEmail("max.mustermann@example.com");
-        benutzer.setPhone("+49 123456789");
         benutzer.setPassword("geheim");
 
-        String erwarteteAusgabe = "id=1, salutation='Herr', title='Dr.', firstname='Max', lastname='Mustermann', dateOfBirth=1990-01-01, email='max.mustermann@example.com', phone='+49 123456789'";
+        String erwarteteAusgabe = "firstname='Max', lastname='Mustermann', email='max.mustermann@example.com', id=1, password='geheim'";
         assertEquals(erwarteteAusgabe, benutzer.toString());
     }
-    */
+
 }

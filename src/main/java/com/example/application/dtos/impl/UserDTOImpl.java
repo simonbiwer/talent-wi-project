@@ -33,7 +33,7 @@ public class UserDTOImpl implements UserDTO {
     }
 
     public void setId(int id){
-
+        this.id = id;
     }
 
     public void setEmail(String email) { this.email = email; }
@@ -57,6 +57,13 @@ public class UserDTOImpl implements UserDTO {
 
     public int getId() { return this.id; }
 
-
+    @Override
+    public String toString() {
+        return "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", id=" + id +
+                ", password='" + password + '\'';
+    }
 }
 
