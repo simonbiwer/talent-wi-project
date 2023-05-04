@@ -20,6 +20,11 @@ public class RegistrationControl {
     @Autowired
     private UserRepository userRep;
 
+    /**
+     * Registriert einen neuen Benutzer, falls die übergebene Email noch nicht in der Datenbank existiert.
+     * @param userDTOImpl - ein UserDTOImpl-Objekt, das Informationen über den neuen Benutzer enthält.
+     * @return ein RegistrationResultDTOImpl-Objekt, das den Erfolg der Registrierung und eine Nachricht enthält.
+     */
     public RegistrationResultDTOImpl registerUser(UserDTOImpl userDTOImpl){
         RegistrationResultDTOImpl result = new RegistrationResultDTOImpl();
         if (checkIfEmailOccupied(userDTOImpl.getEmail())){
@@ -43,6 +48,11 @@ public class RegistrationControl {
         return result;
     }
 
+    /**
+     * Überprüft, ob eine bestimmte Email bereits in der Datenbank existiert.
+     * @param email - die Email-Adresse, die überprüft werden soll.
+     * @return true, wenn die Email bereits in der Datenbank existiert, andernfalls false.
+     */
     public boolean checkIfEmailOccupied(String email) {
         //Datenbank Zugriff mit boolean Wert ob email bereits in der Datenbank existiert
         return !(userRep.findUserByEmail(email) == null);

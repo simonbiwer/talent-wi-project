@@ -11,6 +11,12 @@ import com.example.application.entities.User;
 
 public class UserFactory {
 
+    /**
+     * Creates a User object from a UserDTOImpl object.
+     *
+     * @param userDTOImpl das UserDTOImpl welches in eine User Entität kovertiert wird.
+     * @return neue Entität mit Daten des DTOs.
+     */
     public static User createUser(UserDTOImpl userDTOImpl){
         User user = new User();
         user.setVorname(userDTOImpl.getFirstname());
