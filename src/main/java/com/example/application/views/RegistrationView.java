@@ -10,6 +10,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -22,11 +23,12 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * View für die Registrierung
- * last edited: sb 01.05.23
+ * last edited: ho 05.05.23
  */
 
 @Route(value = "register")
@@ -83,11 +85,27 @@ public class RegistrationView extends Div{
 
         H1 h1 = new H1("Registrierung");
 
+        HorizontalLayout company = new HorizontalLayout();
+
+        Image logo = new Image("/icons/logo_talent.png", "Logo");
+        logo.setHeight("100px");
+
+        H1 heading = new H1("talent");
+        heading.addClassName("project-title");
+
+        company.add(logo);
+        company.add(heading);
+
+        company.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        section.add(company);
 
         RegisterForm form = new RegisterForm();
         form.getElement().getStyle().set("Margin", "30px");
         Button registerButton = new Button("Registrieren");
+        registerButton.addClassName("default-btn");
         section.add(h1, form, registerButton);
+        section.add(new RouterLink("Sie haben schon ein Konto? Melden Sie sich hier an!", LoginView.class));;
 
         section.setPadding(true);
         section.setAlignItems(FlexComponent.Alignment.CENTER);

@@ -19,6 +19,7 @@ import com.vaadin.flow.component.UI;
 
 /**
  * Login-View zur Anzeige der Startseite und des Login-Formulars.
+ * last edited: ho 05.05.23
  */
 @CssImport(value = "./styles/layout-style.css")
 @Route(value = Globals.Pages.LOGIN_VIEW)
@@ -30,6 +31,7 @@ public class LoginView extends VerticalLayout {
 
     public LoginView() {
         setSizeFull();
+
 
         HorizontalLayout company = new HorizontalLayout();
 
@@ -55,7 +57,7 @@ public class LoginView extends VerticalLayout {
 
             if (isAuthenticated.getResult()) {
                 grabAndSetUserIntoSession();
-                navigateToMainPage();
+                UtilNavigation.navigateToMain();
             } else {
                 component.setError(true);
             }
@@ -70,10 +72,6 @@ public class LoginView extends VerticalLayout {
     private void grabAndSetUserIntoSession() {
         User user = loginControl.getCurrentUser();
         UI.getCurrent().getSession().setAttribute( Globals.CURRENT_USER, user );
-    }
-
-    private void navigateToMainPage() {
-        UtilNavigation.navigateToMain();
     }
 
 }
