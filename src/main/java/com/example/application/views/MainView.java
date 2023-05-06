@@ -15,6 +15,7 @@ import com.vaadin.flow.component.UI;
 
 /**
  * Startseite beim Aufruf der Seite bzw. starten der Applikation.
+ * last edited: ho 05.05.23
  */
 
 @Route(value = Globals.Pages.MAIN_VIEW, layout = DefaultView.class)
@@ -48,6 +49,7 @@ public class MainView extends VerticalLayout {
         add(registerButton);
     }
 
+    //Methode um den View zu beenden, falls der Nutzer nicht eingeloggt ist
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
