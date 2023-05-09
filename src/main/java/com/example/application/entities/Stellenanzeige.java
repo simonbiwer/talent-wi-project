@@ -3,6 +3,7 @@ package com.example.application.entities;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "stellenanzeige", schema = "talent", catalog = "wi_projekt_mahbobi_sose2023")
@@ -44,8 +45,15 @@ public class Stellenanzeige {
     @ManyToOne //Fremdschlüssel userid von Entität user
     @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)
     private User userid;
-//    @OneToMany(mappedBy = "jobByJobid")
-//    private Collection<Stellenanzeige> bewerbungsByJobid;
+
+    @ManyToMany
+    @JoinTable(
+            schema = "talent",
+            name = "jobHatKeyword",
+            joinColumns = @JoinColumn(name = "jobid"),
+            inverseJoinColumns = @JoinColumn(name = "keywordid"))
+    Set<Keyword> zugehoerigerKey;
+
     public int getJobid() {
         return jobid;
     }

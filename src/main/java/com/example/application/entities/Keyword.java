@@ -2,6 +2,7 @@ package com.example.application.entities;
 
 import jakarta.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "keyword", schema = "talent", catalog = "wi_projekt_mahbobi_sose2023")
@@ -14,6 +15,9 @@ public class Keyword {
     @Basic
     @Column(name = "keywordname")
     private String keywordname;
+
+    @ManyToMany(mappedBy = "zugehoerigerKey")
+    Set<Stellenanzeige> zugehoerigerJob;
 
     public int getKeywordid() {
         return keywordid;
