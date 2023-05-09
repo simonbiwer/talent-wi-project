@@ -2,6 +2,7 @@ package com.example.application.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -126,7 +127,13 @@ public class Stellenanzeige {
         this.qualifikation = qualifikation;
     }
 
+    public Set<Keyword> getKeywords(){
+        return zugehoerigerKey;
+    }
 
+    public void addKeywords(List<Keyword> keywords){
+        zugehoerigerKey.addAll(keywords);
+    }
 
 
     @Override
