@@ -1,0 +1,27 @@
+package com.example.application.dtos;
+
+import java.util.List;
+
+public interface StellenanzeigenDTO {
+
+    int getJobid();
+    String getTitel();
+    void setTitel(String titel);
+    String getBeschreibung();
+    void setBeschreibung();
+    String getUrl();
+    void setUrl(String url);
+    String getTechnologien();
+    void setTechnologien(String technologien);
+    String getUnternehmen();
+    void setUnternehmen(String unternehmen);
+    String getProjektdauer();
+    void setProjektdauer(String projektdauer);
+    String getStartdatum();
+    void setStartdatum(String startdatum);
+    String getQualifikation();
+    void setQualifikation(String qualifikation);
+    List<KeywordDTO> getKeywords();
+    void setKeywords(List<KeywordDTO> keywords);
+
+}

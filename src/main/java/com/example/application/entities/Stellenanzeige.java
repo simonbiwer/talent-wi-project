@@ -32,6 +32,7 @@ public class Stellenanzeige {
     @Basic
     @Column(name = "projektdauer")
     private String projektdauer;
+    // Datum vielleicht als Date Value speichern
     @Basic
     @Column(name = "startdatum")
     private String startdatum;
