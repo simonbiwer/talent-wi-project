@@ -1,8 +1,7 @@
 package com.example.application.entities;
 
-import com.example.application.entities.User;
 import jakarta.persistence.*;
-import java.util.Collection;
+
 import java.util.Objects;
 
 @Entity
@@ -59,7 +58,7 @@ public class Stellenanzeige {
         return titel;
     }
 
-    public void setJobname(String name) {
+    public void setTitel(String name) {
         this.titel = name;
     }
 
@@ -67,7 +66,7 @@ public class Stellenanzeige {
         return beschreibung;
     }
 
-    public void setJobart(String beschreibung) {
+    public void setBeschreibung(String beschreibung) {
         this.beschreibung = beschreibung;
     }
 
@@ -79,7 +78,7 @@ public class Stellenanzeige {
         this.url = url;
     }
 
-    public String technologien() {
+    public String getTechnologien() {
         return technologien;
     }
 
@@ -91,7 +90,7 @@ public class Stellenanzeige {
         return unternehmen;
     }
 
-    public void setWasWirErwarten(String unternehmen) {
+    public void setUnternehmen(String unternehmen) {
         this.unternehmen = unternehmen;
     }
 
@@ -115,7 +114,7 @@ public class Stellenanzeige {
         return qualifikation;
     }
 
-    public void setUnternehmerByUserid(String qualifikation) {
+    public void setQualifikation(String qualifikation) {
         this.qualifikation = qualifikation;
     }
 

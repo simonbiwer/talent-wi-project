@@ -12,5 +12,6 @@ public interface StellenanzeigeRepository extends JpaRepository<Stellenanzeige, 
 
     Stellenanzeige findStellenanzeigeByJobid(Integer jobid);
     Stellenanzeige findStellenanzeigeByTitel(String titel);
+    Stellenanzeige findStellenanzeigeByUrl(String url);
 
 }
