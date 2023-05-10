@@ -14,13 +14,24 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 
+/**
+ * Dies ist die Testklasse für die LoginControl-Klasse.
+ * @author  Mhalah
+ * @since 10.05.2023
+ */
+
 @SpringBootTest
 class LoginControlTest {
 
     @Autowired
     private LoginControl loginControl;
+
+    /**
+     * Das Mock-Objekt für das UserRepository.
+     */
     @MockBean
     private UserRepository userRepository;
+
     private User testUser;
 
     @BeforeEach
