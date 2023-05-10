@@ -36,10 +36,13 @@ public class MainView extends VerticalLayout {
 
     private Button registerButton;
     private Button logoutButton;
+
     public MainView() {
 
         registerButton = new Button("Registrieren");
         logoutButton = new Button("Logout");
+        registerButton.addClassName("default-btn");
+        logoutButton.addClassName("default-btn");
         setWidthFull();
         setHeightFull();
 
@@ -62,7 +65,7 @@ public class MainView extends VerticalLayout {
         });
 
         logoutButton.addClickListener(e -> {
-            UI.getCurrent().getSession().setAttribute( Globals.CURRENT_USER, null );
+            UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, null);
             UtilNavigation.navigateToLogin();
         });
         logoutButton.addClickShortcut(Key.ENTER);
@@ -79,7 +82,7 @@ public class MainView extends VerticalLayout {
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
-        if(!(UI.getCurrent().getSession().getAttribute( Globals.CURRENT_USER) instanceof User)){
+        if (!(UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER) instanceof User)) {
             UtilNavigation.navigateToLogin();
         }
     }
