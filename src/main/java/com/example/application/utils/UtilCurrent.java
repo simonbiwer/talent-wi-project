@@ -1,6 +1,7 @@
 package com.example.application.utils;
 
 import com.example.application.dtos.impl.UserDTOImpl;
+import com.example.application.entities.User;
 import com.vaadin.flow.component.UI;
 
 
@@ -14,7 +15,7 @@ public class UtilCurrent {// Getters
         return UI.getCurrent().getInternals().getActiveViewLocation().getPath();
     }
 
-    public static UserDTOImpl getCurrentUser() {
-        return (UserDTOImpl) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+    public static User getCurrentUser() {
+        return (User) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     }
 }

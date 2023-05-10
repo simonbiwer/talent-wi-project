@@ -8,7 +8,7 @@ public interface StellenanzeigenDTO {
     String getTitel();
     void setTitel(String titel);
     String getBeschreibung();
-    void setBeschreibung();
+    void setBeschreibung(String beschreibung);
     String getUrl();
     void setUrl(String url);
     String getTechnologien();
