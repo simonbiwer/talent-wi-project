@@ -2,6 +2,10 @@ package com.example.application.dtos;
 
 import java.util.List;
 
+/**
+ * Interface eines StellenanzeigenDTO
+ * @author sb 10.05.23
+ */
 public interface StellenanzeigenDTO {
 
     int getJobid();

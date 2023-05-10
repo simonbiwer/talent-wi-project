@@ -1,17 +1,16 @@
 package com.example.application.controls.factories;
 
-import com.example.application.controls.KeywordControl;
-import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.StellenanzeigenDTO;
 import com.example.application.entities.Keyword;
 import com.example.application.entities.Stellenanzeige;
 import com.example.application.entities.User;
-import com.example.application.repositories.KeywordRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Klasse zur Erstellung einer neuen Stellenanzeige
+ * @author sb 10.05.23
+ */
 
 public class StellenanzeigenFactory {
 

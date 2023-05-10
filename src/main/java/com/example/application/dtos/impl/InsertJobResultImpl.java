@@ -2,6 +2,10 @@ package com.example.application.dtos.impl;
 
 import com.example.application.dtos.InsertJobResult;
 
+/**
+ * Klasse, die ein Result einer Stellenanzeigen-Einspeicherung verwaltet
+ * @author sb 09.05.23
+ */
 public class InsertJobResultImpl implements InsertJobResult {
 
     private String message = "";

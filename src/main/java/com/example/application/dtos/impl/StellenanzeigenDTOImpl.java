@@ -2,11 +2,13 @@ package com.example.application.dtos.impl;
 
 import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.StellenanzeigenDTO;
-import com.example.application.entities.Keyword;
-import com.example.application.entities.User;
 
 import java.util.List;
 
+/**
+ * Implementierung eines StellenanzeigenDTOs
+ * @author sb 09.05.23
+ */
 public class StellenanzeigenDTOImpl implements StellenanzeigenDTO {
 
     private int jobid;
