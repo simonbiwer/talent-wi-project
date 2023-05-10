@@ -4,6 +4,7 @@ import com.example.application.dtos.LoginResultDTO;
 import com.example.application.entities.User;
 import com.example.application.utils.Globals;
 import com.example.application.utils.UtilNavigation;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -120,6 +121,7 @@ public class LoginView extends VerticalLayout {
                 Notification.show(isAuthenticated.getReason());
             }
         });
+        loginButton.addClickShortcut(Key.ENTER);
 
         this.setAlignItems(Alignment.CENTER);
 

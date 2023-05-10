@@ -1,10 +1,16 @@
 package com.example.application.views;
 
+import com.example.application.controls.LoginControl;
 import com.example.application.controls.RegistrationControl;
+import com.example.application.dtos.LoginResultDTO;
+import com.example.application.dtos.impl.LoginResultDTOImpl;
 import com.example.application.dtos.impl.RegistrationResultDTOImpl;
 import com.example.application.dtos.impl.UserDTOImpl;
+import com.example.application.entities.User;
 import com.example.application.utils.Globals;
+import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Utils;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -28,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * View für die Registrierung
- * last edited: ho 05.05.23
+ * last edited: ho 10.05.23
  */
 
 @Route(value = "register")
@@ -38,9 +44,10 @@ public class RegistrationView extends VerticalLayout {
 
     @Autowired
     private RegistrationControl registrationControl;
-    /*
+
     @Autowired
     private LoginControl loginControl;
+    /*
     @Autowired
     private SettingsControl settingsControl;
      */
@@ -167,8 +174,8 @@ public class RegistrationView extends VerticalLayout {
                 try {
                     RegistrationResultDTOImpl result = registrationControl.registerUser(userDTOImpl);
                     if (result.OK()) {
-                        UI.getCurrent().navigate(Globals.Pages.LOGIN_VIEW);
-                        // Eventuell automatischer Login hinzufügen
+                        automaticLogin();
+                        //bei Email verifikation -> zu Email-View navigieren
                     }
                     Notification.show(result.getMessage());
                 } catch (Exception exception) {
@@ -176,7 +183,20 @@ public class RegistrationView extends VerticalLayout {
                 }
             }
         });
+        registerButton.addClickShortcut(Key.ENTER);
         add(siteLayout);
+    }
+
+    //Methode um den Nutzer nach erfolgreicher Registrierung automatisch einzuloggen
+    public void automaticLogin(){
+        LoginResultDTO isAuthenticated = loginControl.authentificate(email.getValue(), password.getValue());
+        if (isAuthenticated.getResult()) {
+            User user = loginControl.getCurrentUser();
+            UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, user);
+            UtilNavigation.navigateToMain();
+        } else {
+            UtilNavigation.navigateToLogin();
+        }
     }
 
 }
