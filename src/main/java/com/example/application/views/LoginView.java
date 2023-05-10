@@ -4,12 +4,20 @@ import com.example.application.dtos.LoginResultDTO;
 import com.example.application.entities.User;
 import com.example.application.utils.Globals;
 import com.example.application.utils.UtilNavigation;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.example.application.controls.LoginControl;
@@ -29,9 +37,37 @@ public class LoginView extends VerticalLayout {
     @Autowired
     private LoginControl loginControl;
 
+    EmailField email = new EmailField("E-Mail");
+    PasswordField password = new PasswordField("Password");
+
+    class LoginForm extends Div {
+
+        LoginForm() {
+            email.setRequiredIndicatorVisible(true);
+            email.setClearButtonVisible(false); // Deaktiviert die Validierung des EmailFields
+            email.setErrorMessage("E-Mail ungültig"); // Setzt die benutzerdefinierte Fehlermeldung für ungültige Eingaben
+            password.setRequiredIndicatorVisible(true);
+
+            FormLayout formLayout = new FormLayout();
+            formLayout.add(
+                    email, password
+            );
+            // Stretch country textfield to full row width
+//            formLayout.setColspan(country, 2);
+            formLayout.setSizeUndefined();
+            this.add(formLayout);
+        }
+    }
+
     public LoginView() {
+
+        this.addClassName("page-view");
         setSizeFull();
 
+        VerticalLayout section = new VerticalLayout();
+        section.setWidth("50%");
+
+        H1 h1 = new H1("Log In");
 
         HorizontalLayout company = new HorizontalLayout();
 
@@ -44,34 +80,55 @@ public class LoginView extends VerticalLayout {
         company.add(logo);
         company.add(heading);
 
+        company.addClassName("company-logo");
         company.setAlignItems(Alignment.CENTER);
 
-        add(company);
+        this.add(company);
 
-        LoginForm component = new LoginForm();
+        LoginView.LoginForm form = new LoginView.LoginForm();
+        form.getElement().getStyle().set("Margin", "30px");
+        Button loginButton = new Button("Log In");
+        loginButton.addClassName("default-btn");
+        section.add(h1, form, loginButton, new RouterLink("Sie haben noch kein Konto? Registrieren Sie sich hier!", RegistrationView.class));
 
         addClassName("login-view");
 
-        component.addLoginListener(e -> {
-            LoginResultDTO isAuthenticated = loginControl.authentificate( e.getUsername() , e.getPassword() );
+        section.setPadding(true);
+        section.setAlignItems(FlexComponent.Alignment.CENTER);
+        section.setAlignSelf(FlexComponent.Alignment.CENTER);
+
+        HorizontalLayout siteLayout = new HorizontalLayout();
+        siteLayout.setAlignSelf(FlexComponent.Alignment.CENTER);
+        siteLayout.setSizeFull();
+        siteLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+
+        siteLayout.add(section);
+
+        loginButton.addClickListener(e -> {
+            if (email.isInvalid()) {
+                Notification.show("Bitte geben Sie eine gültige E-Mail Adresse ein!");
+            } else if (email.isEmpty() || password.isEmpty()) {
+                Notification.show("Bitte alle Pflichtfelder ausfüllen!");
+            }
+
+            LoginResultDTO isAuthenticated = loginControl.authentificate(email.getValue(), password.getValue());
 
             if (isAuthenticated.getResult()) {
                 grabAndSetUserIntoSession();
                 UtilNavigation.navigateToMain();
             } else {
-                component.setError(true);
+                Notification.show(isAuthenticated.getReason());
             }
         });
 
-        add(component);
+        this.setAlignItems(Alignment.CENTER);
 
-        add(new RouterLink("Sie haben noch kein Konto? Registrieren Sie sich hier!", RegistrationView.class));
-        this.setAlignItems( Alignment.CENTER );
+        add(siteLayout);
     }
 
     private void grabAndSetUserIntoSession() {
         User user = loginControl.getCurrentUser();
-        UI.getCurrent().getSession().setAttribute( Globals.CURRENT_USER, user );
+        UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, user);
     }
 
 }

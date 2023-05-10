@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 
 
 /**
-
- Diese Klasse ist für die Authentifizierung des Benutzers zuständig.
- Sie verwendet das UserRepository-Objekt, um auf die Datenbank zuzugreifen, und validiert die Anmeldedaten des Benutzers.
- Wenn der Benutzername und das Passwort korrekt sind, wird ein LoginResultDTO-Objekt zurückgegeben.
- @author sb, hh
- @since 04.05.2023
+ * Diese Klasse ist für die Authentifizierung des Benutzers zuständig.
+ * Sie verwendet das UserRepository-Objekt, um auf die Datenbank zuzugreifen, und validiert die Anmeldedaten des Benutzers.
+ * Wenn der Benutzername und das Passwort korrekt sind, wird ein LoginResultDTO-Objekt zurückgegeben.
+ *
+ * @author sb, hh
+ * @since 04.05.2023
  */
 
 @Component

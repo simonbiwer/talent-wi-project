@@ -1,9 +1,11 @@
 package com.example.application.entities;
 
-import com.example.application.entities.User;
 import jakarta.persistence.*;
-import java.util.Collection;
+
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "stellenanzeige", schema = "talent", catalog = "wi_projekt_mahbobi_sose2023")
@@ -32,6 +34,7 @@ public class Stellenanzeige {
     @Basic
     @Column(name = "projektdauer")
     private String projektdauer;
+    // Datum vielleicht als Date Value speichern
     @Basic
     @Column(name = "startdatum")
     private String startdatum;
@@ -44,8 +47,15 @@ public class Stellenanzeige {
     @ManyToOne //Fremdschlüssel userid von Entität user
     @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)
     private User userid;
-//    @OneToMany(mappedBy = "jobByJobid")
-//    private Collection<Stellenanzeige> bewerbungsByJobid;
+
+    @ManyToMany
+    @JoinTable(
+            schema = "talent",
+            name = "jobHatKeyword",
+            joinColumns = @JoinColumn(name = "jobid"),
+            inverseJoinColumns = @JoinColumn(name = "keywordid"))
+    Set<Keyword> zugehoerigerKey;
+
     public int getJobid() {
         return jobid;
     }
@@ -58,7 +68,7 @@ public class Stellenanzeige {
         return titel;
     }
 
-    public void setJobname(String name) {
+    public void setTitel(String name) {
         this.titel = name;
     }
 
@@ -66,7 +76,7 @@ public class Stellenanzeige {
         return beschreibung;
     }
 
-    public void setJobart(String beschreibung) {
+    public void setBeschreibung(String beschreibung) {
         this.beschreibung = beschreibung;
     }
 
@@ -78,7 +88,7 @@ public class Stellenanzeige {
         this.url = url;
     }
 
-    public String technologien() {
+    public String getTechnologien() {
         return technologien;
     }
 
@@ -90,7 +100,7 @@ public class Stellenanzeige {
         return unternehmen;
     }
 
-    public void setWasWirErwarten(String unternehmen) {
+    public void setUnternehmen(String unternehmen) {
         this.unternehmen = unternehmen;
     }
 
@@ -114,11 +124,26 @@ public class Stellenanzeige {
         return qualifikation;
     }
 
-    public void setUnternehmerByUserid(String qualifikation) {
+    public void setQualifikation(String qualifikation) {
         this.qualifikation = qualifikation;
     }
 
+    public User getUserid(){
+        return userid;
+    }
 
+    public void setUserid(User user){
+        this.userid = user;
+    }
+
+    public Set<Keyword> getKeywords(){
+        return zugehoerigerKey;
+    }
+
+    public void addKeywords(List<Keyword> keywords){
+        zugehoerigerKey = new HashSet<>();
+        zugehoerigerKey.addAll(keywords);
+    }
 
 
     @Override
