@@ -1,9 +1,12 @@
 package com.example.application.controls;
 
+import com.example.application.Service.Token.SecureTokenService;
 import com.example.application.controls.factories.UserFactory;
 import com.example.application.dtos.impl.RegistrationResultDTOImpl;
 import com.example.application.dtos.impl.UserDTOImpl;
+import com.example.application.entities.SecureToken;
 import com.example.application.entities.User;
+import com.example.application.repositories.SecureTokenRepository;
 import com.example.application.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +22,12 @@ public class RegistrationControl {
 
     @Autowired
     private UserRepository userRep;
+
+    @Autowired
+    private SecureTokenService secureTokenService;
+
+    @Autowired
+    private SecureTokenRepository secureTokenRepository;
 
     /**
      * Registriert einen neuen Benutzer, falls die übergebene Email noch nicht in der Datenbank existiert.
@@ -57,4 +66,12 @@ public class RegistrationControl {
         //Datenbank Zugriff mit boolean Wert ob email bereits in der Datenbank existiert
         return !(userRep.findUserByEmail(email) == null);
     }
+
+    public void sendRegistrationConfirmationEmail(User user) {
+        SecureToken secureToken = secureTokenService.createSecureToken();
+        secureToken.setUser(user);
+        secureTokenRepository.save(secureToken);
+    }
+
+
 }

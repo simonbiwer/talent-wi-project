@@ -2,6 +2,8 @@ package com.example.application.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 /**
  * Eine Entity-Klasse, die einen Benutzer darstellt.
  */
@@ -124,4 +126,23 @@ public class User {
     public void setPasswort(String passwort) {
         this.passwort = passwort;
     }
+
+
+    /**
+     * Boolean Attribut, zur Verifizierung der Email bzw. des Accounts
+     * default ist false
+     */
+    @Column(name = "verified")
+    private boolean verified = false;
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
+    @OneToMany(mappedBy = "user")
+    private Set<SecureToken> tokens;
 }
