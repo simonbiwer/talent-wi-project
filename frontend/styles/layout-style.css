@@ -50,6 +50,11 @@
     align-items: center;
 }
 
+.key-vertical{
+    padding: 0;
+    width: 100%;
+}
+
 .key-btn{
     margin: 0;
     padding: 0;
@@ -63,4 +68,23 @@
     font-weight: bold;
     color: var(--primary-color);
 }
+
+.form-label{
+    color: var(--lumo-secondary-text-color);
+    font-weight: 500;
+    font-size: var(--lumo-font-size-s);
+    margin-left: calc(var(--lumo-border-radius-m) / 4);
+    line-height: 1;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
+.cards{
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+
 

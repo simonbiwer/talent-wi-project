@@ -68,8 +68,6 @@ public class LoginView extends VerticalLayout {
         VerticalLayout section = new VerticalLayout();
         section.setWidth("50%");
 
-        H1 h1 = new H1("Log In");
-
         HorizontalLayout company = new HorizontalLayout();
 
         Image logo = new Image("/icons/logo_talent.png", "Logo");
@@ -85,6 +83,8 @@ public class LoginView extends VerticalLayout {
         company.setAlignItems(Alignment.CENTER);
 
         this.add(company);
+
+        H1 h1 = new H1("Log In");
 
         LoginView.LoginForm form = new LoginView.LoginForm();
         form.getElement().getStyle().set("Margin", "30px");
