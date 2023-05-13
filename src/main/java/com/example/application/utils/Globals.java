@@ -18,7 +18,7 @@ public class Globals {
         public static final String APPLICATION_VIEW             = "apply/";
         public static final String CONTACTING_VIEW              = "contacting/";
         public static final String JOBADVERTISEMENT_VIEW        = "jobadvertisement/";
-        public static final String JOBAPPLICATION_VIEW          = "jobapplication/";
+        public static final String JOBADD_VIEW                  = "jobadd/";
         public static final String JOBLIST_VIEW                 = "joblist/";
         public static final String LOGIN_VIEW                   = "login/";
         public static final String MAIN_VIEW                    = "";
@@ -40,6 +40,7 @@ public class Globals {
         public static final String APPLICATION_PAGE_TITLE       = "Application";
         public static final String JOBADVERTISEMENT_PAGE_TITLE  = "Stellenangebot";
         public static final String JOBLIST_PAGE_TITLE           = "Liste der Stellenangebote";
+        public static final String JOBADD_PAGE_TITLE            = "JobAdd";
         public static final String LOGIN_PAGE_TITLE             = "Login";
         public static final String MAIN_PAGE_TITLE              = "Main";
         public static final String REGISTER_PAGE_TITLE          = "Registration";

@@ -1,10 +1,16 @@
 package com.example.application.views;
 
+import com.example.application.controls.LoginControl;
 import com.example.application.controls.RegistrationControl;
+import com.example.application.dtos.LoginResultDTO;
+import com.example.application.dtos.impl.LoginResultDTOImpl;
 import com.example.application.dtos.impl.RegistrationResultDTOImpl;
 import com.example.application.dtos.impl.UserDTOImpl;
+import com.example.application.entities.User;
 import com.example.application.utils.Globals;
+import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Utils;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -28,19 +34,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * View für die Registrierung
- * last edited: ho 05.05.23
+ * last edited: ho 10.05.23
  */
 
 @Route(value = "register")
 @PageTitle(Globals.PageTitles.REGISTER_PAGE_TITLE)
-public class RegistrationView extends Div{
+public class RegistrationView extends VerticalLayout {
 
 
     @Autowired
     private RegistrationControl registrationControl;
-    /*
+
     @Autowired
     private LoginControl loginControl;
+    /*
     @Autowired
     private SettingsControl settingsControl;
      */
@@ -49,7 +56,7 @@ public class RegistrationView extends Div{
     EmailField email = new EmailField("E-Mail");
     TextField firstname = new TextField("Vorname");
     TextField lastname = new TextField("Nachname");
-    PasswordField password  = new PasswordField("Password");
+    PasswordField password = new PasswordField("Password");
     PasswordField password2 = new PasswordField("Passwort bestätigen");
 
     private Binder<UserDTOImpl> binderUser = new Binder(UserDTOImpl.class);
@@ -57,7 +64,7 @@ public class RegistrationView extends Div{
 
     class RegisterForm extends Div {
 
-        RegisterForm(){
+        RegisterForm() {
             firstname.setRequiredIndicatorVisible(true);
             lastname.setRequiredIndicatorVisible(true);
             email.setRequiredIndicatorVisible(true);
@@ -69,7 +76,7 @@ public class RegistrationView extends Div{
             FormLayout formLayout = new FormLayout();
             formLayout.add(
                     firstname, lastname,
-                    email,password, password2
+                    email, password, password2
             );
             // Stretch country textfield to full row width
 //            formLayout.setColspan(country, 2);
@@ -79,6 +86,8 @@ public class RegistrationView extends Div{
     }
 
     public RegistrationView() {
+        this.addClassName("page-view");
+        this.setAlignItems(Alignment.CENTER);
 
         VerticalLayout section = new VerticalLayout();
         section.setWidth("50%");
@@ -95,17 +104,18 @@ public class RegistrationView extends Div{
 
         company.add(logo);
         company.add(heading);
+        company.addClassName("company-logo");
 
         company.setAlignItems(FlexComponent.Alignment.CENTER);
-
-        section.add(company);
+        this.add(company);
 
         RegisterForm form = new RegisterForm();
         form.getElement().getStyle().set("Margin", "30px");
         Button registerButton = new Button("Registrieren");
         registerButton.addClassName("default-btn");
         section.add(h1, form, registerButton);
-        section.add(new RouterLink("Sie haben schon ein Konto? Melden Sie sich hier an!", LoginView.class));;
+        section.add(new RouterLink("Sie haben schon ein Konto? Melden Sie sich hier an!", LoginView.class));
+        ;
 
         section.setPadding(true);
         section.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -135,7 +145,7 @@ public class RegistrationView extends Div{
         binderUser.forField(password)
                 .withValidator(binderpassword -> binderpassword.length() > 0, "Bitte Passwort angeben!")
                 .withValidator(Utils::passwortCheck, "Mind. 8 Zeichen, davon mind. eine Zahl und ein Großbuchstabe")
-                .bind(UserDTOImpl::getPassword,UserDTOImpl::setPassword);
+                .bind(UserDTOImpl::getPassword, UserDTOImpl::setPassword);
         binderUser.forField(password2)
                 .withValidator(binderpasswortwiederholen -> binderpasswortwiederholen.length() > 0, "Bitte Passwort angeben!")
                 .withValidator(binderpasswortwiederholen -> binderpasswortwiederholen.equals(password.getValue()), "Passwörter stimmen nicht überein!")
@@ -153,27 +163,40 @@ public class RegistrationView extends Div{
 
 
         registerButton.addClickListener(e -> {
-            if (email.isInvalid()){
+            if (email.isInvalid()) {
                 Notification.show("Bitte geben Sie eine gültige E-Mail Adresse ein!");
-            } else if (email.isEmpty() || password.isEmpty()){
+            } else if (email.isEmpty() || password.isEmpty()) {
                 Notification.show("Bitte alle Pflichtfelder ausfüllen!");
-            } else if (!password.getValue().equals(password2.getValue())){
+            } else if (!password.getValue().equals(password2.getValue())) {
                 Notification.show("Passwörter stimmen nicht überein!");
             } else {
                 UserDTOImpl userDTOImpl = binderUser.getBean();
-                try{
+                try {
                     RegistrationResultDTOImpl result = registrationControl.registerUser(userDTOImpl);
-                    if (result.OK()){
-                        UI.getCurrent().navigate(Globals.Pages.LOGIN_VIEW);
-                        // Eventuell automatischer Login hinzufügen
+                    if (result.OK()) {
+                        automaticLogin();
+                        //bei Email verifikation -> zu Email-View navigieren
                     }
                     Notification.show(result.getMessage());
-                } catch (Exception exception){
+                } catch (Exception exception) {
                     Notification.show("Registrierung fehlgeschlagen");
                 }
             }
         });
+        registerButton.addClickShortcut(Key.ENTER);
         add(siteLayout);
+    }
+
+    //Methode um den Nutzer nach erfolgreicher Registrierung automatisch einzuloggen
+    public void automaticLogin(){
+        LoginResultDTO isAuthenticated = loginControl.authentificate(email.getValue(), password.getValue());
+        if (isAuthenticated.getResult()) {
+            User user = loginControl.getCurrentUser();
+            UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, user);
+            UtilNavigation.navigateToMain();
+        } else {
+            UtilNavigation.navigateToLogin();
+        }
     }
 
 }

@@ -36,10 +36,18 @@ public class MainView extends VerticalLayout {
 
     private Button registerButton;
     private Button logoutButton;
+
+    private Button addJobButton;
+
     public MainView() {
 
         registerButton = new Button("Registrieren");
         logoutButton = new Button("Logout");
+        addJobButton = new Button("Job hinzufügen");
+        registerButton.addClassName("default-btn");
+        logoutButton.addClassName("default-btn");
+        addJobButton.addClassName("default-btn");
+
         setWidthFull();
         setHeightFull();
 
@@ -62,10 +70,14 @@ public class MainView extends VerticalLayout {
         });
 
         logoutButton.addClickListener(e -> {
-            UI.getCurrent().getSession().setAttribute( Globals.CURRENT_USER, null );
+            UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, null);
             UtilNavigation.navigateToLogin();
         });
         logoutButton.addClickShortcut(Key.ENTER);
+
+        addJobButton.addClickListener(e -> {
+            UtilNavigation.navigateToAddFormular();
+        });
 
         setMargin(true);
         setHorizontalComponentAlignment(Alignment.CENTER, logoutButton, registerButton);
@@ -73,13 +85,14 @@ public class MainView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         add(logoutButton);
         add(registerButton);
+        add(addJobButton);
     }
 
     //Methode um den View zu beenden, falls der Nutzer nicht eingeloggt ist
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
-        if(!(UI.getCurrent().getSession().getAttribute( Globals.CURRENT_USER) instanceof User)){
+        if (!(UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER) instanceof User)) {
             UtilNavigation.navigateToLogin();
         }
     }

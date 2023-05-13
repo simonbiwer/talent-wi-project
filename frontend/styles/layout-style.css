@@ -1,23 +1,90 @@
+:root{
+    --primary-color: #0063d4;
+    --secondary-color: #f3f5f7;
+    --tertiary-color: #318bf1;
+    --forth-color: #e8ecef;
+    --lumo-clickable-cursor: pointer;
+}
+
 @font-face {
-  font-family: 'Avenir';
-  src: url('https://fonts.cdnfonts.com/s/12852/Avenir-Next-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
+    font-family: 'Avenir';
+    src: url('https://fonts.cdnfonts.com/s/12852/Avenir-Next-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+.page-view{
+    padding: 0;
 }
 
 .project-header {
-  font-family: 'Avenir', sans-serif;
-  font-size: 24px;
-  font-weight: bold;
+    font-family: 'Avenir', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.project-title{
-  font-family: 'Avenir', sans-serif;
-  font-size: 50px;
-  font-weight: bold;
+.project-title {
+    font-family: 'Avenir', sans-serif;
+    font-size: 50px;
+    font-weight: bold;
 }
 
-.default-btn{
-      background-color: #0063d4;
-      color: #f2f5f7;
+.company-logo{
+    padding: 1em 0px;
+    width: 100%;
+    justify-content: center;
+    background: var(--tertiary-color);
 }
+
+.default-btn {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    cursor: var(--lumo-clickable-cursor);
+}
+
+.default-card{
+    border: solid #CCCCCC 0px;
+    border-radius: 10px;
+    padding: 1px 6px;
+    background: var(--secondary-color);
+    align-items: center;
+}
+
+.key-vertical{
+    padding: 0;
+    width: 100%;
+}
+
+.key-btn{
+    margin: 0;
+    padding: 0;
+    height: 20px;
+    width: 20px;
+    background: var(--secondary-color);
+    cursor: var(--lumo-clickable-cursor);
+}
+
+.key-label{
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.form-label{
+    color: var(--lumo-secondary-text-color);
+    font-weight: 500;
+    font-size: var(--lumo-font-size-s);
+    margin-left: calc(var(--lumo-border-radius-m) / 4);
+    line-height: 1;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
+.cards{
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+
+

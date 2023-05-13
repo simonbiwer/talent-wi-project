@@ -31,9 +31,9 @@ public class UtilNavigation {
             UI.getCurrent().navigate(Globals.Pages.LOGIN_VIEW);
     }
 
-    public static void navigateToContactFormular(int companyId, int jobId) {
-        if (!Objects.equals(UtilCurrent.getCurrentLocation(), Globals.Pages.CONTACTING_VIEW))
-            UI.getCurrent().navigate(Globals.Pages.CONTACTING_VIEW + companyId + "/" + jobId);
+    public static void navigateToAddFormular() {
+        if (!Objects.equals(UtilCurrent.getCurrentLocation(), Globals.Pages.JOBADD_VIEW))
+            UI.getCurrent().navigate(Globals.Pages.JOBADD_VIEW);
     }
 
     public static void navigateToJobList() {
