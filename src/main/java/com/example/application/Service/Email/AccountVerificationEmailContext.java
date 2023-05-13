@@ -16,9 +16,9 @@ public class AccountVerificationEmailContext extends AbstractEmailContext {
         // like setting up some base URL and context
         User customer = (User) context; // we pass the customer informati
         put("firstName", customer.getVorname());
-        setTemplateLocation("email-verification");
+        setTemplateLocation("emails/email-verification");
         setSubject("Complete your registration");
-        setFrom("no-reply@javadevjournal.com");
+        setFrom("no-reply-talent-innotech@web.de");
         setTo(customer.getEmail());
     }
 

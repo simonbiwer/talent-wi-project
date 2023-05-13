@@ -17,6 +17,10 @@ public class UtilNavigation {
             UI.getCurrent().navigate(Globals.Pages.REGISTER_VIEW);
     }
 
+    public static void navigateToVerification(){
+        UI.getCurrent().navigate(Globals.Pages.VERIFY_VIEW);
+    }
+
     public static void navigateToMain() {
         if (!Objects.equals(UtilCurrent.getCurrentLocation(), Globals.Pages.MAIN_VIEW))
             UI.getCurrent().navigate(Globals.Pages.MAIN_VIEW);

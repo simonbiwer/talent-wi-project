@@ -14,22 +14,17 @@ public class MailConfiguration {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
+        mailSender.setHost("smtp.web.de");
         mailSender.setPort(587);
 
-        mailSender.setUsername("my@gmail.com");
-        mailSender.setPassword("mypassword");
+        mailSender.setUsername("no-reply-talent-innotech@web.de");
+        mailSender.setPassword("MahbobiWS2023");
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
+//        props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
 
         return mailSender;
-    }
-
-    @Bean
-    public SpringTemplateEngine getSpringTemplateEngine(){
-        return null;
     }
 }

@@ -28,6 +28,7 @@ public class Globals {
         public static final String RECRUITMENT_VIEW             = "recruitment_formular/";
         public static final String REGISTER_VIEW                = "register/";
         public static final String SETTINGS_VIEW                = "settings/";
+        public static final String VERIFY_VIEW                  = "register/verify";
     }
 
 
@@ -42,6 +43,7 @@ public class Globals {
         public static final String LOGIN_PAGE_TITLE             = "Login";
         public static final String MAIN_PAGE_TITLE              = "Main";
         public static final String REGISTER_PAGE_TITLE          = "Registration";
+        public static final String VERIFY_PAGE_TITLE            = "Verifizierung";
     }
 
     public static class ExceptionMessage {
