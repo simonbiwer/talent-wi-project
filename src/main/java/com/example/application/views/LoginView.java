@@ -72,7 +72,7 @@ public class LoginView extends VerticalLayout {
         HorizontalLayout company = new HorizontalLayout();
 
         Image logo = new Image("/icons/logo_talent_pic_text.png", "Logo");
-        logo.setHeight("55px");
+        logo.setHeight("75px");
 
         H1 heading = new H1();
         heading.addClassName("project-title");

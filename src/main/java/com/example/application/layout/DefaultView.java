@@ -35,7 +35,7 @@ public class DefaultView extends AppLayout {
         header.add(toggle);
 
         Image logo = new Image("/icons/logo_talent_pic_text.png", "Logo");
-        logo.setHeight("50px");
+        logo.setHeight("45px");
         header.add(logo);
 
         //H1 heading = new H1("talent");
