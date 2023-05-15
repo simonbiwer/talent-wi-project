@@ -16,6 +16,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -92,18 +93,18 @@ public class RegistrationView extends VerticalLayout {
         VerticalLayout section = new VerticalLayout();
         section.setWidth("50%");
 
-        H1 h1 = new H1("Registrierung");
+        H3 h3 = new H3("Registrierung");
 
         HorizontalLayout company = new HorizontalLayout();
 
-        Image logo = new Image("/icons/logo_talent.png", "Logo");
-        logo.setHeight("100px");
+        Image logo = new Image("/icons/logo_talent_pic_text.png", "Logo");
+        logo.setHeight("55px");
 
-        H1 heading = new H1("talent");
-        heading.addClassName("project-title");
+        //H1 heading = new H1("talent");
+        //heading.addClassName("project-title");
 
         company.add(logo);
-        company.add(heading);
+        //company.add(heading);
         company.addClassName("company-logo");
 
         company.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -113,7 +114,7 @@ public class RegistrationView extends VerticalLayout {
         form.getElement().getStyle().set("Margin", "30px");
         Button registerButton = new Button("Registrieren");
         registerButton.addClassName("default-btn");
-        section.add(h1, form, registerButton);
+        section.add(h3, form, registerButton);
         section.add(new RouterLink("Sie haben schon ein Konto? Melden Sie sich hier an!", LoginView.class));
         ;
 

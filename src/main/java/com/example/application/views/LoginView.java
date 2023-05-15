@@ -10,6 +10,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.notification.Notification;
@@ -70,10 +71,10 @@ public class LoginView extends VerticalLayout {
 
         HorizontalLayout company = new HorizontalLayout();
 
-        Image logo = new Image("/icons/logo_talent.png", "Logo");
-        logo.setHeight("100px");
+        Image logo = new Image("/icons/logo_talent_pic_text.png", "Logo");
+        logo.setHeight("55px");
 
-        H1 heading = new H1("talent");
+        H1 heading = new H1();
         heading.addClassName("project-title");
 
         company.add(logo);
@@ -84,13 +85,13 @@ public class LoginView extends VerticalLayout {
 
         this.add(company);
 
-        H1 h1 = new H1("Log In");
+        H3 h3 = new H3("Log In");
 
         LoginView.LoginForm form = new LoginView.LoginForm();
-        form.getElement().getStyle().set("Margin", "30px");
+        form.getElement().getStyle().set("Margin", "20px");
         Button loginButton = new Button("Log In");
         loginButton.addClassName("default-btn");
-        section.add(h1, form, loginButton, new RouterLink("Sie haben noch kein Konto? Registrieren Sie sich hier!", RegistrationView.class));
+        section.add(h3, form, loginButton, new RouterLink("Sie haben noch kein Konto? Registrieren Sie sich hier!", RegistrationView.class));
 
         addClassName("login-view");
 

@@ -23,13 +23,13 @@ public class DefaultView extends AppLayout {
         DrawerToggle toggle = new DrawerToggle();
         header.add(toggle);
 
-        Image logo = new Image("/icons/logo_talent.png", "Logo");
+        Image logo = new Image("/icons/logo_talent_pic_text.png", "Logo");
         logo.setHeight("50px");
         header.add(logo);
 
-        H1 heading = new H1("talent");
-        heading.addClassName("project-header");
-        header.add(heading);
+        //H1 heading = new H1("talent");
+        //heading.addClassName("project-header");
+        //header.add(heading);
 
         HorizontalLayout navbar = new HorizontalLayout();
 
