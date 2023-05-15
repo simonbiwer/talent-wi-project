@@ -42,6 +42,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @CssImport(value = "./styles/layout-style.css")
 @Route(value = Globals.Pages.JOBADD_VIEW, layout = DefaultView.class)
 @PageTitle(Globals.PageTitles.JOBADD_PAGE_TITLE)
@@ -52,22 +53,16 @@ public class AddJobView extends VerticalLayout {
 
     TextField title = new TextField("Titel");
     TextField url = new TextField("URL");
-    TextField company = new TextField("Unternehmen");
+   /*TextField company = new TextField("Unternehmen");
     TextField technology = new TextField("Technologien");
-    TextField qualifications = new TextField("Qualifikationen");
-    DatePicker start = new DatePicker("Startdatum");
-    TextField range = new TextField("Dauer");
+   TextField qualifications = new TextField("Qualifikationen");
+   DatePicker start = new DatePicker("Startdatum");
+  TextField range = new TextField("Dauer");*/
     TextArea des = new TextArea("Beschreibung");
-
-
     private TextField keywordInputField;
-
     private List<KeywordDTO> keywords;
-
     private Button addButton;
-
     private HorizontalLayout cards;
-
     private Binder<StellenanzeigenDTOImpl> binderJob = new Binder(StellenanzeigenDTOImpl.class);
 
     class AddJobForm extends Div {
@@ -107,9 +102,12 @@ public class AddJobView extends VerticalLayout {
 
             FormLayout formLayout = new FormLayout();
             formLayout.add(
-                    title, url,
-                    company, technology, qualifications, start, range, des, keys
+                    title, url,/*company, technology, qualifications, start, range,*/ des,
+                    keys
             );
+            formLayout.setColspan(des, 2);// Beschreibung über zwei Spalten erstrecken
+           // formLayout.setColspan(keys, 2); // Keywords über zwei Spalten erstrecken
+
             // Stretch country textfield to full row width
 //            formLayout.setColspan(country, 2);
             formLayout.setSizeUndefined();
@@ -146,14 +144,14 @@ public class AddJobView extends VerticalLayout {
         binderJob.forField(url)
                 .withValidator(bindernachname -> bindernachname.length() > 0, "Bitte URL angeben!")
                 .bind(StellenanzeigenDTOImpl::getUrl, StellenanzeigenDTOImpl::setUrl);
-        binderJob.forField(company)
+       /* binderJob.forField(company)
                 .bind(StellenanzeigenDTOImpl::getUnternehmen, StellenanzeigenDTOImpl::setUnternehmen);
         binderJob.forField(technology)
                 .bind(StellenanzeigenDTOImpl::getTechnologien, StellenanzeigenDTOImpl::setTechnologien);
         binderJob.forField(qualifications)
                 .bind(StellenanzeigenDTOImpl::getQualifikation, StellenanzeigenDTOImpl::setQualifikation);
         binderJob.forField(range)
-                .bind(StellenanzeigenDTOImpl::getProjektdauer, StellenanzeigenDTOImpl::setProjektdauer);
+                .bind(StellenanzeigenDTOImpl::getProjektdauer, StellenanzeigenDTOImpl::setProjektdauer);*/
         binderJob.forField(des)
                 .bind(StellenanzeigenDTOImpl::getBeschreibung, StellenanzeigenDTOImpl::setBeschreibung);
 
@@ -166,7 +164,7 @@ public class AddJobView extends VerticalLayout {
             } else {
                 StellenanzeigenDTOImpl job = binderJob.getBean();
                 job.setKeywords(keywords);
-                job.setStartdatum(start.getValue().toString());
+              /*  job.setStartdatum(start.getValue().toString());*/
                 try {
                     InsertJobResult result = addJobControl.createStellenanzeige(job);
                     if (result.OK()) {
