@@ -1,4 +1,4 @@
-package com.example.application.dtos;
+package com.example.application.dtos.impl;
 
 import com.example.application.dtos.impl.UserDTOImpl;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import java.time.LocalDate;
 
-
+/**
+ * Dies ist die Testklasse für die  UserDTOImpl-Klasse.
+ * @author  Mhalah
+ * @since 10.05.2023
+ */
 public class UserDTOImplTest {
     private static UserDTOImpl benutzer;
 
