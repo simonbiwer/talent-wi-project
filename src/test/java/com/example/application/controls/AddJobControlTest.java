@@ -21,6 +21,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Dies ist die Testklasse für die AddJobControl-Klasse.
+ * @author  Mhalah
+ * @since 16.05.2023
+ */
+
 @SpringBootTest
 public class AddJobControlTest {
 
