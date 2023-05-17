@@ -19,7 +19,8 @@ import java.util.List;
 
 /**
  * Control Klasse zur Eintragung einer neuen Stellenanzeige ins System
- * @author sb 10.05.23
+ *
+ * @author ho 17.05.23
  */
 
 @Component
@@ -33,24 +34,25 @@ public class AddJobControl {
 
     /**
      * Methode, die eine neue Stellenanzeige erstellt und abspeichert
+     *
      * @param stellenanzeigenDTO DTO einer neuen Stellenanzeige
      * @return ResultDTO
      */
-    public InsertJobResult createStellenanzeige(StellenanzeigenDTO stellenanzeigenDTO){
+    public InsertJobResult createStellenanzeige(StellenanzeigenDTO stellenanzeigenDTO) {
         InsertJobResult result = new InsertJobResultImpl();
-        if (checkIfUrlOccupied(stellenanzeigenDTO)){
+        if (checkIfUrlOccupied(stellenanzeigenDTO)) {
             result.setMessage("Stellenanzeige mit dieser URL existiert bereits!");
             result.setNotOK();
         }
-        if (result.OK()){
+        if (result.OK()) {
             // hier sollte eventuell besser mit einem UserDTO gearbeitet werden
             User currentUser = UtilCurrent.getCurrentUser();
 //            User currentUser = userRep.findById(currentUserDTO.getId()).get();
             List<Keyword> keywords = saveOrReturnKeywords(stellenanzeigenDTO.getKeywords());
             Stellenanzeige newJob = StellenanzeigenFactory.createStellenanzeige(stellenanzeigenDTO, currentUser, keywords);
-            try{
+            try {
                 jobRep.save(newJob);
-            } catch (Exception e){
+            } catch (Exception e) {
                 jobRep.delete(newJob);
                 result.setNotOK();
                 result.setMessage("Fehler beim Abspeichern in der Datenbank!");
@@ -64,21 +66,23 @@ public class AddJobControl {
 
     /**
      * Methode, die checkt ob die Stellenanzeige zu dieser URL bereits existiert
+     *
      * @param stellenanzeigenDTO neue Stellenanzeige
      * @return boolean
      */
-    private boolean checkIfUrlOccupied(StellenanzeigenDTO stellenanzeigenDTO){
+    private boolean checkIfUrlOccupied(StellenanzeigenDTO stellenanzeigenDTO) {
         return (jobRep.findStellenanzeigeByUrl(stellenanzeigenDTO.getUrl()) != null);
     }
 
     /**
      * Methode, die neue Keyword-Entitäten erstellt, sofern diese nicht bereits vorhanden sind
+     *
      * @param keywordDTOs Abzuspeichernde Keywords
      * @return Liste an neuen oder gefundenen Keywords
      */
-    public List<Keyword> saveOrReturnKeywords(List<KeywordDTO> keywordDTOs){
+    public List<Keyword> saveOrReturnKeywords(List<KeywordDTO> keywordDTOs) {
         List<Keyword> keywordEntities = new ArrayList<>();
-        for (KeywordDTO keywordDTO : keywordDTOs){
+        for (KeywordDTO keywordDTO : keywordDTOs) {
             Keyword keyword = keywordRepo.findKeywordByKeywordid(keywordDTO.getKeywordid());
             if (keyword != null) {
                 keywordEntities.add(keyword);
@@ -90,6 +94,15 @@ public class AddJobControl {
             }
         }
         return keywordEntities;
+    }
+
+    /**
+     * Methode, die alle Stellenanzeige zur Ausgabe anzeigt
+     *
+     * @return Liste an allen Stellenanzeigen
+     */
+    public List<Stellenanzeige> getJobs(){
+         return jobRep.findAll();
     }
 
 }

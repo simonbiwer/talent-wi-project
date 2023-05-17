@@ -45,6 +45,8 @@ public class Globals {
         public static final String MAIN_PAGE_TITLE              = "Main";
         public static final String REGISTER_PAGE_TITLE          = "Registration";
         public static final String VERIFY_PAGE_TITLE            = "Verifizierung";
+        public static final String SETTINGS_PAGE_TITLE          = "Einstellungen";
+        public static final String PROFILE_PAGE_TITLE              = "Profil";
     }
 
     public static class ExceptionMessage {

@@ -20,6 +20,7 @@ public class StellenanzeigenDTOImpl implements StellenanzeigenDTO {
     private String projektdauer;
     private String startdatum;
     private String qualifikation;
+    private boolean reserved;
     private int userid;
     private List<KeywordDTO> keywords;
 
@@ -107,6 +108,16 @@ public class StellenanzeigenDTOImpl implements StellenanzeigenDTO {
     @Override
     public void setQualifikation(String qualifikation) {
         this.qualifikation = qualifikation;
+    }
+
+    @Override
+    public boolean getReserved() {
+        return reserved;
+    }
+
+    @Override
+    public void setReserved(boolean reserved) {
+        this.reserved = reserved;
     }
 
     @Override

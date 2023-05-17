@@ -1,25 +1,23 @@
 package com.example.application.views;
 
 import com.example.application.controls.AddJobControl;
-import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.StellenanzeigenDTO;
-import com.example.application.dtos.impl.KeywordDTOImpl;
-import com.example.application.dtos.impl.StellenanzeigenDTOImpl;
+import com.example.application.entities.Stellenanzeige;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Globals;
 import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.component.UI;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,58 +32,26 @@ public class MainView extends VerticalLayout {
     @Autowired
     private AddJobControl addJobControl;
 
-    private Button registerButton;
-    private Button logoutButton;
-
-    private Button addJobButton;
+    Grid<Stellenanzeige> grid;
 
     public MainView() {
-
-        registerButton = new Button("Registrieren");
-        logoutButton = new Button("Logout");
-        addJobButton = new Button("Job hinzufügen");
-        registerButton.addClassName("default-btn");
-        logoutButton.addClassName("default-btn");
-        addJobButton.addClassName("default-btn");
 
         setWidthFull();
         setHeightFull();
 
-        registerButton.addClickListener(e -> {
-            UtilNavigation.navigateToRegistration();
-            // nur zu Testzwecken bis eine View erstellt wurde
-            StellenanzeigenDTO stellenanzeigenDTO = new StellenanzeigenDTOImpl();
-            stellenanzeigenDTO.setTitel("Software Developer");
-            stellenanzeigenDTO.setBeschreibung("Es wird ein SD gesucht");
-            stellenanzeigenDTO.setUrl("www.jobsuche.de");
-            List<KeywordDTO> keywords = new ArrayList<>();
-            KeywordDTO keywordDTO = new KeywordDTOImpl();
-            keywordDTO.setKeywordname("Technik");
-            keywords.add(keywordDTO);
-            KeywordDTO keywordDTO2 = new KeywordDTOImpl();
-            keywordDTO2.setKeywordname("Kuchen");
-            keywords.add(keywordDTO2);
-            stellenanzeigenDTO.setKeywords(keywords);
-            addJobControl.createStellenanzeige(stellenanzeigenDTO);
-        });
-
-        logoutButton.addClickListener(e -> {
-            UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, null);
-            UtilNavigation.navigateToLogin();
-        });
-        logoutButton.addClickShortcut(Key.ENTER);
-
-        addJobButton.addClickListener(e -> {
-            UtilNavigation.navigateToAddFormular();
-        });
-
         setMargin(true);
-        setHorizontalComponentAlignment(Alignment.CENTER, logoutButton, registerButton);
+        setHorizontalComponentAlignment(Alignment.CENTER);
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
-        add(logoutButton);
-        add(registerButton);
-        add(addJobButton);
+
+        grid = new Grid<>(Stellenanzeige.class, false);
+        grid.addColumn(Stellenanzeige::getTitel).setHeader("Titel");
+        grid.addColumn(Stellenanzeige::getUrl).setHeader("Url");
+        grid.addComponentColumn(stellenAnzeige -> createStatusIcon(true)) //TODO: stellenAnzeige.getReserved()
+                .setHeader("Status");
+
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+        add(grid);
     }
 
     //Methode um den View zu beenden, falls der Nutzer nicht eingeloggt ist
@@ -95,6 +61,22 @@ public class MainView extends VerticalLayout {
         if (!(UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER) instanceof User)) {
             UtilNavigation.navigateToLogin();
         }
+        //Hinzufügen der Daten in der Tabelle
+        List<Stellenanzeige> jobs = addJobControl.getJobs();
+        grid.setItems(jobs);
+    }
+
+    private Icon createStatusIcon(boolean status) {
+        Icon icon;
+        if (status) {
+            icon = VaadinIcon.CHECK.create();
+            icon.getElement().getThemeList().add("badge success");
+        } else {
+            icon = VaadinIcon.CLOSE_SMALL.create();
+            icon.getElement().getThemeList().add("badge error");
+        }
+        icon.getStyle().set("padding", "var(--lumo-space-xs");
+        return icon;
     }
 
 }

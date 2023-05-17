@@ -42,18 +42,14 @@ public class Stellenanzeige {
     @Column(name = "qualifikation")
     private String qualifikation;
 
-
+    //TODO: Reserved in Datenbank einfügen
 
     @ManyToOne //Fremdschlüssel userid von Entität user
     @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)
     private User userid;
 
     @ManyToMany
-    @JoinTable(
-            schema = "talent",
-            name = "jobHatKeyword",
-            joinColumns = @JoinColumn(name = "jobid"),
-            inverseJoinColumns = @JoinColumn(name = "keywordid"))
+    @JoinTable(schema = "talent", name = "jobHatKeyword", joinColumns = @JoinColumn(name = "jobid"), inverseJoinColumns = @JoinColumn(name = "keywordid"))
     Set<Keyword> zugehoerigerKey;
 
     public int getJobid() {
@@ -128,19 +124,19 @@ public class Stellenanzeige {
         this.qualifikation = qualifikation;
     }
 
-    public User getUserid(){
+    public User getUserid() {
         return userid;
     }
 
-    public void setUserid(User user){
+    public void setUserid(User user) {
         this.userid = user;
     }
 
-    public Set<Keyword> getKeywords(){
+    public Set<Keyword> getKeywords() {
         return zugehoerigerKey;
     }
 
-    public void addKeywords(List<Keyword> keywords){
+    public void addKeywords(List<Keyword> keywords) {
         zugehoerigerKey = new HashSet<>();
         zugehoerigerKey.addAll(keywords);
     }
@@ -151,15 +147,7 @@ public class Stellenanzeige {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Stellenanzeige job = (Stellenanzeige) o;
-        return jobid == job.jobid && Objects.equals(job.titel, titel) == false &&
-                Objects.equals(beschreibung, job.beschreibung) &&
-                Objects.equals(url, job.url) &&
-                Objects.equals(technologien, job.technologien) &&
-                Objects.equals(unternehmen, job.unternehmen) &&
-                Objects.equals(projektdauer, job.projektdauer) &&
-                Objects.equals(startdatum, job.startdatum) &&
-                Objects.equals(qualifikation, job.qualifikation) &&
-                Objects.equals(jobid, job.jobid);
+        return jobid == job.jobid && Objects.equals(job.titel, titel) == false && Objects.equals(beschreibung, job.beschreibung) && Objects.equals(url, job.url) && Objects.equals(technologien, job.technologien) && Objects.equals(unternehmen, job.unternehmen) && Objects.equals(projektdauer, job.projektdauer) && Objects.equals(startdatum, job.startdatum) && Objects.equals(qualifikation, job.qualifikation) && Objects.equals(jobid, job.jobid);
     }
 
     @Override

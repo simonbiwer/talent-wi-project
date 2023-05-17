@@ -1,4 +1,4 @@
-:root{
+:root {
     --primary-color: #0063d4;
     --secondary-color: #f3f5f7;
     --tertiary-color: #E8F0FE;
@@ -13,7 +13,7 @@
     font-style: normal;
 }
 
-.page-view{
+.page-view {
     padding: 0;
 }
 
@@ -29,7 +29,7 @@
     font-weight: bold;
 }
 
-.company-logo{
+.company-logo {
     padding: 1em 0px;
     width: 100%;
     justify-content: center;
@@ -42,7 +42,34 @@
     cursor: var(--lumo-clickable-cursor);
 }
 
-.default-card{
+.navbar{
+    display: flex;
+}
+
+.navbar-btn{
+    background: transparent;
+}
+
+.toggle{
+    color: var(--primary-color);
+}
+
+.bracket{
+    height: 100%;
+    background: transparent;
+}
+
+vaadin-button vaadin-icon{
+    height: 2em;
+    width: 2em;
+}
+
+vaadin-drawer-toggle::part(icon)::before{
+    height: 30px;
+    width: 30px;
+}
+
+.default-card {
     border: solid #CCCCCC 0px;
     border-radius: 10px;
     padding: 1px 6px;
@@ -50,12 +77,12 @@
     align-items: center;
 }
 
-.key-vertical{
+.key-vertical {
     padding: 0;
     width: 100%;
 }
 
-.key-btn{
+.key-btn {
     margin: 0;
     padding: 0;
     height: 20px;
@@ -64,12 +91,12 @@
     cursor: var(--lumo-clickable-cursor);
 }
 
-.key-label{
+.key-label {
     font-weight: bold;
     color: var(--primary-color);
 }
 
-.form-label{
+.form-label {
     color: var(--lumo-secondary-text-color);
     font-weight: 500;
     font-size: var(--lumo-font-size-s);
@@ -82,10 +109,21 @@
     position: relative;
 }
 
-.cards{
+.cards {
     max-width: 100%;
     flex-wrap: wrap;
 }
 
+
+@media only screen and (max-width: 800px) {
+
+    .toggle{
+        display: block;
+    }
+
+    .navbar{
+        display: none;
+    }
+}
 
 

@@ -4,6 +4,7 @@ import com.example.application.dtos.KeywordDTO;
 
 /**
  * Implementierung eines KeywordDTOs
+ *
  * @author sb 09.05.23
  */
 public class KeywordDTOImpl implements KeywordDTO {
