@@ -75,10 +75,7 @@ public class RegistrationView extends VerticalLayout {
             password2.setRequiredIndicatorVisible(true);
 
             FormLayout formLayout = new FormLayout();
-            formLayout.add(
-                    firstname, lastname,
-                    email, password, password2
-            );
+            formLayout.add(firstname, lastname, email, password, password2);
             // Stretch country textfield to full row width
 //            formLayout.setColspan(country, 2);
             formLayout.setSizeUndefined();
@@ -132,25 +129,11 @@ public class RegistrationView extends VerticalLayout {
 
         // Bindings initialisieren
         binderUser.setBean(new UserDTOImpl());
-        binderUser.forField(firstname)
-                .withValidator(bindervorname -> bindervorname.length() > 0, "Bitte Vornamen angeben!")
-                .withValidator(Utils::isAlpha, "Vorname darf nur Buchstaben enthalten")
-                .bind(UserDTOImpl::getFirstname, UserDTOImpl::setFirstname);
-        binderUser.forField(lastname)
-                .withValidator(bindernachname -> bindernachname.length() > 0, "Bitte Nachnamen angeben!")
-                .withValidator(Utils::isAlpha, "Nachname darf nur Buchstaben enthalten")
-                .bind(UserDTOImpl::getLastname, UserDTOImpl::setLastname);
-        binderUser.forField(email)
-                .withValidator(binderemailadresse -> binderemailadresse.length() > 0, "Bitte E-Mailadresse angeben!")
-                .bind(UserDTOImpl::getEmail, UserDTOImpl::setEmail);
-        binderUser.forField(password)
-                .withValidator(binderpassword -> binderpassword.length() > 0, "Bitte Passwort angeben!")
-                .withValidator(Utils::passwortCheck, "Mind. 8 Zeichen, davon mind. eine Zahl und ein Großbuchstabe")
-                .bind(UserDTOImpl::getPassword, UserDTOImpl::setPassword);
-        binderUser.forField(password2)
-                .withValidator(binderpasswortwiederholen -> binderpasswortwiederholen.length() > 0, "Bitte Passwort angeben!")
-                .withValidator(binderpasswortwiederholen -> binderpasswortwiederholen.equals(password.getValue()), "Passwörter stimmen nicht überein!")
-                .bind(UserDTOImpl::getPassword, UserDTOImpl::setPassword);
+        binderUser.forField(firstname).withValidator(bindervorname -> bindervorname.length() > 0, "Bitte Vornamen angeben!").withValidator(Utils::isAlpha, "Vorname darf nur Buchstaben enthalten").bind(UserDTOImpl::getFirstname, UserDTOImpl::setFirstname);
+        binderUser.forField(lastname).withValidator(bindernachname -> bindernachname.length() > 0, "Bitte Nachnamen angeben!").withValidator(Utils::isAlpha, "Nachname darf nur Buchstaben enthalten").bind(UserDTOImpl::getLastname, UserDTOImpl::setLastname);
+        binderUser.forField(email).withValidator(binderemailadresse -> binderemailadresse.length() > 0, "Bitte E-Mailadresse angeben!").bind(UserDTOImpl::getEmail, UserDTOImpl::setEmail);
+        binderUser.forField(password).withValidator(binderpassword -> binderpassword.length() > 0, "Bitte Passwort angeben!").withValidator(Utils::passwortCheck, "Mind. 8 Zeichen, davon mind. eine Zahl und ein Großbuchstabe").bind(UserDTOImpl::getPassword, UserDTOImpl::setPassword);
+        binderUser.forField(password2).withValidator(binderpasswortwiederholen -> binderpasswortwiederholen.length() > 0, "Bitte Passwort angeben!").withValidator(binderpasswortwiederholen -> binderpasswortwiederholen.equals(password.getValue()), "Passwörter stimmen nicht überein!").bind(UserDTOImpl::getPassword, UserDTOImpl::setPassword);
 
         //Email-Adresse
         email.setPrefixComponent(VaadinIcon.GLOBE.create());
@@ -189,7 +172,7 @@ public class RegistrationView extends VerticalLayout {
     }
 
     //Methode um den Nutzer nach erfolgreicher Registrierung automatisch einzuloggen
-    public void automaticLogin(){
+    public void automaticLogin() {
         LoginResultDTO isAuthenticated = loginControl.authentificate(email.getValue(), password.getValue());
         if (isAuthenticated.getResult()) {
             User user = loginControl.getCurrentUser();

@@ -1,84 +1,72 @@
 package com.example.application.layout;
 
+import com.example.application.utils.UtilNavigation;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 
 @CssImport(value = "./styles/layout-style.css")
 public class DefaultView extends AppLayout {
+
     public DefaultView() {
 
         HorizontalLayout header = new HorizontalLayout();
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
 
-        DrawerToggle toggle = new DrawerToggle();
-        header.add(toggle);
-
+        //HomeButton wird erzeugt
         Image logo = new Image("/icons/logo_talent_pic_text.png", "Logo");
-        logo.setHeight("45px");
-        header.add(logo);
+        logo.setHeight(("45px"));
+        Button homeButton = new Button(logo);
+        homeButton.getStyle().set("background", "transparent");
+        homeButton.addClickListener(e -> {
+            UtilNavigation.navigateToMain();
+        });
+        header.add(homeButton);
 
-        //H1 heading = new H1("talent");
-        //heading.addClassName("project-header");
-        //header.add(heading);
+        header.setHeight("5em");
 
-        HorizontalLayout navbar = new HorizontalLayout();
-        navbar.setFlexGrow(2); // Make the navbar flexible
-        /*
-        Button button1 = new Button("Button 1");
-        button1.setWidth("100%");
-        navbar.add(button1);
+        HorizontalLayout filler = new HorizontalLayout();
+        filler.setWidth("100%");
 
-        Button button2 = new Button("Button 2");
-        button2.setWidth("100%");
-        navbar.add(button2);
+        Tab main = new Tab(VaadinIcon.TABLE.create(), new Span("Projektübersicht"));
+        Tab addView = new Tab(VaadinIcon.INSERT.create(), new Span("Projekt hinzufügen"));
+        Tab profile = new Tab(VaadinIcon.USER.create(), new Span("Profil"));
+        Tab settings = new Tab(VaadinIcon.COG.create(), new Span("Settings"));
 
-        Button button3 = new Button("Button 3");
-        button3.setWidth("100%");
-        navbar.add(button3);
-*/
-        // Icons für toolbar
-        HorizontalLayout button1Layout = new HorizontalLayout();
-        Icon icon1 = new Icon(VaadinIcon.INSERT);
-        Label label1 = new Label("Projekt hinzufügen");
-        button1Layout.add(icon1, label1);
+        Tabs tabs = new Tabs(main, addView, profile, settings);
+        tabs.setOrientation(Tabs.Orientation.VERTICAL);
 
-        Button button1 = new Button(button1Layout);
-        button1.getStyle().set("background", "transparent");
-        button1.getStyle().set("width", "100%"); // Adjust the width of the button
-        navbar.add(button1);
+        tabs.addSelectedChangeListener(event -> {
+            Tab selectedTab = event.getSelectedTab();
+            if(selectedTab.equals(main)){
+                UtilNavigation.navigateToMain();
+            }else if(selectedTab.equals(addView)){
+                UtilNavigation.navigateToAddFormular();
+            }else if(selectedTab.equals(profile)){
+                UtilNavigation.navigateToProfile();
+            }else if(selectedTab.equals(settings)){
+                UtilNavigation.navigateToSettings();
+            }
+        });
 
-        HorizontalLayout button2Layout = new HorizontalLayout();
-        Icon icon2 = new Icon(VaadinIcon.TABLE);
-        Label label2 = new Label("Projektenübersicht");
-        button2Layout.add(icon2, label2);
+        DrawerToggle toggle = new DrawerToggle();
+        toggle.setClassName("toggle");
+        addToDrawer(tabs);
 
-        Button button2 = new Button(button2Layout);
-        button2.getStyle().set("background", "transparent");
-        button2.getStyle().set("width", "100%"); // Adjust the width of the button
-        navbar.add(button2);
 
-        addToNavbar(header, navbar);
+        addToNavbar(toggle, header);
+        //setPrimarySection(Section.DRAWER);    Styling to be decided
     }
 
 }

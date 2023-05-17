@@ -51,9 +51,7 @@ public class LoginView extends VerticalLayout {
             password.setRequiredIndicatorVisible(true);
 
             FormLayout formLayout = new FormLayout();
-            formLayout.add(
-                    email, password
-            );
+            formLayout.add(email, password);
             // Stretch country textfield to full row width
 //            formLayout.setColspan(country, 2);
             formLayout.setSizeUndefined();

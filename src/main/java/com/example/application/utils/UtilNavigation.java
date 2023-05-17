@@ -5,6 +5,7 @@ import com.vaadin.flow.component.UI;
 import java.util.Objects;
 public class UtilNavigation {
 
+
     private UtilNavigation() {
         throw new IllegalStateException("Utility Class");
     }
@@ -54,6 +55,11 @@ public class UtilNavigation {
     public static void navigateToSettings() {
         if (!Objects.equals(UtilCurrent.getCurrentLocation(), Globals.Pages.SETTINGS_VIEW))
             UI.getCurrent().navigate(Globals.Pages.SETTINGS_VIEW);
+    }
+
+    public static void navigateToProfile() {
+        if (!Objects.equals(UtilCurrent.getCurrentLocation(), Globals.Pages.PROFILE_VIEW))
+            UI.getCurrent().navigate(Globals.Pages.PROFILE_VIEW);
     }
 
 }
