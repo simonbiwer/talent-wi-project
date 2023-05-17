@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Implementierung eines StellenanzeigenDTOs
  * @author sb 09.05.23
+ * @since 17.05.23
  */
 public class StellenanzeigenDTOImpl implements StellenanzeigenDTO {
 
@@ -27,6 +28,11 @@ public class StellenanzeigenDTOImpl implements StellenanzeigenDTO {
     @Override
     public int getJobid() {
         return jobid;
+    }
+
+    @Override
+    public void setJobid(int jobid){
+        this.jobid = jobid;
     }
 
     @Override

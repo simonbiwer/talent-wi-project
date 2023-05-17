@@ -1,6 +1,7 @@
 package com.example.application.views;
 
 import com.example.application.controls.AddJobControl;
+import com.example.application.controls.ShowJobControl;
 import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.StellenanzeigenDTO;
 import com.example.application.dtos.impl.KeywordDTOImpl;
@@ -32,7 +33,7 @@ import java.util.List;
 public class MainView extends VerticalLayout {
 
     @Autowired
-    private AddJobControl addJobControl;
+    private ShowJobControl showJobControl;
 
     private Button registerButton;
     private Button logoutButton;
@@ -53,20 +54,8 @@ public class MainView extends VerticalLayout {
 
         registerButton.addClickListener(e -> {
             UtilNavigation.navigateToRegistration();
-            // nur zu Testzwecken bis eine View erstellt wurde
-            StellenanzeigenDTO stellenanzeigenDTO = new StellenanzeigenDTOImpl();
-            stellenanzeigenDTO.setTitel("Software Developer");
-            stellenanzeigenDTO.setBeschreibung("Es wird ein SD gesucht");
-            stellenanzeigenDTO.setUrl("www.jobsuche.de");
-            List<KeywordDTO> keywords = new ArrayList<>();
-            KeywordDTO keywordDTO = new KeywordDTOImpl();
-            keywordDTO.setKeywordname("Technik");
-            keywords.add(keywordDTO);
-            KeywordDTO keywordDTO2 = new KeywordDTOImpl();
-            keywordDTO2.setKeywordname("Kuchen");
-            keywords.add(keywordDTO2);
-            stellenanzeigenDTO.setKeywords(keywords);
-            addJobControl.createStellenanzeige(stellenanzeigenDTO);
+//            showJobControl.readAllStellenanzeigen();
+
         });
 
         logoutButton.addClickListener(e -> {

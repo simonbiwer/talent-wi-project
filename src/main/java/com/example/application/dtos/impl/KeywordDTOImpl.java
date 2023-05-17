@@ -5,6 +5,7 @@ import com.example.application.dtos.KeywordDTO;
 /**
  * Implementierung eines KeywordDTOs
  * @author sb 09.05.23
+ * @since 17.05.23
  */
 public class KeywordDTOImpl implements KeywordDTO {
 
@@ -14,6 +15,11 @@ public class KeywordDTOImpl implements KeywordDTO {
     @Override
     public int getKeywordid() {
         return keywordid;
+    }
+
+    @Override
+    public void setKeywordid(int keywordid){
+        this.keywordid = keywordid;
     }
 
     @Override

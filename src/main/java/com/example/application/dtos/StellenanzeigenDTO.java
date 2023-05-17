@@ -5,10 +5,12 @@ import java.util.List;
 /**
  * Interface eines StellenanzeigenDTO
  * @author sb 10.05.23
+ * @since 17.05.23
  */
 public interface StellenanzeigenDTO {
 
     int getJobid();
+    void setJobid(int jobid);
     String getTitel();
     void setTitel(String titel);
     String getBeschreibung();
