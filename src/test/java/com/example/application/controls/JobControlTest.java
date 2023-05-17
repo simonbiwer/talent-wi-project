@@ -15,8 +15,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -28,7 +26,7 @@ import static org.mockito.Mockito.*;
  */
 
 @SpringBootTest
-public class AddJobControlTest {
+public class JobControlTest {
 
     @Mock
     private StellenanzeigeRepository jobRep;
@@ -40,7 +38,7 @@ public class AddJobControlTest {
     private UtilCurrent utilCurrent;
 
     @InjectMocks
-    private AddJobControl addJobControl;
+    private JobControl jobControl;
 
     @BeforeEach
     public void setup() {
@@ -87,7 +85,7 @@ public class AddJobControlTest {
         expectedResult.setNotOK();
 
         // Act
-        InsertJobResult actualResult = addJobControl.createStellenanzeige(stellenanzeigenDTO);
+        InsertJobResult actualResult = jobControl.createStellenanzeige(stellenanzeigenDTO);
 
         // Assert
         verify(jobRep, times(1)).findStellenanzeigeByUrl(stellenanzeigenDTO.getUrl());

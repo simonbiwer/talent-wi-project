@@ -23,4 +23,18 @@ public class StellenanzeigenFactory {
         job.addKeywords(keywords);
         return job;
     }
+
+    public static Stellenanzeige updateStellenanzeige(Stellenanzeige job, StellenanzeigenDTO jobDTO, List<Keyword> keywords){
+        job.setTitel(jobDTO.getTitel());
+        job.setBeschreibung(jobDTO.getBeschreibung());
+        job.setUrl(jobDTO.getUrl());
+        // Keywords können aktuell noch nicht wieder entfernt werden
+        job.addKeywords(keywords);
+        job.setProjektdauer(jobDTO.getProjektdauer());
+        job.setQualifikation(jobDTO.getQualifikation());
+        job.setStartdatum(jobDTO.getStartdatum());
+        job.setTechnologien(jobDTO.getTechnologien());
+        job.setUnternehmen(jobDTO.getUnternehmen());
+        return job;
+    }
 }

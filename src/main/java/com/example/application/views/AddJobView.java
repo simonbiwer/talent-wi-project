@@ -1,27 +1,20 @@
 package com.example.application.views;
 
-import com.example.application.controls.AddJobControl;
+import com.example.application.controls.JobControl;
 import com.example.application.dtos.InsertJobResult;
 import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.impl.KeywordDTOImpl;
-import com.example.application.dtos.impl.RegistrationResultDTOImpl;
 import com.example.application.dtos.impl.StellenanzeigenDTOImpl;
-import com.example.application.dtos.impl.UserDTOImpl;
-import com.example.application.entities.Keyword;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
 import com.example.application.utils.UtilNavigation;
-import com.example.application.utils.Utils;
 import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
@@ -30,8 +23,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -49,7 +40,7 @@ import java.util.List;
 public class AddJobView extends VerticalLayout {
 
     @Autowired
-    private AddJobControl addJobControl;
+    private JobControl jobControl;
 
     TextField title = new TextField("Titel");
     TextField url = new TextField("URL");
@@ -166,7 +157,7 @@ public class AddJobView extends VerticalLayout {
                 job.setKeywords(keywords);
               /*  job.setStartdatum(start.getValue().toString());*/
                 try {
-                    InsertJobResult result = addJobControl.createStellenanzeige(job);
+                    InsertJobResult result = jobControl.createStellenanzeige(job);
                     if (result.OK()) {
                         UtilNavigation.navigateToMain();
                     }

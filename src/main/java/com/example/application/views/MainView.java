@@ -1,11 +1,10 @@
 package com.example.application.views;
 
-import com.example.application.controls.AddJobControl;
-import com.example.application.controls.ShowJobControl;
+import com.example.application.controls.JobControl;
 import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.StellenanzeigenDTO;
-import com.example.application.dtos.impl.KeywordDTOImpl;
 import com.example.application.dtos.impl.StellenanzeigenDTOImpl;
+import com.example.application.entities.Keyword;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.UtilNavigation;
@@ -17,7 +16,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.component.UI;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import java.util.List;
 public class MainView extends VerticalLayout {
 
     @Autowired
-    private ShowJobControl showJobControl;
+    private JobControl jobControl;
 
     private Button registerButton;
     private Button logoutButton;
@@ -54,7 +52,11 @@ public class MainView extends VerticalLayout {
 
         registerButton.addClickListener(e -> {
             UtilNavigation.navigateToRegistration();
-//            showJobControl.readAllStellenanzeigen();
+//            List<StellenanzeigenDTO> jobs = jobControl.readAllStellenanzeigen();
+//            StellenanzeigenDTO job = jobs.get(0);
+//            job.setBeschreibung("Doch die alte Beschreibung");
+//            job.setProjektdauer("2 Monate");
+//            jobControl.updateStellenanzeige(job);
 
         });
 
