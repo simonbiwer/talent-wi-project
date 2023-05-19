@@ -1,9 +1,7 @@
 package com.example.application.views;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,13 +9,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author mhalah
@@ -31,53 +25,30 @@ public class Selenium {
     WebDriver firefoxDriver;
     WebDriver edgeDriver;
 
-    @BeforeEach
-    void setUpChrome() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver_win32/chromedriver.exe");
-        chromeDriver = new ChromeDriver();
-    }
-
-    @BeforeEach
-    void setUpFirefox() {
-        System.setProperty("webdriver.firefox.driver", "src/test/resources/geckodriver_win32/geckodriver.exe");
-        firefoxDriver = new FirefoxDriver();
-    }
-
-//    @BeforeEach
-//    void setUpEdge() {
-//        System.setProperty("webdriver.edge.driver", "Pfad/zum/msedgedriver.exe");
-//        edgeDriver = new EdgeDriver();
-//    }
-
-    @AfterEach
-    void tearDownChrome() {
-        chromeDriver.quit();
-    }
-
-    @AfterEach
-    void tearDownFirefox() {
-        firefoxDriver.quit();
-    }
-//
-//    @AfterEach
-//    void tearDownEdge() {
-//        edgeDriver.quit();
-//    }
 
     @Test
     public void chromeAnmeldeTest() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver_win32/chromedriver.exe");
+        chromeDriver = new ChromeDriver();
         loginUndLogoutDurchfuehren(chromeDriver);
+        chromeDriver.quit();
     }
 
     @Test
     public void firefoxAufmeldeTest() throws InterruptedException {
+        System.setProperty("webdriver.firefox.driver", "src/test/resources/geckodriver_win32/geckodriver.exe");
+        firefoxDriver = new FirefoxDriver();
         loginUndLogoutDurchfuehren(firefoxDriver);
+        firefoxDriver.quit();
     }
 
-//    @Test
-//    public void edgeAnmeldenTest() throws InterruptedException {
-//        loginUndLogoutDurchfuehren(edgeDriver);
-//    }
+    @Test
+    public void edgeAnmeldenTest() throws InterruptedException {
+        System.setProperty("webdriver.edge.driver", "src/test/resources/edgedriver_win32/msedgedriver.exe");
+        edgeDriver = new EdgeDriver();
+        loginUndLogoutDurchfuehren(edgeDriver);
+        edgeDriver.quit();
+    }
 
     private void loginUndLogoutDurchfuehren(@NotNull WebDriver driver) throws InterruptedException {
         driver.get("http://localhost:8080/login");
