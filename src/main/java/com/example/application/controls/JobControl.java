@@ -147,8 +147,10 @@ public class JobControl {
     public List<Keyword> saveOrReturnKeywords(List<KeywordDTO> keywordDTOs){
         List<Keyword> keywordEntities = new ArrayList<>();
         for (KeywordDTO keywordDTO : keywordDTOs){
-            Keyword keyword = keywordRepo.findKeywordByKeywordid(keywordDTO.getKeywordid());
+            Keyword keyword = keywordRepo.findKeywordByKeywordname(keywordDTO.getKeywordname());
             if (keyword != null) {
+                /*Im Falle, dass das Keyword bereits in der datenbank existiert, wird kein neues keyword erzeugt,
+                sondern nur der Schlüssel des existierenden Keywords mit dem neuen Job verbunden in der Verbindungstabelle.*/
                 keywordEntities.add(keyword);
             } else {
                 Keyword keywordEntity = new Keyword();

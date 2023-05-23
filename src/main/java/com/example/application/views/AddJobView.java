@@ -164,6 +164,7 @@ public class AddJobView extends VerticalLayout {
                     Notification.show(result.getMessage());
                 } catch (Exception exception) {
                     Notification.show("Erstellen fehlgeschlagen");
+                    exception.printStackTrace();
                 }
             }
         });
@@ -177,7 +178,7 @@ public class AddJobView extends VerticalLayout {
         KeyCard card = new KeyCard(keyword);
         if (!keyword.getKeywordname().isEmpty()) {
             cards.add(card);
-            keyword.setKeywordname(keyword.getKeywordname().toLowerCase());
+            keyword.setKeywordname(keyword.getKeywordname().toLowerCase()); //Warum lowercase? Um redundante Keywords zu vermeiden?
             keywords.add(keyword);
             keywordInputField.setValue("");
         }
