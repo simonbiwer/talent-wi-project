@@ -1,5 +1,6 @@
 package com.example.application.Service.ChatGPT;
 
+import com.example.application.utils.JSONParser;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -12,7 +13,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
 public class ChatGPTAPIExample {
-    public static void main(String[] args) throws IOException {
+    public static String sendRequestToChatGPT(String jobURL) throws IOException {
         // Set the API endpoint URL
         String apiUrl = "https://api.openai.com/v1/chat/completions";
 
@@ -25,10 +26,25 @@ public class ChatGPTAPIExample {
 
         // Set the request payload
         String payload = "{\"model\": \"gpt-3.5-turbo\", \"messages\": " +
-                "[{\"role\": \"system\", \"content\": \"You are a helpful assistant.\"}, " +
-                "{\"role\": \"user\", \"content\": \" Im Folgenden erhaelst du URLs von Stellenanzeigen. Diese sollen auf diese Themen beziehen: Technologie; Name des Unternehmens; Projekttitel bzw. Titel der Stelle; Beschreibung bzw. Taetigkeiten; Projektdauer; Startdatum; Profil und Qualifikationen\"} ," +
-                "{\"role\": \"system\", \"content\": \"Alles klar das Format ist also so: 'Thema': 'Schlagwort'. Bitte schreibe NICHTS anderes ausser das Thema und das Schlagwort, ich muss naehmlich die Anworten parsen.\"}, " +
-                "{\"role\": \"user\", \"content\": \"Richtig. Hier die URL: https://www.stepstone.de/stellenangebote--Senior-Cyber-Security-Manager-CERT-SOC-m-w-d-Bonn-Koeln-Muenchen-Nuernberg-Strausberg-BWI-GmbH--9532572-inline.html?rltr=2_2_25_seorl_m_0_0_0_0_1_0 .\"}]}";
+                "[{\"role\": \"system\", \"content\": \"You are a helpful assistant, who reads URLs carefully and fulfills ALL requirements given by the user.\"}, " +
+
+                "{\"role\": \"user\", \"content\": \" Im Folgenden erhaelst du URLs von Stellenanzeigen. Diese sollen auf diese Themen beziehen:" +
+                " Technologie; Name des Unternehmens; Projekttitel bzw. Titel der Stelle; Beschreibung bzw. Taetigkeiten; Projektdauer; Startdatum;" +
+                " Profil und Qualifikationen; Bitte halte die Reihenfolge dieser Themen ein, falls du keine Informationen findest, schreib 'keine Angabe'." +
+                "Such fuer Projektdauer nach Begriffen wie 'Feste Anstellung' oder 'Vollzeit' oder 'Teilzeit'. Wenn du nichts findest, schreib 'langfristig'." +
+                "Wenn du zum Startdatum keine Angaben findest, schreib 'ab sofort'" +
+                "Beschreibung bzw. Taetigkeiten soll die Aufgaben und Rolle des Jobs darstellen, bitte fass die Punkte auf der Seite zusammen" +
+                "Profil und Qualifikationen beziehen auf den Bewerber, also welche Qualifikationen der Bewerber besitzt. Bitte fass die" +
+                "auf der Seite genannten Punkte zusammen \"} ," +
+
+                "{\"role\": \"assistant\", \"content\": \"Alles klar das Format ist also so: 'Thema': 'Schlagwort'; 'Naechstes Thema':" +
+                " 'Naechstes Schlagwort' . Ich benutze ein Semikolon, bevor ich eine naechste Technologie starte. Wenn ich etwas aufzaehle, " +
+                "benutze ich ein Komma." +
+                " Ich schreibe NICHTS anderes ausser das Thema und das Schlagwort,damit die Anworten vom Stringparser aufgenommen werden koennen.\"}, " +
+
+                "{\"role\": \"user\", \"content\": \"Richtig. Und ganz wichtig: Behalt die Reihenfolge ein. Beginne mit Thema 'Technologie'" +
+                " und ende mit Thema 'Profil und Qualifikationen'. Ausserdem schreib bitte alles in eine Zeile, das heisst keine Zeilenbrueche!" +
+                "  Hier die URL: " + jobURL + ".\"}]}";
 
         // Create an instance of CloseableHttpClient
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -60,6 +76,8 @@ public class ChatGPTAPIExample {
         // Print the response
         System.out.println("Response Code: " + responseCode);
         System.out.println("Response Body: " + responseBody);
+
+        return JSONParser.parseJSON(responseBody);
     }
 }
 

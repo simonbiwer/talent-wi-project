@@ -1,5 +1,6 @@
 package com.example.application.views;
 
+import com.example.application.Service.ChatGPT.ChatGPTAPIExample;
 import com.example.application.controls.JobControl;
 import com.example.application.dtos.InsertJobResult;
 import com.example.application.dtos.KeywordDTO;
@@ -30,6 +31,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,7 +121,10 @@ public class AddJobView extends VerticalLayout {
         Button addButton = new Button("Erstellen");
         addButton.addClickShortcut(Key.ENTER);
         addButton.addClassName("default-btn");
-        section.add(h1, form, addButton);
+
+        Button chatButton = new Button("ChatGPT");
+
+        section.add(h1, form, addButton, chatButton);
 
         HorizontalLayout siteLayout = new HorizontalLayout();
         siteLayout.setAlignSelf(FlexComponent.Alignment.CENTER);
@@ -169,8 +174,17 @@ public class AddJobView extends VerticalLayout {
             }
         });
 
+        chatButton.addClickListener(e -> {
+            try {
+                ChatGPTAPIExample.sendRequestToChatGPT(url.getValue());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
         add(siteLayout);
     }
+
 
     private void addKeyword() {
         KeywordDTOImpl keyword = new KeywordDTOImpl();

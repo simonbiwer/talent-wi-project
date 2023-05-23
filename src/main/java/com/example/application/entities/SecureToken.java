@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "secureTokens")
+@Table(name = "secureTokens",schema = "talent", catalog = "wi_projekt_mahbobi_sose2023")
 public class SecureToken{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
