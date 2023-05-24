@@ -114,6 +114,20 @@ vaadin-drawer-toggle::part(icon)::before{
     flex-wrap: wrap;
 }
 
+vaadin-grid::part(body-cell){
+    min-height: 7em;
+    cursor: var(--lumo-clickable-cursor);
+    scale: 1;
+}
+
+vaadin-grid::part(body-cell):hover{
+    background-color: var(--tertiary-color);
+}
+
+vaadin-grid::part(body-cell):active{
+    scale: 1.1;
+}
+
 
 @media only screen and (max-width: 800px) {
 

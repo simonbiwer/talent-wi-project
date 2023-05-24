@@ -28,8 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.flow.component.UI;
 
 /**
- * Login-View zur Anzeige der Startseite und des Login-Formulars.
- * last edited: ho 05.05.23
+ * View zur Anzeige des Login-Formulars zur anmeldung des Nutzers
+ *
+ * @author hh
+ * @since 24.05.2023
  */
 @CssImport(value = "./styles/layout-style.css")
 @Route(value = Globals.Pages.LOGIN_VIEW)
@@ -42,6 +44,9 @@ public class LoginView extends VerticalLayout {
     EmailField email = new EmailField("E-Mail");
     PasswordField password = new PasswordField("Password");
 
+     /**
+     * Hilfs-Klasse zur Erstellung des Formulars
+     */
     class LoginForm extends Div {
 
         LoginForm() {
@@ -127,6 +132,9 @@ public class LoginView extends VerticalLayout {
         add(siteLayout);
     }
 
+    /**
+     * Methode, die den Nutzer, nach erfolgreichem Einlogen in die Session hinzufügt und zum Main_View navigiert.
+     */
     private void grabAndSetUserIntoSession() {
         User user = loginControl.getCurrentUser();
         UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, user);

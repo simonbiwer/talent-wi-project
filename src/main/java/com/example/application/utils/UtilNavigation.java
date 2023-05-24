@@ -1,5 +1,6 @@
 package com.example.application.utils;
 
+import com.example.application.dtos.StellenanzeigenDTO;
 import com.vaadin.flow.component.UI;
 
 import java.util.Objects;
@@ -50,6 +51,11 @@ public class UtilNavigation {
     public static void navigateToJobList(String keyword, String type) {
         if (!Objects.equals(UtilCurrent.getCurrentLocation(), Globals.Pages.JOBLIST_VIEW))
             UI.getCurrent().navigate(Globals.Pages.JOBLIST_VIEW + keyword + "/" + type);
+    }
+
+    public static void navigateToJobAdvertisement() {
+        if (!Objects.equals(UtilCurrent.getCurrentLocation(), Globals.Pages.JOBADVERTISEMENT_VIEW))
+            UI.getCurrent().navigate(Globals.Pages.JOBADVERTISEMENT_VIEW);
     }
 
     public static void navigateToSettings() {

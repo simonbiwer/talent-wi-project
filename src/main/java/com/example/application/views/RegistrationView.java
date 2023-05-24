@@ -34,10 +34,11 @@ import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * View für die Registrierung
- * last edited: ho 10.05.23
+ * View zur Anzeige des Registrierungs-Formulars zur Regsitrierung des Nutzers.
+ *
+ * @author hh
+ * @since 24.05.2023
  */
-
 @Route(value = "register")
 @PageTitle(Globals.PageTitles.REGISTER_PAGE_TITLE)
 public class RegistrationView extends VerticalLayout {
@@ -158,8 +159,7 @@ public class RegistrationView extends VerticalLayout {
                 try {
                     RegistrationResultDTOImpl result = registrationControl.registerUser(userDTOImpl);
                     if (result.OK()) {
-                        automaticLogin();
-                        //bei Email verifikation -> zu Email-View navigieren
+                        Notification.show("Verifizierungsmail wurde versandt, bitte bestätigen sie diese!");
                     }
                     Notification.show(result.getMessage());
                 } catch (Exception exception) {
@@ -169,18 +169,6 @@ public class RegistrationView extends VerticalLayout {
         });
         registerButton.addClickShortcut(Key.ENTER);
         add(siteLayout);
-    }
-
-    //Methode um den Nutzer nach erfolgreicher Registrierung automatisch einzuloggen
-    public void automaticLogin() {
-        LoginResultDTO isAuthenticated = loginControl.authentificate(email.getValue(), password.getValue());
-        if (isAuthenticated.getResult()) {
-            User user = loginControl.getCurrentUser();
-            UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, user);
-            UtilNavigation.navigateToMain();
-        } else {
-            UtilNavigation.navigateToLogin();
-        }
     }
 
 }
