@@ -1,6 +1,7 @@
 package com.example.application.views;
 
 import com.example.application.Service.ChatGPT.ChatGPTAPIExample;
+import com.example.application.controls.ChatGPTControl;
 import com.example.application.controls.JobControl;
 import com.example.application.dtos.InsertJobResult;
 import com.example.application.dtos.KeywordDTO;
@@ -43,6 +44,9 @@ public class AddJobView extends VerticalLayout {
 
     @Autowired
     private JobControl jobControl;
+
+    @Autowired
+    private ChatGPTControl chatGPTControl;
 
     TextField title = new TextField("Titel");
     TextField url = new TextField("URL");
@@ -175,10 +179,11 @@ public class AddJobView extends VerticalLayout {
         });
 
         chatButton.addClickListener(e -> {
-            try {
-                ChatGPTAPIExample.sendRequestToChatGPT(url.getValue());
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            boolean result = chatGPTControl.crawlDataWithChatGPT(url.getValue());
+            if (result){
+                Notification.show("Crawling erfolgreich");
+            } else {
+                Notification.show("Fehler beim crawlen");
             }
         });
 

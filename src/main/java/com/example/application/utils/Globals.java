@@ -49,6 +49,16 @@ public class Globals {
         public static final String PROFILE_PAGE_TITLE              = "Profil";
     }
 
+    public static class Attributes {
+        public static final String TECHNOLOGIE = "technologie";
+        public static final String UNTERNEHMEN = "unternehmen";
+        public static final String TITEL = "titel";
+        public static final String BESCHREIBUNG = "beschreibung";
+        public static final String PROJEKTDAUER = "projektdauer";
+        public static final String STARTDATUM = "startdatum";
+        public static final String QUALIFIKATIONEN = "qualifikationen";
+    }
+
     public static class ExceptionMessage {
         private ExceptionMessage() {
             throw new IllegalStateException(ExceptionMessage.UTILITY);

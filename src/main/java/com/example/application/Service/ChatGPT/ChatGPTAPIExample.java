@@ -11,9 +11,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class ChatGPTAPIExample {
-    public static String sendRequestToChatGPT(String jobURL) throws IOException {
+    public static HashMap<String, String> sendRequestToChatGPT(String jobURL) throws IOException {
         // Set the API endpoint URL
         String apiUrl = "https://api.openai.com/v1/chat/completions";
 
@@ -28,22 +29,23 @@ public class ChatGPTAPIExample {
         String payload = "{\"model\": \"gpt-3.5-turbo\", \"messages\": " +
                 "[{\"role\": \"system\", \"content\": \"You are a helpful assistant, who reads URLs carefully and fulfills ALL requirements given by the user.\"}, " +
 
-                "{\"role\": \"user\", \"content\": \" Im Folgenden erhaelst du URLs von Stellenanzeigen. Diese sollen auf diese Themen beziehen:" +
+                "{\"role\": \"user\", \"content\": \" Im Folgenden erhaeltst du URLs von Stellenanzeigen. Diese sollen auf diese Themen untersucht werden:" +
                 " Technologie; Name des Unternehmens; Projekttitel bzw. Titel der Stelle; Beschreibung bzw. Taetigkeiten; Projektdauer; Startdatum;" +
-                " Profil und Qualifikationen; Bitte halte die Reihenfolge dieser Themen ein, falls du keine Informationen findest, schreib 'keine Angabe'." +
-                "Such fuer Projektdauer nach Begriffen wie 'Feste Anstellung' oder 'Vollzeit' oder 'Teilzeit'. Wenn du nichts findest, schreib 'langfristig'." +
+                " Profil und Qualifikationen; Bitte halte die Reihenfolge dieser Themen ein und trenne die Themen mit einem Semikolon." +
+                "Falls du keine Informationen findest, schreibe 'keine Angabe'." +
+                "Suche fuer Projektdauer nach Begriffen wie 'Feste Anstellung' oder 'Vollzeit' oder 'Teilzeit'. Wenn du nichts findest, schreib 'langfristig'." +
                 "Wenn du zum Startdatum keine Angaben findest, schreib 'ab sofort'" +
                 "Beschreibung bzw. Taetigkeiten soll die Aufgaben und Rolle des Jobs darstellen, bitte fass die Punkte auf der Seite zusammen" +
-                "Profil und Qualifikationen beziehen auf den Bewerber, also welche Qualifikationen der Bewerber besitzt. Bitte fass die" +
+                "Profil und Qualifikationen beziehen sich auf den Bewerber, also welche Qualifikationen der Bewerber besitzt. Bitte fass die" +
                 "auf der Seite genannten Punkte zusammen \"} ," +
 
                 "{\"role\": \"assistant\", \"content\": \"Alles klar das Format ist also so: 'Thema': 'Schlagwort'; 'Naechstes Thema':" +
-                " 'Naechstes Schlagwort' . Ich benutze ein Semikolon, bevor ich eine naechste Technologie starte. Wenn ich etwas aufzaehle, " +
-                "benutze ich ein Komma." +
+                " 'Naechstes Schlagwort' . Ich benutze ein Semikolon, bevor ich das naechste Thema starte. " +
+                "Wenn ich innerhalb eines Themas etwas aufzaehle, benutze ich ein Komma." +
                 " Ich schreibe NICHTS anderes ausser das Thema und das Schlagwort,damit die Anworten vom Stringparser aufgenommen werden koennen.\"}, " +
 
-                "{\"role\": \"user\", \"content\": \"Richtig. Und ganz wichtig: Behalt die Reihenfolge ein. Beginne mit Thema 'Technologie'" +
-                " und ende mit Thema 'Profil und Qualifikationen'. Ausserdem schreib bitte alles in eine Zeile, das heisst keine Zeilenbrueche!" +
+                "{\"role\": \"user\", \"content\": \"Richtig. Und ganz wichtig: Halte dich an die Reihenfolge. Beginne mit Thema 'Technologie'" +
+                " und ende mit Thema 'Profil und Qualifikationen'. Ausserdem schreib bitte alles in eine Zeile, das heisst keine Zeilenumbrueche!" +
                 "  Hier die URL: " + jobURL + ".\"}]}";
 
         // Create an instance of CloseableHttpClient
