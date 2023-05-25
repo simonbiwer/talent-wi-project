@@ -13,6 +13,13 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 
+/**
+ * @author tb 24.05.23
+ * @since 24.05.23
+ * Klasse, die alle wichtigen Funktionen des Tokens verwalten (Erstellung, Speicherung etc.)
+ */
+
+
 @Service
 public class DefaultSecureTokenService implements SecureTokenService {
 

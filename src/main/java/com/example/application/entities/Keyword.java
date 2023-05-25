@@ -5,6 +5,12 @@ import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * @author tb 24.05.23
+ * @since 24.05.23
+ * Entität zum speichern der Keywords
+ */
+
 @Entity
 @Table(name = "keyword", schema = "talent", catalog = "wi_projekt_mahbobi_sose2023")
 public class Keyword {

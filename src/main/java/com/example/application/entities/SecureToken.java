@@ -5,6 +5,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * @author tb 24.05.23
+ * @since 24.05.23
+ * Entität zum speichern der Security Tokens für die Email-Verifizierung
+ */
+
 
 @Entity
 @Table(name = "secureTokens",schema = "talent", catalog = "wi_projekt_mahbobi_sose2023")

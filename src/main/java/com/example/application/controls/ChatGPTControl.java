@@ -27,6 +27,7 @@ public class ChatGPTControl {
             HashMap<String, String> result = ChatGPTAPIExample.sendRequestToChatGPT(jobUrl);
             return saveAttributes(jobUrl, result);
         } catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }
@@ -48,6 +49,7 @@ public class ChatGPTControl {
             jobRepo.save(job);
             return true;
         } catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }

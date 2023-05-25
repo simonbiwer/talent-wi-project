@@ -8,6 +8,12 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.Properties;
 
+/**
+ * @author tb 24.05.23
+ * @since 24.05.23
+ * Konfiguration des Email-Servers, sodass die Email über den Unternehmensaccount gesendet werden kann.
+ */
+
 @Configuration
 public class MailConfiguration {
 

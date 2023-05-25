@@ -13,6 +13,13 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * @author tb 24.05.23
+ * @since 24.05.23
+ * Klasse, die eine Verbindung zur ChatGPT-API herstellt, und diesem erklärt welche Informationen der URL gebraucht werden.
+ */
+
+
 public class ChatGPTAPIExample {
     public static HashMap<String, String> sendRequestToChatGPT(String jobURL) throws IOException {
         // Set the API endpoint URL

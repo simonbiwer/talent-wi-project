@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @author tb 24.05.23
+ * @since 24.05.23
  * All email related information will be passed through this instance.
  */
+
 public abstract class AbstractEmailContext {
 
     private String from;

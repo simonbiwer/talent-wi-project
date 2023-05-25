@@ -5,6 +5,12 @@ import com.example.application.entities.User;
 import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * @author tb 24.05.23
+ * @since 24.05.23
+ * Implementierung des EmailContext mit den benötigten Daten (User-Vorname, User-Email, Versendungsemail)
+ */
+
 public class AccountVerificationEmailContext extends AbstractEmailContext {
 
     private String token;

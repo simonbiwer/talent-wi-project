@@ -7,6 +7,12 @@ import oshi.util.GlobalConfig;
 
 import java.util.HashMap;
 
+/**
+ * @author tb 24.05.23
+ * @since 24.05.23
+ * Klasse, die die Response von ChatGPT verarbeit und parst, und die auf die global attributes setzt.
+ */
+
 public class JSONParser {
 
     public static HashMap<String, String> parseJSON(String jsonString) {
@@ -41,7 +47,7 @@ public class JSONParser {
 //            System.out.println("Projektdauer: " + projektdauer);
 //            System.out.println("Startdatum: " + startdatum);
 //            System.out.println("Profil und Qualifikationen: " + qualifikationen);
-
+// /\,\;/g
         } catch (Exception e) {
             e.printStackTrace();
         }

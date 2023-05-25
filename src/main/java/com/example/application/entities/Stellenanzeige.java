@@ -7,6 +7,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * @author tb 24.05.23
+ * @since 24.05.23
+ * Entität zum speichern der Jobs
+ */
+
+
 @Entity
 @Table(name = "stellenanzeige", schema = "talent", catalog = "wi_projekt_mahbobi_sose2023")
 public class Stellenanzeige {

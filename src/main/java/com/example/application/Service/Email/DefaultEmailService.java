@@ -13,6 +13,12 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.nio.charset.StandardCharsets;
 
+/**
+ * @author tb 24.05.23
+ * @since 24.05.23
+ * Implementierung des EmailServiceInterface. Es wird die Email anhand des Context mithilfe von Thymeleaf erzeugt und mit dem von Javamailsender versendet.
+ */
+
 @Service
 public class DefaultEmailService implements EmailService{
 
