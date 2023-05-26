@@ -17,6 +17,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -46,26 +47,41 @@ public class JobAdvertisementView extends VerticalLayout {
     @Autowired
     private JobInjectService jobInjectService;
 
-    StellenanzeigenDTO stellenAnzeige;
-    TextField title = new TextField("Titel");
+    private Button backButton;
+    private StellenanzeigenDTO stellenAnzeige;
     TextField url = new TextField("URL");
-    /*TextField company = new TextField("Unternehmen");
-     TextField technology = new TextField("Technologien");
+    TextField company = new TextField("Unternehmen");
+    TextField technology = new TextField("Technologien");
     TextField qualifications = new TextField("Qualifikationen");
-    DatePicker start = new DatePicker("Startdatum");
-   TextField range = new TextField("Dauer");*/
+    TextField start = new TextField("Startdatum");
+    TextField range = new TextField("Dauer");
     TextArea des = new TextArea("Beschreibung");
     private TextField keywordInputField;
     private List<KeywordDTO> keywords;
     private Button addButton;
     private HorizontalLayout cards;
 
+    private VerticalLayout section;
 
     class ShowJobForm extends Div {
         ShowJobForm() {
-            title.setRequiredIndicatorVisible(true);
-            url.setRequiredIndicatorVisible(true);
-            url.setErrorMessage("URL ungültig"); // Setzt die benutzerdefinierte Fehlermeldung für ungültige Eingaben
+
+            //Werte werden eingefügt in die View
+            url.setValue(stellenAnzeige.getUrl()!=null? stellenAnzeige.getUrl().replace("'", ""): "Keine Angabe");
+            url.setReadOnly(true);
+            company.setValue(stellenAnzeige.getUnternehmen()!=null? stellenAnzeige.getUnternehmen().replace("'", ""): "Keine Angabe");
+            company.setReadOnly(true);
+            technology.setValue(stellenAnzeige.getTechnologien()!=null? stellenAnzeige.getTechnologien().replace("'", ""): "Keine Angabe");
+            technology.setReadOnly(true);
+            qualifications.setValue(stellenAnzeige.getQualifikation()!=null? stellenAnzeige.getQualifikation().replace("'", ""): "Keine Angabe");
+            qualifications.setReadOnly(true);
+            start.setValue(stellenAnzeige.getStartdatum()!=null? stellenAnzeige.getStartdatum().replace("'", ""): "Keine Angabe");
+            start.setReadOnly(true);
+            range.setValue(stellenAnzeige.getProjektdauer()!=null? stellenAnzeige.getProjektdauer().replace("'", ""): "Keine Angabe");
+            range.setReadOnly(true);
+            des.setValue(stellenAnzeige.getBeschreibung()!=null? stellenAnzeige.getBeschreibung().replace("'", ""): "Keine Angabe");
+            des.setReadOnly(true);
+
 
             Div keys = new Div();
             keys.addClassName("vaadin-field-container");
@@ -76,21 +92,20 @@ public class JobAdvertisementView extends VerticalLayout {
             VerticalLayout keyContainer = new VerticalLayout();
             keyContainer.addClassName("key-vertical");
 
-            keywords = new ArrayList<>();
-            keywordInputField = new TextField();
-            keywordInputField.setWidth("100%");
-            addButton = new Button("Hinzufügen");
+            keywords = stellenAnzeige.getKeywords();
 
             cards = new HorizontalLayout();
             cards.setClassName("cards");
 
             HorizontalLayout cardButtons = new HorizontalLayout();
             cardButtons.addClassName("key-vertical");
-            cardButtons.add(keywordInputField, addButton);
 
-            addButton.addClickListener(e -> {
-                //addKeyword();
-            });
+            for(int i = 0; i < keywords.size(); i++) {
+                KeywordDTO temp = keywords.get(i);
+                temp.setKeywordname(temp.getKeywordname().substring(0, 1).toUpperCase()+temp.getKeywordname().substring(1));
+                JobAdvertisementView.KeyCard card = new JobAdvertisementView.KeyCard(temp);
+                cards.add(card);
+            }
 
             keyContainer.add(cardButtons, cards);
 
@@ -98,7 +113,7 @@ public class JobAdvertisementView extends VerticalLayout {
 
             FormLayout formLayout = new FormLayout();
             formLayout.add(
-                    title, url,/*company, technology, qualifications, start, range,*/ des,
+                    url, company, technology, qualifications, start, range, des,
                     keys
             );
             formLayout.setColspan(des, 2);// Beschreibung über zwei Spalten erstrecken
@@ -111,22 +126,24 @@ public class JobAdvertisementView extends VerticalLayout {
         }
     }
 
-    public JobAdvertisementView(){
-        VerticalLayout section = new VerticalLayout();
-        section.setWidth("75%");
-        section.setAlignItems(Alignment.CENTER);
-
-        H1 h1 = new H1("Stellenanzeige erstellen");
+    public void loadContent(){
+        H1 h1 = new H1(stellenAnzeige.getTitel());
 
         JobAdvertisementView.ShowJobForm form = new JobAdvertisementView.ShowJobForm();
         form.getElement().getStyle().set("Margin", "30px");
-        Button addButton = new Button("Erstellen");
+        Button addButton = new Button("Editieren");
         addButton.addClickShortcut(Key.ENTER);
         addButton.addClassName("default-btn");
 
-        Button chatButton = new Button("ChatGPT");
+        section.add(h1, form, addButton);
+    }
 
-        section.add(h1, form, addButton, chatButton);
+    public JobAdvertisementView(){
+        section = new VerticalLayout();
+        section.setWidth("75%");
+        section.setAlignItems(Alignment.CENTER);
+
+        backButton = new Button(VaadinIcon.ARROW_LEFT.create());
 
         HorizontalLayout siteLayout = new HorizontalLayout();
         siteLayout.setAlignSelf(FlexComponent.Alignment.CENTER);
@@ -135,6 +152,12 @@ public class JobAdvertisementView extends VerticalLayout {
 
         siteLayout.add(section);
 
+        backButton.addClickListener(event -> {
+            UtilNavigation.navigateToMain();
+        });
+        backButton.addClickShortcut(Key.ENTER);
+
+        add(backButton);
         add(siteLayout);
     }
 
@@ -152,5 +175,21 @@ public class JobAdvertisementView extends VerticalLayout {
         }
         //Hinzufügen der Daten in der Tabelle
         stellenAnzeige = jobInjectService.getStellenanzeige();
+        loadContent();
+    }
+
+    public class KeyCard extends HorizontalLayout {
+        public KeyCard(KeywordDTO title) {
+            Label titleLabel = new Label(title.getKeywordname());
+            titleLabel.addClassName("key-label");
+
+
+            add(titleLabel);
+
+            setPadding(false);
+            setMargin(false);
+            setSpacing(false);
+            setClassName("default-card");
+        }
     }
 }

@@ -109,6 +109,11 @@ vaadin-drawer-toggle::part(icon)::before{
     position: relative;
 }
 
+.remove-Vaadin{
+    margin: 0;
+    padding: 0;
+}
+
 .cards {
     max-width: 100%;
     flex-wrap: wrap;
@@ -117,17 +122,24 @@ vaadin-drawer-toggle::part(icon)::before{
 vaadin-grid::part(body-cell){
     min-height: 7em;
     cursor: var(--lumo-clickable-cursor);
-    scale: 1;
 }
 
 vaadin-grid::part(body-cell):hover{
     background-color: var(--tertiary-color);
 }
 
-vaadin-grid::part(body-cell):active{
-    scale: 1.1;
+vaadin-grid::part(row):hover{
+    background-color: var(--tertiary-color);
 }
 
+vaadin-grid::part(first-column-cell){
+    font-weight: bold;
+    font: var(--primary-color);
+}
+
+vaadin-text-field::part(input-field){
+    border: none;
+}
 
 @media only screen and (max-width: 800px) {
 

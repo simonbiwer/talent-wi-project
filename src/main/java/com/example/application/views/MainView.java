@@ -60,12 +60,14 @@ public class MainView extends VerticalLayout {
 
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
+        grid.setSelectionMode(Grid.SelectionMode.NONE);
 
-        grid.addItemDoubleClickListener(event -> {
+        grid.addItemClickListener(event -> {
             jobInjectService.setStellenanzeige(event.getItem());
             UtilNavigation.navigateToJobAdvertisement();
         });
 
+        addClassName("remove-Vaadin");
         add(grid);
     }
 
