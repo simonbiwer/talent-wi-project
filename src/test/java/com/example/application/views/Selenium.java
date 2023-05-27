@@ -35,7 +35,7 @@ public class Selenium {
     }
 
     @Test
-    public void firefoxAufmeldeTest() throws InterruptedException {
+    public void firefoxAnmeldeTest() throws InterruptedException {
         System.setProperty("webdriver.firefox.driver", "src/test/resources/geckodriver_win32/geckodriver.exe");
         firefoxDriver = new FirefoxDriver();
         loginUndLogoutDurchfuehren(firefoxDriver);
@@ -57,9 +57,9 @@ public class Selenium {
         WebElement loginFeld = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("input-vaadin-email-field-6")));
         driver.findElement(By.id("input-vaadin-email-field-6")).sendKeys("plz_dont_delete_this_user@sleniumtest.de");
         driver.findElement(By.id("input-vaadin-password-field-7")).sendKeys("seleNiumtest1234");
-        Thread.sleep(6000);
+        Thread.sleep(3000);
         driver.findElement(By.xpath("//*[@id=\"ROOT-2521314\"]/vaadin-vertical-layout/vaadin-horizontal-layout[2]/vaadin-vertical-layout/vaadin-button")).click();
-        Thread.sleep(6000);
+        Thread.sleep(3000);
         Assertions.assertEquals("http://localhost:8080/", driver.getCurrentUrl());
 //        driver.findElement(By.xpath("//*[@id=\"ROOT-2521314\"]/vaadin-app-layout/vaadin-tabs/vaadin-tab[3]")).click();
 //        driver.findElement(By.xpath("//*[@id=\"ROOT-2521314\"]/vaadin-app-layout/vaadin-vertical-layout/vaadin-button")).click();
