@@ -6,6 +6,7 @@ import com.example.application.entities.Stellenanzeige;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.JobInjectService;
+import com.example.application.utils.SettingsService;
 import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Globals;
 import com.vaadin.flow.component.AttachEvent;
@@ -40,6 +41,9 @@ public class MainView extends VerticalLayout {
 
     @Autowired
     private JobInjectService jobInjectService;
+
+    @Autowired
+    private SettingsService settingsService;
 
     Grid<StellenanzeigenDTO> grid;
 
@@ -87,8 +91,10 @@ public class MainView extends VerticalLayout {
             UtilNavigation.navigateToLogin();
         }else{
             defaultView = (DefaultView) getParent().get();
+            defaultView.removeUserTab();
         }
         //Hinzufügen der Daten in der Tabelle
+        settingsService.setJobHinzufuegen(false);
         List<StellenanzeigenDTO> jobs = jobControl.readAllStellenanzeigen();
         grid.setItems(jobs);
     }

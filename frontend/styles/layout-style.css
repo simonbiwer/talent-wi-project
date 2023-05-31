@@ -3,6 +3,7 @@
     --secondary-color: #f3f5f7;
     --tertiary-color: #E8F0FE;
     --forth-color: #e8ecef;
+    --delete-color: #DE062DFF;
     --lumo-clickable-cursor: pointer;
 }
 
@@ -38,6 +39,12 @@
 
 .default-btn {
     background-color: var(--primary-color);
+    color: var(--secondary-color);
+    cursor: var(--lumo-clickable-cursor);
+}
+
+.delete-btn{
+    background-color: var(--delete-color);
     color: var(--secondary-color);
     cursor: var(--lumo-clickable-cursor);
 }

@@ -10,6 +10,7 @@ import com.example.application.dtos.impl.StellenanzeigenDTOImpl;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
+import com.example.application.utils.SettingsService;
 import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Utils;
 import com.vaadin.flow.component.AttachEvent;
@@ -44,18 +45,10 @@ import java.util.List;
 public class AddJobView extends VerticalLayout {
 
     @Autowired
-    private JobControl jobControl;
-
-    @Autowired
     private ChatGPTControl chatGPTControl;
 
     TextField title = new TextField("Titel");
     TextField url = new TextField("URL");
-   /*TextField company = new TextField("Unternehmen");
-    TextField technology = new TextField("Technologien");
-   TextField qualifications = new TextField("Qualifikationen");
-   DatePicker start = new DatePicker("Startdatum");
-  TextField range = new TextField("Dauer");*/
     TextArea des = new TextArea("Beschreibung");
     private TextField keywordInputField;
     private List<KeywordDTO> keywords;
@@ -100,7 +93,7 @@ public class AddJobView extends VerticalLayout {
 
             FormLayout formLayout = new FormLayout();
             formLayout.add(
-                    title, url,/*company, technology, qualifications, start, range,*/ des,
+                    title, url, des,
                     keys
             );
             formLayout.setColspan(des, 2);// Beschreibung über zwei Spalten erstrecken
@@ -127,9 +120,7 @@ public class AddJobView extends VerticalLayout {
         addButton.addClickShortcut(Key.ENTER);
         addButton.addClassName("default-btn");
 
-        Button chatButton = new Button("ChatGPT");
-
-        section.add(h1, form, addButton, chatButton);
+        section.add(h1, form, addButton);
 
         HorizontalLayout siteLayout = new HorizontalLayout();
         siteLayout.setAlignSelf(FlexComponent.Alignment.CENTER);
@@ -168,24 +159,16 @@ public class AddJobView extends VerticalLayout {
                 job.setKeywords(keywords);
               /*  job.setStartdatum(start.getValue().toString());*/
                 try {
-                    InsertJobResult result = jobControl.createStellenanzeige(job);
-                    if (result.OK()) {
-                        UtilNavigation.navigateToMain();
+                    boolean result = chatGPTControl.crawlDataWithChatGPT(job);
+                    if (result){
+                        Notification.show("Crawling erfolgreich");
+                    } else {
+                        Notification.show("Fehler beim crawlen");
                     }
-                    Notification.show(result.getMessage());
                 } catch (Exception exception) {
                     Notification.show("Erstellen fehlgeschlagen");
                     exception.printStackTrace();
                 }
-            }
-        });
-
-        chatButton.addClickListener(e -> {
-            boolean result = chatGPTControl.crawlDataWithChatGPT(url.getValue());
-            if (result){
-                Notification.show("Crawling erfolgreich");
-            } else {
-                Notification.show("Fehler beim crawlen");
             }
         });
 

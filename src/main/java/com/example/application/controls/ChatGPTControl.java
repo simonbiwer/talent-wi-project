@@ -2,9 +2,13 @@ package com.example.application.controls;
 
 
 import com.example.application.Service.ChatGPT.ChatGPTAPIExample;
+import com.example.application.dtos.StellenanzeigenDTO;
 import com.example.application.entities.Stellenanzeige;
 import com.example.application.repositories.StellenanzeigeRepository;
 import com.example.application.utils.Globals;
+import com.example.application.utils.JobInjectService;
+import com.example.application.utils.SettingsService;
+import com.example.application.utils.UtilNavigation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,21 +24,23 @@ import java.util.HashMap;
 public class ChatGPTControl {
 
     @Autowired
-    private StellenanzeigeRepository jobRepo;
+    private SettingsService settingsService;
 
-    public boolean crawlDataWithChatGPT(String jobUrl){
+    @Autowired
+    private JobInjectService jobInjectService;
+
+    public boolean crawlDataWithChatGPT(StellenanzeigenDTO stellenanzeige){
         try{
-            HashMap<String, String> result = ChatGPTAPIExample.sendRequestToChatGPT(jobUrl);
-            return saveAttributes(jobUrl, result);
+            HashMap<String, String> result = ChatGPTAPIExample.sendRequestToChatGPT(stellenanzeige.getUrl());
+            return saveAttributes(stellenanzeige, result);
         } catch (Exception e){
             e.printStackTrace();
             return false;
         }
     }
 
-    private boolean saveAttributes(String jobUrl, HashMap<String, String> attributes){
+    private boolean saveAttributes(StellenanzeigenDTO job, HashMap<String, String> attributes){
         try{
-            Stellenanzeige job = jobRepo.findStellenanzeigeByUrl(jobUrl);
             job.setTechnologien(attributes.get(Globals.Attributes.TECHNOLOGIE));
             job.setUnternehmen(attributes.get(Globals.Attributes.UNTERNEHMEN));
             if (job.getTitel() == null || job.getTitel().equals("")){
@@ -46,7 +52,9 @@ public class ChatGPTControl {
             job.setProjektdauer(attributes.get(Globals.Attributes.PROJEKTDAUER));
             job.setStartdatum(attributes.get(Globals.Attributes.STARTDATUM));
             job.setQualifikation(attributes.get(Globals.Attributes.QUALIFIKATIONEN));
-            jobRepo.save(job);
+            jobInjectService.setStellenanzeige(job);
+            settingsService.setJobHinzufuegen(true);
+            UtilNavigation.navigateToJobAdvertisementEdit();
             return true;
         } catch (Exception e){
             e.printStackTrace();

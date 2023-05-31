@@ -2,32 +2,34 @@ package com.example.application.views;
 
 
 import com.example.application.controls.JobControl;
+import com.example.application.controls.LoginControl;
 import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.StellenanzeigenDTO;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
 import com.example.application.utils.JobInjectService;
+import com.example.application.utils.SettingsService;
 import com.example.application.utils.UtilNavigation;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,6 +48,12 @@ public class JobAdvertisementView extends VerticalLayout {
 
     @Autowired
     private JobInjectService jobInjectService;
+
+    @Autowired
+    private SettingsService settingsService;
+
+    @Autowired
+    private LoginControl loginControl;
 
     private StellenanzeigenDTO stellenAnzeige;
     TextField url = new TextField("URL");
@@ -125,20 +133,77 @@ public class JobAdvertisementView extends VerticalLayout {
         }
     }
 
+    /**
+     * Methode, die nach, der Datenübergabe, die Content des Views füllt
+     */
     public void loadContent(){
         H1 h1 = new H1(stellenAnzeige.getTitel());
 
+        Dialog dialog = new Dialog();
+
+        dialog.setHeaderTitle(String.format("Stellenanzeige \"%s\" löschen?", stellenAnzeige.getTitel()));
+
+        dialog.add("Sind sie sicher, dass sie die Stellenanzeige permanent löchen wollen?");
+
+        Button abortModalButton = new Button("Abbrechen", e -> dialog.close());
+        abortModalButton.getStyle().set("margin-right", "auto");
+        dialog.getFooter().add(abortModalButton);
+        Button deleteModalButton = new Button("Fortfahren", e -> {
+            jobControl.deleteStellenanzeige(stellenAnzeige.getJobid());
+            dialog.close();
+            UtilNavigation.navigateToMain();
+        });
+        dialog.getFooter().add(deleteModalButton);
+        deleteModalButton.addClassName("delete-btn");
+
+
         JobAdvertisementView.ShowJobForm form = new JobAdvertisementView.ShowJobForm();
         form.getElement().getStyle().set("Margin", "30px");
+
+        Anchor anchor = new Anchor(stellenAnzeige.getUrl(), "");
+        anchor.setTarget("_blank");
+
+        Button contactButton = new Button("Stellenanzeige kontaktieren");
+        contactButton.addClassName("default-btn");
+
         Button addButton = new Button("Editieren");
         addButton.addClickShortcut(Key.ENTER);
         addButton.addClassName("default-btn");
+
+        Button deleteButton = new Button("Anzeige Löschen");
+        deleteButton.addClassName("delete-btn");
+
+        contactButton.addClickListener(event -> {
+            anchor.getElement().callJsFunction("click");
+        });
 
         addButton.addClickListener(event -> {
             UtilNavigation.navigateToJobAdvertisementEdit();
         });
 
-        section.add(h1, form, addButton);
+        deleteButton.addClickListener(event -> {
+            dialog.open();
+        });
+
+        HorizontalLayout bigButtons = new HorizontalLayout();
+        bigButtons.add(contactButton);
+
+        List<StellenanzeigenDTO> userData = jobControl.getStellenanzeigenForCurrentUser(loginControl.getCurrentUser().getUserid());
+        if(settingsService.getJobHinzufuegen()){
+            bigButtons.add(addButton, deleteButton);
+        }else{
+            jobInjectService.setStellenanzeige(null);
+            for(int i = 0; i<userData.size(); i++){
+                if(userData.get(i).getJobid()==stellenAnzeige.getJobid()){
+                    bigButtons.add(addButton, deleteButton);
+                    jobInjectService.setStellenanzeige(stellenAnzeige);
+                }
+            }
+        }
+        settingsService.setJobHinzufuegen(false);
+
+        section.add(h1, form, bigButtons);
+        add(anchor);
     }
 
     public JobAdvertisementView(){
@@ -170,6 +235,7 @@ public class JobAdvertisementView extends VerticalLayout {
         }
         //Hinzufügen der Daten in der Tabelle
         stellenAnzeige = jobInjectService.getStellenanzeige();
+        jobInjectService.setStellenanzeige(null);
         loadContent();
     }
 

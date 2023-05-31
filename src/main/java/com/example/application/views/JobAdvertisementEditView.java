@@ -10,11 +10,13 @@ import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
 import com.example.application.utils.JobInjectService;
+import com.example.application.utils.SettingsService;
 import com.example.application.utils.UtilNavigation;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
@@ -31,6 +33,9 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -48,6 +53,9 @@ public class JobAdvertisementEditView extends VerticalLayout {
 
     @Autowired
     private JobInjectService jobInjectService;
+
+    @Autowired
+    private SettingsService settingsService;
 
     private StellenanzeigenDTO stellenAnzeige;
 
@@ -131,18 +139,28 @@ public class JobAdvertisementEditView extends VerticalLayout {
                     Notification.show("Bitte alle Pflichtfelder ausfüllen!");
                 } else {
                     StellenanzeigenDTO job = binderJob.getBean();
-                    job.setJobid(stellenAnzeige.getJobid());
-                    job.setKeywords(keywords);
-                    /*  job.setStartdatum(start.getValue().toString());*/
+                    stellenAnzeige.setTitel(job.getTitel());
+                    stellenAnzeige.setUrl(job.getUrl());
+                    stellenAnzeige.setUnternehmen(job.getUnternehmen());
+                    stellenAnzeige.setTechnologien(job.getTechnologien());
+                    stellenAnzeige.setQualifikation(job.getQualifikation());
+                    stellenAnzeige.setStartdatum(job.getStartdatum());
+                    stellenAnzeige.setProjektdauer(job.getProjektdauer());
+                    stellenAnzeige.setBeschreibung(job.getBeschreibung());
+                    stellenAnzeige.setKeywords(keywords);
                     try {
-                        InsertJobResult result = jobControl.createStellenanzeige(job);
-                        if (result.OK()) {
-                            jobInjectService.setStellenanzeige(job);
-                            UtilNavigation.navigateToJobAdvertisement();
-                        }else{
-                            boolean updateResult = jobControl.updateStellenanzeige(job);
+                        if(settingsService.getJobHinzufuegen()){
+                            InsertJobResult result = jobControl.createStellenanzeige(stellenAnzeige);
+                            if (result.OK()) {
+                                jobInjectService.setStellenanzeige(stellenAnzeige);
+                                UtilNavigation.navigateToJobAdvertisement();
+                            }else{
+                                Notification.show(result.getMessage());
+                            }
+                        } else{
+                            boolean updateResult = jobControl.updateStellenanzeige(stellenAnzeige);
                             if (updateResult) {
-                                jobInjectService.setStellenanzeige(job);
+                                jobInjectService.setStellenanzeige(stellenAnzeige);
                                 UtilNavigation.navigateToJobAdvertisement();
                             }
                         }
@@ -217,7 +235,7 @@ public class JobAdvertisementEditView extends VerticalLayout {
     public void loadContent() {
         H1 h1 = new H1(stellenAnzeige.getTitel());
 
-        saveBtn = new Button("Änderungen speichern");
+        saveBtn = new Button(settingsService.getJobHinzufuegen() ? "Stellenanzeige speichern" : "Änderungen speichern");
         saveBtn.addClickShortcut(Key.ENTER);
         saveBtn.addClassName("default-btn");
 
@@ -228,8 +246,11 @@ public class JobAdvertisementEditView extends VerticalLayout {
         form.getElement().getStyle().set("Margin", "30px");
 
         HorizontalLayout bigButtons = new HorizontalLayout();
-        bigButtons.add(backBtn, saveBtn);
-
+        if(settingsService.getJobHinzufuegen()){
+            bigButtons.add(saveBtn);
+        }else{
+            bigButtons.add(backBtn, saveBtn);
+        }
         section.add(h1, form, bigButtons);
     }
 

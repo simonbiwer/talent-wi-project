@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class DefaultView extends AppLayout {
 
     private Tab job;
-
+    private Tab main;
     private Tabs tabs;
     public DefaultView() {
 
@@ -35,10 +35,11 @@ public class DefaultView extends AppLayout {
         Image logo = new Image("/icons/logo_talent_pic_text.png", "Logo");
         logo.setHeight(("45px"));
         Button homeButton = new Button(logo);
-        homeButton.getStyle().set("background", "transparent");
         homeButton.addClickListener(e -> {
             UtilNavigation.navigateToMain();
         });
+        homeButton.getStyle().set("background", "transparent");
+
         header.add(homeButton);
 
         header.setHeight("5em");
@@ -48,7 +49,7 @@ public class DefaultView extends AppLayout {
 
         job = new Tab(VaadinIcon.TABLE.create(), new Span("Job"));
         job.setVisible(false);
-        Tab main = new Tab(VaadinIcon.TABLE.create(), new Span("Projektübersicht"));
+        main = new Tab(VaadinIcon.TABLE.create(), new Span("Projektübersicht"));
         Tab addView = new Tab(VaadinIcon.INSERT.create(), new Span("Projekt hinzufügen"));
         Tab profile = new Tab(VaadinIcon.USER.create(), new Span("Profil"));
         Tab settings = new Tab(VaadinIcon.COG.create(), new Span("Settings"));
@@ -96,4 +97,8 @@ public class DefaultView extends AppLayout {
         tabs.setSelectedTab(job);
     }
 
+    public void removeUserTab(){
+        job.setVisible(false);
+        tabs.setSelectedTab(main);
+    }
 }
