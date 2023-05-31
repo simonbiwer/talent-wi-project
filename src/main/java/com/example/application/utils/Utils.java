@@ -8,6 +8,17 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.apache.commons.lang3.StringUtils;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import org.apache.commons.validator.routines.UrlValidator;
+
+/**
+ * @author tb
+ * @lastEdited 31.05.23
+ * Klasse, die Utility-Methoden enthält zum Checken von Textfeldern
+ */
+
 
 public class Utils {
     private Utils() {
@@ -96,4 +107,9 @@ public class Utils {
         return retValue;
     }
 
+    public static boolean isURLValid(String urlString) {
+        UrlValidator urlValidator = new UrlValidator();
+        return urlValidator.isValid(urlString);
+
+    }
 }

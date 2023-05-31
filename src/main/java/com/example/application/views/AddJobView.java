@@ -11,6 +11,7 @@ import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
 import com.example.application.utils.UtilNavigation;
+import com.example.application.utils.Utils;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
@@ -139,10 +140,11 @@ public class AddJobView extends VerticalLayout {
 
         binderJob.setBean(new StellenanzeigenDTOImpl());
         binderJob.forField(title)
-                .withValidator(bindervorname -> bindervorname.length() > 0, "Bitte Titel angeben!")
+                .withValidator(titel-> titel.length() > 0, "Bitte Titel angeben!")
                 .bind(StellenanzeigenDTOImpl::getTitel, StellenanzeigenDTOImpl::setTitel);
         binderJob.forField(url)
-                .withValidator(bindernachname -> bindernachname.length() > 0, "Bitte URL angeben!")
+                .withValidator(url -> url.length() > 0, "Bitte URL angeben!")
+                .withValidator(url -> Utils.isURLValid(url), "URL ungültig!")
                 .bind(StellenanzeigenDTOImpl::getUrl, StellenanzeigenDTOImpl::setUrl);
        /* binderJob.forField(company)
                 .bind(StellenanzeigenDTOImpl::getUnternehmen, StellenanzeigenDTOImpl::setUnternehmen);
