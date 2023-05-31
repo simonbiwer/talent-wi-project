@@ -58,6 +58,11 @@ public class UtilNavigation {
             UI.getCurrent().navigate(Globals.Pages.JOBADVERTISEMENT_VIEW);
     }
 
+    public static void navigateToJobAdvertisementEdit() {
+        if (!Objects.equals(UtilCurrent.getCurrentLocation(), Globals.Pages.JOBADVERTISEMENT_EDIT_VIEW))
+            UI.getCurrent().navigate(Globals.Pages.JOBADVERTISEMENT_EDIT_VIEW);
+    }
+
     public static void navigateToSettings() {
         if (!Objects.equals(UtilCurrent.getCurrentLocation(), Globals.Pages.SETTINGS_VIEW))
             UI.getCurrent().navigate(Globals.Pages.SETTINGS_VIEW);

@@ -121,11 +121,12 @@ vaadin-drawer-toggle::part(icon)::before{
 
 vaadin-grid::part(body-cell){
     min-height: 7em;
+    background-color: rgba(255, 255, 255, .25);
     cursor: var(--lumo-clickable-cursor);
 }
 
-vaadin-grid::part(body-cell):hover{
-    background-color: var(--tertiary-color);
+vaadin-grid-cell-content{
+    cursor: var(--lumo-clickable-cursor);
 }
 
 vaadin-grid::part(row):hover{
@@ -134,7 +135,6 @@ vaadin-grid::part(row):hover{
 
 vaadin-grid::part(first-column-cell){
     font-weight: bold;
-    font: var(--primary-color);
 }
 
 vaadin-text-field::part(input-field){

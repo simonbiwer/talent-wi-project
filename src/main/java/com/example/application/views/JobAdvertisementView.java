@@ -47,7 +47,6 @@ public class JobAdvertisementView extends VerticalLayout {
     @Autowired
     private JobInjectService jobInjectService;
 
-    private Button backButton;
     private StellenanzeigenDTO stellenAnzeige;
     TextField url = new TextField("URL");
     TextField company = new TextField("Unternehmen");
@@ -135,6 +134,10 @@ public class JobAdvertisementView extends VerticalLayout {
         addButton.addClickShortcut(Key.ENTER);
         addButton.addClassName("default-btn");
 
+        addButton.addClickListener(event -> {
+            UtilNavigation.navigateToJobAdvertisementEdit();
+        });
+
         section.add(h1, form, addButton);
     }
 
@@ -143,8 +146,6 @@ public class JobAdvertisementView extends VerticalLayout {
         section.setWidth("75%");
         section.setAlignItems(Alignment.CENTER);
 
-        backButton = new Button(VaadinIcon.ARROW_LEFT.create());
-
         HorizontalLayout siteLayout = new HorizontalLayout();
         siteLayout.setAlignSelf(FlexComponent.Alignment.CENTER);
         siteLayout.setSizeFull();
@@ -152,12 +153,6 @@ public class JobAdvertisementView extends VerticalLayout {
 
         siteLayout.add(section);
 
-        backButton.addClickListener(event -> {
-            UtilNavigation.navigateToMain();
-        });
-        backButton.addClickShortcut(Key.ENTER);
-
-        add(backButton);
         add(siteLayout);
     }
 

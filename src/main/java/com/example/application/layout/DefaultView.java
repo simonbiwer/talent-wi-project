@@ -15,10 +15,17 @@ import com.vaadin.flow.component.html.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Basis-Layout mit Navbar für die Webseite
+ * @author hh 10.05.23
+ * @since 31.05.23
+ */
 @CssImport(value = "./styles/layout-style.css")
 public class DefaultView extends AppLayout {
 
+    private Tab job;
+
+    private Tabs tabs;
     public DefaultView() {
 
         HorizontalLayout header = new HorizontalLayout();
@@ -39,23 +46,33 @@ public class DefaultView extends AppLayout {
         HorizontalLayout filler = new HorizontalLayout();
         filler.setWidth("100%");
 
+        job = new Tab(VaadinIcon.TABLE.create(), new Span("Job"));
+        job.setVisible(false);
         Tab main = new Tab(VaadinIcon.TABLE.create(), new Span("Projektübersicht"));
         Tab addView = new Tab(VaadinIcon.INSERT.create(), new Span("Projekt hinzufügen"));
         Tab profile = new Tab(VaadinIcon.USER.create(), new Span("Profil"));
         Tab settings = new Tab(VaadinIcon.COG.create(), new Span("Settings"));
 
-        Tabs tabs = new Tabs(main, addView, profile, settings);
+
+        tabs = new Tabs(job, main, addView, profile, settings);
+        tabs.setSelectedTab(main);
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
+
+
 
         tabs.addSelectedChangeListener(event -> {
             Tab selectedTab = event.getSelectedTab();
             if(selectedTab.equals(main)){
+                job.setVisible(false);
                 UtilNavigation.navigateToMain();
             }else if(selectedTab.equals(addView)){
+                job.setVisible(false);
                 UtilNavigation.navigateToAddFormular();
             }else if(selectedTab.equals(profile)){
+                job.setVisible(false);
                 UtilNavigation.navigateToProfile();
             }else if(selectedTab.equals(settings)){
+                job.setVisible(false);
                 UtilNavigation.navigateToSettings();
             }
         });
@@ -67,6 +84,16 @@ public class DefaultView extends AppLayout {
 
         addToNavbar(toggle, header);
         //setPrimarySection(Section.DRAWER);    Styling to be decided
+    }
+
+    /**
+     * Methode, die bei der Navigierung der Tabelle zu einem Job, dan zugehörigen Tab dynamisch hinzufügt
+     * @param title Titel der Stellenanzeige
+     */
+    public void navigateToJob(String title){
+        job.setLabel(title);
+        job.setVisible(true);
+        tabs.setSelectedTab(job);
     }
 
 }

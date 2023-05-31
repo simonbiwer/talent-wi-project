@@ -33,6 +33,8 @@ import java.util.Optional;
 @PageTitle(Globals.PageTitles.MAIN_PAGE_TITLE)
 public class MainView extends VerticalLayout {
 
+    private DefaultView defaultView;
+
     @Autowired
     private JobControl jobControl;
 
@@ -64,6 +66,7 @@ public class MainView extends VerticalLayout {
 
         grid.addItemClickListener(event -> {
             jobInjectService.setStellenanzeige(event.getItem());
+            defaultView.navigateToJob(event.getItem().getTitel());
             UtilNavigation.navigateToJobAdvertisement();
         });
 
@@ -82,6 +85,8 @@ public class MainView extends VerticalLayout {
         super.onAttach(attachEvent);
         if (!(UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER) instanceof User)) {
             UtilNavigation.navigateToLogin();
+        }else{
+            defaultView = (DefaultView) getParent().get();
         }
         //Hinzufügen der Daten in der Tabelle
         List<StellenanzeigenDTO> jobs = jobControl.readAllStellenanzeigen();
