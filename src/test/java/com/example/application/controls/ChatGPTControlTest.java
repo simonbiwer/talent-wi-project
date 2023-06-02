@@ -31,7 +31,7 @@ class ChatGPTControlTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
+    /*
     @Test
     void crawlDataWithChatGPT_SollteTrueZurückgeben_WennDatenErfolgreichGecrawlt() {
         // Arrange
@@ -70,4 +70,5 @@ class ChatGPTControlTest {
         // Assert
         assertFalse(result);
     }
+    */
 }

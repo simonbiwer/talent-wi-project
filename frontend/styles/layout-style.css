@@ -49,6 +49,13 @@
     cursor: var(--lumo-clickable-cursor);
 }
 
+.job-box{
+    border: 0px solid var(--secondary-color);
+    border-radius: 30px;
+    background-color: var(--secondary-color);
+    padding: 1em;
+}
+
 .navbar{
     display: flex;
 }
@@ -80,7 +87,7 @@ vaadin-drawer-toggle::part(icon)::before{
     border: solid #CCCCCC 0px;
     border-radius: 10px;
     padding: 1px 6px;
-    background: var(--secondary-color);
+    background: var(--forth-color);
     align-items: center;
 }
 

@@ -70,7 +70,6 @@ public class MainView extends VerticalLayout {
 
         grid.addItemClickListener(event -> {
             jobInjectService.setStellenanzeige(event.getItem());
-            defaultView.navigateToJob(event.getItem().getTitel());
             UtilNavigation.navigateToJobAdvertisement();
         });
 

@@ -16,13 +16,10 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -55,57 +52,54 @@ public class JobAdvertisementView extends VerticalLayout {
     @Autowired
     private LoginControl loginControl;
 
+    private DefaultView defaultView;
+
     private StellenanzeigenDTO stellenAnzeige;
-    TextField url = new TextField("URL");
-    TextField company = new TextField("Unternehmen");
-    TextField technology = new TextField("Technologien");
-    TextField qualifications = new TextField("Qualifikationen");
-    TextField start = new TextField("Startdatum");
-    TextField range = new TextField("Dauer");
-    TextArea des = new TextArea("Beschreibung");
-    private TextField keywordInputField;
+    VerticalLayout url = new VerticalLayout();
+    VerticalLayout company = new VerticalLayout();
+    VerticalLayout technology = new VerticalLayout();
+    VerticalLayout qualifications = new VerticalLayout();
+    VerticalLayout start = new VerticalLayout();
+    VerticalLayout range = new VerticalLayout();
+    VerticalLayout des = new VerticalLayout();
     private List<KeywordDTO> keywords;
-    private Button addButton;
     private HorizontalLayout cards;
-
     private VerticalLayout section;
-
+    private Button contactButton;
     class ShowJobForm extends Div {
         ShowJobForm() {
 
+            Anchor urlAnchor = new Anchor(stellenAnzeige.getUrl(), stellenAnzeige.getUrl());
+            urlAnchor.getStyle().set("line-break", "anywhere");
+            urlAnchor.getStyle().set("color", "black");
+            urlAnchor.setTarget("_blank");
+
             //Werte werden eingefügt in die View
-            url.setValue(stellenAnzeige.getUrl()!=null? stellenAnzeige.getUrl().replace("'", ""): "Keine Angabe");
-            url.setReadOnly(true);
-            company.setValue(stellenAnzeige.getUnternehmen()!=null? stellenAnzeige.getUnternehmen().replace("'", ""): "Keine Angabe");
-            company.setReadOnly(true);
-            technology.setValue(stellenAnzeige.getTechnologien()!=null? stellenAnzeige.getTechnologien().replace("'", ""): "Keine Angabe");
-            technology.setReadOnly(true);
-            qualifications.setValue(stellenAnzeige.getQualifikation()!=null? stellenAnzeige.getQualifikation().replace("'", ""): "Keine Angabe");
-            qualifications.setReadOnly(true);
-            start.setValue(stellenAnzeige.getStartdatum()!=null? stellenAnzeige.getStartdatum().replace("'", ""): "Keine Angabe");
-            start.setReadOnly(true);
-            range.setValue(stellenAnzeige.getProjektdauer()!=null? stellenAnzeige.getProjektdauer().replace("'", ""): "Keine Angabe");
-            range.setReadOnly(true);
-            des.setValue(stellenAnzeige.getBeschreibung()!=null? stellenAnzeige.getBeschreibung().replace("'", ""): "Keine Angabe");
-            des.setReadOnly(true);
+            url.add(new H4("URL"), urlAnchor);
+            company.add(new H4("Unternehmen"), new Span(stellenAnzeige.getUnternehmen()!=null? stellenAnzeige.getUnternehmen().replace("'", ""): "Keine Angabe"));
+            technology.add(new H4("Technologien"), new Span(stellenAnzeige.getTechnologien()!=null? stellenAnzeige.getTechnologien().replace("'", ""): "Keine Angabe"));
+            qualifications.add(new H4("Qualifikationen"), new Span(stellenAnzeige.getQualifikation()!=null? stellenAnzeige.getQualifikation().replace("'", ""): "Keine Angabe"));
+            start.add(new H4("Startdatum"), new Span(stellenAnzeige.getStartdatum()!=null? stellenAnzeige.getStartdatum().replace("'", ""): "Keine Angabe"));
+            range.add(new H4("Dauer"), new Span(stellenAnzeige.getProjektdauer()!=null? stellenAnzeige.getProjektdauer().replace("'", ""): "Keine Angabe"));
+            des.add(new H4("Beschreibung"), new Span(stellenAnzeige.getBeschreibung()!=null? stellenAnzeige.getBeschreibung().replace("'", ""): "Keine Angabe"));
 
+            contactButton = new Button("Stellenanzeige kontaktieren");
+            contactButton.addClassName("default-btn");
 
-            Div keys = new Div();
-            keys.addClassName("vaadin-field-container");
+            contactButton.addClickListener(event -> {
+                urlAnchor.getElement().callJsFunction("click");
+            });
 
-            Label label = new Label("Keywords");
-            label.addClassName("form-label");
+            VerticalLayout keys = new VerticalLayout();
+            //keys.addClassName("vaadin-field-container");
 
-            VerticalLayout keyContainer = new VerticalLayout();
-            keyContainer.addClassName("key-vertical");
+            H4 label = new H4("Keywords");
+            //label.addClassName("form-label");
 
             keywords = stellenAnzeige.getKeywords();
 
             cards = new HorizontalLayout();
             cards.setClassName("cards");
-
-            HorizontalLayout cardButtons = new HorizontalLayout();
-            cardButtons.addClassName("key-vertical");
 
             for(int i = 0; i < keywords.size(); i++) {
                 KeywordDTO temp = keywords.get(i);
@@ -114,11 +108,11 @@ public class JobAdvertisementView extends VerticalLayout {
                 cards.add(card);
             }
 
-            keyContainer.add(cardButtons, cards);
-
-            keys.add(label, keyContainer);
+            keys.add(label, cards);
 
             FormLayout formLayout = new FormLayout();
+            formLayout.addClassName("job-box");
+
             formLayout.add(
                     url, company, technology, qualifications, start, range, des,
                     keys
@@ -160,22 +154,12 @@ public class JobAdvertisementView extends VerticalLayout {
         JobAdvertisementView.ShowJobForm form = new JobAdvertisementView.ShowJobForm();
         form.getElement().getStyle().set("Margin", "30px");
 
-        Anchor anchor = new Anchor(stellenAnzeige.getUrl(), "");
-        anchor.setTarget("_blank");
-
-        Button contactButton = new Button("Stellenanzeige kontaktieren");
-        contactButton.addClassName("default-btn");
-
         Button addButton = new Button("Editieren");
         addButton.addClickShortcut(Key.ENTER);
         addButton.addClassName("default-btn");
 
         Button deleteButton = new Button("Anzeige Löschen");
         deleteButton.addClassName("delete-btn");
-
-        contactButton.addClickListener(event -> {
-            anchor.getElement().callJsFunction("click");
-        });
 
         addButton.addClickListener(event -> {
             UtilNavigation.navigateToJobAdvertisementEdit();
@@ -203,12 +187,11 @@ public class JobAdvertisementView extends VerticalLayout {
         settingsService.setJobHinzufuegen(false);
 
         section.add(h1, form, bigButtons);
-        add(anchor);
     }
 
     public JobAdvertisementView(){
         section = new VerticalLayout();
-        section.setWidth("75%");
+        section.setWidth("90%");
         section.setAlignItems(Alignment.CENTER);
 
         HorizontalLayout siteLayout = new HorizontalLayout();
@@ -232,11 +215,18 @@ public class JobAdvertisementView extends VerticalLayout {
         super.onAttach(attachEvent);
         if (!(UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER) instanceof User)) {
             UtilNavigation.navigateToLogin();
+        }else{
+            try {
+                stellenAnzeige = jobInjectService.getStellenanzeige();
+                defaultView = (DefaultView) getParent().get();
+                defaultView.navigateToJob(stellenAnzeige.getTitel());
+                jobInjectService.setStellenanzeige(null);
+                //Hinzufügen der Daten in der Tabelle
+                loadContent();
+            }catch (Exception exception){
+                UtilNavigation.navigateToMain();
+            };
         }
-        //Hinzufügen der Daten in der Tabelle
-        stellenAnzeige = jobInjectService.getStellenanzeige();
-        jobInjectService.setStellenanzeige(null);
-        loadContent();
     }
 
     public class KeyCard extends HorizontalLayout {

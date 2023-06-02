@@ -82,9 +82,10 @@ public class JobAdvertisementEditView extends VerticalLayout {
      */
     class EditJobForm extends Div {
         EditJobForm() {
-
+            //Einfügen der Daten in die Felder
             title.setValue(stellenAnzeige.getTitel());
             url.setValue(stellenAnzeige.getUrl());
+            url.setReadOnly(true);
             company.setValue(stellenAnzeige.getUnternehmen() != null ? stellenAnzeige.getUnternehmen().replace("'", "") : "Keine Angabe");
             technology.setValue(stellenAnzeige.getTechnologien() != null ? stellenAnzeige.getTechnologien().replace("'", "") : "Keine Angabe");
             qualifications.setValue(stellenAnzeige.getQualifikation() != null ? stellenAnzeige.getQualifikation().replace("'", "") : "Keine Angabe");
@@ -171,10 +172,6 @@ public class JobAdvertisementEditView extends VerticalLayout {
                 }
             });
 
-            backBtn.addClickListener(event -> {
-               UtilNavigation.navigateToJobAdvertisement();
-            });
-
             FormLayout formLayout = new FormLayout();
             formLayout.add(
                     title, url, company, technology, qualifications, start, range, des,
@@ -239,18 +236,23 @@ public class JobAdvertisementEditView extends VerticalLayout {
         saveBtn.addClickShortcut(Key.ENTER);
         saveBtn.addClassName("default-btn");
 
-        backBtn = new Button("Zurück");
+        backBtn = new Button(settingsService.getJobHinzufuegen() ? "Abbrechen" : "Zurück");
+        backBtn.addClickListener(event -> {
+            if(settingsService.getJobHinzufuegen()){
+                UtilNavigation.navigateToMain();
+            }else{
+                UtilNavigation.navigateToJobAdvertisement();
+            }
+        });
         backBtn.addClassName("default-btn");
 
         JobAdvertisementEditView.EditJobForm form = new JobAdvertisementEditView.EditJobForm();
         form.getElement().getStyle().set("Margin", "30px");
 
         HorizontalLayout bigButtons = new HorizontalLayout();
-        if(settingsService.getJobHinzufuegen()){
-            bigButtons.add(saveBtn);
-        }else{
-            bigButtons.add(backBtn, saveBtn);
-        }
+
+        bigButtons.add(backBtn, saveBtn);
+
         section.add(h1, form, bigButtons);
     }
 
