@@ -68,6 +68,17 @@
     color: var(--primary-color);
 }
 
+.custom-header{
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-layout{
+    background-color: var(--tertiary-color);
+    width: 100%;
+    margin-top: 1em;
+}
+
 .bracket{
     height: 100%;
     background: transparent;

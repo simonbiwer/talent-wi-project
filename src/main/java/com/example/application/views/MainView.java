@@ -11,13 +11,21 @@ import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Globals;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.grid.*;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.lumo.LumoUtility;
+import jakarta.persistence.Column;
+import org.atmosphere.interceptor.AtmosphereResourceStateRecovery;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -57,12 +65,30 @@ public class MainView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
+        FilterFormLayout filter = new FilterFormLayout();
+        filter.setVisible(false);
+        filter.addClassName("filter-layout");
+
+        HorizontalLayout headerBox = new HorizontalLayout();
+
+        Button toggleFilter = new Button("Filter Anpassen", e -> {
+            filter.setVisible(!filter.isVisible());
+        });
+        toggleFilter.addClassName("default-btn");
+
+        headerBox.add(new Label("Verfügbar"), toggleFilter);
+        headerBox.addClassName("custom-header");
+
         grid = new Grid<>(StellenanzeigenDTO.class, false);
-        grid.addColumn(StellenanzeigenDTO::getTitel).setHeader("Titel").setSortable(true);
-        grid.addColumn(StellenanzeigenDTO::getUnternehmen).setHeader("Unternehmen").setSortable(true);
-        grid.addColumn(StellenanzeigenDTO::getStartdatum).setHeader("Startdatum").setSortable(true);
+
+
+        grid.addColumn(StellenanzeigenDTO::getTitel).setHeader("Titel");
+        grid.addColumn(StellenanzeigenDTO::getUnternehmen).setHeader("Unternehmen");
+        grid.addColumn(StellenanzeigenDTO::getStartdatum).setHeader("Startdatum");
         grid.addComponentColumn(stellenAnzeige -> createStatusIcon(true)) //TODO: stellenAnzeige.getReserved()
-                .setHeader("Status").setSortable(true);
+                .setHeader(headerBox);
+
+
 
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
@@ -74,8 +100,23 @@ public class MainView extends VerticalLayout {
         });
 
         addClassName("remove-Vaadin");
-        add(grid);
+        this.getStyle().set("gap", "0");
+        add(filter, grid);
     }
+
+    /**
+     * Diese Klasse dient als Layout für den Filter und erstellt die Elemente
+     */
+    class FilterFormLayout extends HorizontalLayout{
+        FilterFormLayout(){
+            TextField filter1 = new TextField("test");
+            Button applyFilterbtn = new Button("Filter anwenden", e->{
+               //TODO
+            });
+            add(filter1, applyFilterbtn);
+        }
+    }
+
 
     /**
      * Diese Methode verhindert dass ein Nutzer, der nicht eingeloggt ist, diese View sehen kann
