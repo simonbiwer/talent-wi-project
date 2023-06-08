@@ -198,4 +198,15 @@ public class JobControl {
         dto.setKeywordname(keyword.getKeywordname());
         return dto;
     }
+
+    /**
+     * Methode zur Filterung der Stellenanzeigen nach vorhandenen Wörtern in bestimmten Attributen
+     * @param filterAttribute Definiert das Attribut in dem gefiltert werden soll (Bsp: Qualifikation, Beschreibung...)
+     * @param searchTerm Definiert wonach in dem jeweiligen Attribut gefiltert werden soll
+     * @return Liste an Stellenanzeigen, die das Suchwort in diesem Attribut enthalten
+     */
+    public List<StellenanzeigenDTO> filterJobs(String filterAttribute, String searchTerm){
+        //Todo
+        return readAllStellenanzeigen();
+    }
 }
