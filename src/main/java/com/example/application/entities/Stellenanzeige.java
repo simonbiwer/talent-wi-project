@@ -49,6 +49,10 @@ public class Stellenanzeige {
     @Column(name = "qualifikation")
     private String qualifikation;
 
+    @Basic
+    @Column(name = "isReserved")
+    private boolean isReserved = false;
+
     //TODO: Reserved in Datenbank einfügen
 
     @ManyToOne //Fremdschlüssel userid von Entität user
@@ -148,6 +152,13 @@ public class Stellenanzeige {
         zugehoerigerKey.addAll(keywords);
     }
 
+    public boolean isReserved() {
+        return isReserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        isReserved = reserved;
+    }
 
     @Override
     public boolean equals(Object o) {   //prüft ob Entität schon vorhanden

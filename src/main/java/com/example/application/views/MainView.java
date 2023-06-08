@@ -85,7 +85,7 @@ public class MainView extends VerticalLayout {
         grid.addColumn(StellenanzeigenDTO::getTitel).setHeader("Titel");
         grid.addColumn(StellenanzeigenDTO::getUnternehmen).setHeader("Unternehmen");
         grid.addColumn(StellenanzeigenDTO::getStartdatum).setHeader("Startdatum");
-        grid.addComponentColumn(stellenAnzeige -> createStatusIcon(true)) //TODO: stellenAnzeige.getReserved()
+        grid.addComponentColumn(stellenAnzeige -> createStatusIcon(!stellenAnzeige.getReserved())) //TODO: stellenAnzeige.getReserved()
                 .setHeader(headerBox);
 
 

@@ -41,6 +41,7 @@ public class StellenanzeigenFactory {
         job.setStartdatum(jobDTO.getStartdatum());
         job.setTechnologien(jobDTO.getTechnologien());
         job.setUnternehmen(jobDTO.getUnternehmen());
+        job.setReserved(jobDTO.getReserved());
         return job;
     }
 }
