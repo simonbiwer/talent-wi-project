@@ -17,4 +17,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findUserByEmail(String email);
+    User findUserByUserid(int userid);
+    void deleteUserByUserid(int userid);
 }

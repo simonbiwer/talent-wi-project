@@ -109,6 +109,7 @@ public class JobControl {
             jobRep.deleteById(jobid);
             return true;
         } catch(Exception e){
+            e.printStackTrace();
             return false;
         }
     }
