@@ -184,6 +184,7 @@ public class JobControl {
         dto.setStartdatum(job.getStartdatum());
         dto.setTechnologien(job.getTechnologien());
         dto.setUnternehmen(job.getUnternehmen());
+        dto.setReserved(job.getReserved());
         return dto;
     }
 

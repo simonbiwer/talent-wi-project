@@ -25,6 +25,7 @@ public class StellenanzeigenFactory {
         job.setStartdatum(stellenanzeigenDTO.getStartdatum());
         job.setTechnologien(stellenanzeigenDTO.getTechnologien());
         job.setUnternehmen(stellenanzeigenDTO.getUnternehmen());
+        job.setReserved(stellenanzeigenDTO.getReserved());
         job.setUserid(currentUser);
         job.addKeywords(keywords);
         return job;

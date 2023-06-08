@@ -148,6 +148,7 @@ public class JobAdvertisementEditView extends VerticalLayout {
                     stellenAnzeige.setStartdatum(job.getStartdatum());
                     stellenAnzeige.setProjektdauer(job.getProjektdauer());
                     stellenAnzeige.setBeschreibung(job.getBeschreibung());
+                    stellenAnzeige.setReserved(false); //TODO
                     stellenAnzeige.setKeywords(keywords);
                     try {
                         if(settingsService.getJobHinzufuegen()){

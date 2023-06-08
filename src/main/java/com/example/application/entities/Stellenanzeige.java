@@ -51,7 +51,7 @@ public class Stellenanzeige {
 
     @Basic
     @Column(name = "isReserved")
-    private boolean isReserved = false;
+    private boolean isReserved;
 
     //TODO: Reserved in Datenbank einfügen
 
@@ -152,7 +152,7 @@ public class Stellenanzeige {
         zugehoerigerKey.addAll(keywords);
     }
 
-    public boolean isReserved() {
+    public boolean getReserved() {
         return isReserved;
     }
 
