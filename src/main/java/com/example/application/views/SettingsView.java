@@ -9,6 +9,7 @@ import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -34,13 +35,30 @@ public class SettingsView extends VerticalLayout {
         setWidthFull();
         setHeightFull();
 
-        Button deletebutton = new Button();
+        Dialog dialog = new Dialog();
 
-        deletebutton.addClickListener(event -> {
-           User user = (User) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-           userControl.deleteUser(user.getUserid());
+        dialog.setHeaderTitle("Nutzeraccount löschen");
 
+        dialog.add("Sind sie sicher, dass sie ihren Account permanent löchen wollen?");
+
+        Button abortModalButton = new Button("Abbrechen", e -> dialog.close());
+        abortModalButton.getStyle().set("margin-right", "auto");
+        dialog.getFooter().add(abortModalButton);
+        Button deleteModalButton = new Button("Fortfahren", e -> {
+            User user = (User) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+            userControl.deleteUser(user.getUserid());
+            dialog.close();
+            UtilNavigation.navigateToMain();
         });
+        dialog.getFooter().add(deleteModalButton);
+        deleteModalButton.addClassName("delete-btn");
+
+        Button deletebutton = new Button("Account löschen");
+        deletebutton.addClickListener(event -> {
+            dialog.open();
+        });
+        deletebutton.addClassName("delete-btn");
+
         section.add(deletebutton);
         add(section);
     }

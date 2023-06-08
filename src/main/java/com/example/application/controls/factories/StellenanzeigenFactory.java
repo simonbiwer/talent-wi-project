@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Klasse zur Erstellung einer neuen Stellenanzeige
  * @author sb 10.05.23
+ * @lastedited hh 08.06.23
  */
 
 public class StellenanzeigenFactory {
@@ -19,6 +20,11 @@ public class StellenanzeigenFactory {
         job.setTitel(stellenanzeigenDTO.getTitel());
         job.setBeschreibung(stellenanzeigenDTO.getBeschreibung());
         job.setUrl(stellenanzeigenDTO.getUrl());
+        job.setQualifikation(stellenanzeigenDTO.getQualifikation());
+        job.setProjektdauer(stellenanzeigenDTO.getProjektdauer());
+        job.setStartdatum(stellenanzeigenDTO.getStartdatum());
+        job.setTechnologien(stellenanzeigenDTO.getTechnologien());
+        job.setUnternehmen(stellenanzeigenDTO.getUnternehmen());
         job.setUserid(currentUser);
         job.addKeywords(keywords);
         return job;
