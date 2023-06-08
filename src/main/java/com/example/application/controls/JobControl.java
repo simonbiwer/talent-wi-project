@@ -206,7 +206,15 @@ public class JobControl {
      * @param searchTerm Definiert wonach in dem jeweiligen Attribut gefiltert werden soll
      * @return Liste an Stellenanzeigen, die das Suchwort in diesem Attribut enthalten
      */
+    public List<StellenanzeigenDTO> filterJobs(String filterAttribute, String searchTerm, List<KeywordDTO> keywords){
+        //Todo
+        return readAllStellenanzeigen();
+    }
     public List<StellenanzeigenDTO> filterJobs(String filterAttribute, String searchTerm){
+        //Todo
+        return readAllStellenanzeigen();
+    }
+    public List<StellenanzeigenDTO> filterJobs(List<KeywordDTO> keywords){
         //Todo
         return readAllStellenanzeigen();
     }
