@@ -131,7 +131,19 @@ public class JobAdvertisementView extends VerticalLayout {
      * Methode, die nach, der Datenübergabe, die Content des Views füllt
      */
     public void loadContent(){
+        boolean reserved = stellenAnzeige.getReserved();
+
+        Span available = new Span();
+
+        String theme = String.format("badge %s", reserved ? "error" : "success");
+        available.getElement().setAttribute("theme", theme);
+        available.getStyle().set("font-size", "x-large");
+        available.setText(reserved ? "Reserviert" : "Verfügbar");
+
         H1 h1 = new H1(stellenAnzeige.getTitel());
+
+        HorizontalLayout headline = new HorizontalLayout();
+        headline.add(h1, available);
 
         Dialog dialog = new Dialog();
 
@@ -158,6 +170,16 @@ public class JobAdvertisementView extends VerticalLayout {
         addButton.addClickShortcut(Key.ENTER);
         addButton.addClassName("default-btn");
 
+        Button reserveButton = new Button(stellenAnzeige.getReserved() ? "Reservierung entfernen" : "Reservieren", e -> {
+            stellenAnzeige.setReserved(!stellenAnzeige.getReserved());
+            boolean updateResult = jobControl.updateStellenanzeige(stellenAnzeige);
+            if (updateResult) {
+                jobInjectService.setStellenanzeige(stellenAnzeige);
+                UI.getCurrent().getPage().reload();
+            }
+        });
+        reserveButton.addClassName("default-btn");
+
         Button deleteButton = new Button("Anzeige Löschen");
         deleteButton.addClassName("delete-btn");
 
@@ -169,8 +191,10 @@ public class JobAdvertisementView extends VerticalLayout {
             dialog.open();
         });
 
+
+
         HorizontalLayout bigButtons = new HorizontalLayout();
-        bigButtons.add(contactButton);
+        bigButtons.add(contactButton, reserveButton);
 
         List<StellenanzeigenDTO> userData = jobControl.getStellenanzeigenForCurrentUser(loginControl.getCurrentUser().getUserid());
         if(settingsService.getJobHinzufuegen()){
@@ -186,7 +210,7 @@ public class JobAdvertisementView extends VerticalLayout {
         }
         settingsService.setJobHinzufuegen(false);
 
-        section.add(h1, form, bigButtons);
+        section.add(headline, form, bigButtons);
     }
 
     public JobAdvertisementView(){

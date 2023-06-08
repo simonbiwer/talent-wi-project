@@ -76,7 +76,7 @@ public class MainView extends VerticalLayout {
         });
         toggleFilter.addClassName("default-btn");
 
-        headerBox.add(new Label("Verfügbar"), toggleFilter);
+        headerBox.add(new Label("Status"), toggleFilter);
         headerBox.addClassName("custom-header");
 
         grid = new Grid<>(StellenanzeigenDTO.class, false);
