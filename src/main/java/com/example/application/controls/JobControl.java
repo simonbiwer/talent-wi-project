@@ -12,14 +12,13 @@ import com.example.application.entities.Stellenanzeige;
 import com.example.application.entities.User;
 import com.example.application.repositories.KeywordRepository;
 import com.example.application.repositories.StellenanzeigeRepository;
+import com.example.application.utils.Globals;
 import com.example.application.utils.UtilCurrent;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Control Klasse zur Verwaltung der Stellenanzeigen im System
@@ -202,20 +201,97 @@ public class JobControl {
 
     /**
      * Methode zur Filterung der Stellenanzeigen nach vorhandenen Wörtern in bestimmten Attributen
+     * Die Methode gibt es zweimal überladen, je nachdem wonach der User filtern möchte
      * @param filterAttribute Definiert das Attribut in dem gefiltert werden soll (Bsp: Qualifikation, Beschreibung...)
      * @param searchTerm Definiert wonach in dem jeweiligen Attribut gefiltert werden soll
+     * @param keywords Definiert nach welchen Keywords gefiltert werden soll
      * @return Liste an Stellenanzeigen, die das Suchwort in diesem Attribut enthalten
      */
     public List<StellenanzeigenDTO> filterJobs(String filterAttribute, String searchTerm, List<KeywordDTO> keywords){
-        //Todo
-        return readAllStellenanzeigen();
+        List<StellenanzeigenDTO> attributeList = filterJobs(filterAttribute, searchTerm);
+        List<StellenanzeigenDTO> keywordList = filterJobs(keywords);
+        Set<StellenanzeigenDTO> set = new HashSet<>(attributeList);
+        set.addAll(keywordList);
+        return new ArrayList<>(set);
     }
     public List<StellenanzeigenDTO> filterJobs(String filterAttribute, String searchTerm){
-        //Todo
-        return readAllStellenanzeigen();
+        List<StellenanzeigenDTO> result = new ArrayList<>();
+        List<StellenanzeigenDTO> allJobs = readAllStellenanzeigen();
+        switch (filterAttribute){
+            case Globals.Attributes.TITEL:
+                for (StellenanzeigenDTO job : allJobs){
+                    if (job.getTitel().contains(searchTerm)){
+                        result.add(job);
+                    }
+                }
+                break;
+            case Globals.Attributes.BESCHREIBUNG:
+                for (StellenanzeigenDTO job : allJobs){
+                    if (job.getBeschreibung().contains(searchTerm)){
+                        result.add(job);
+                    }
+                }
+                break;
+            case Globals.Attributes.UNTERNEHMEN:
+                for (StellenanzeigenDTO job : allJobs){
+                    if (job.getUnternehmen().contains(searchTerm)){
+                        result.add(job);
+                    }
+                }
+                break;
+            case Globals.Attributes.PROJEKTDAUER:
+                for (StellenanzeigenDTO job : allJobs){
+                    if (job.getProjektdauer().contains(searchTerm)){
+                        result.add(job);
+                    }
+                }
+                break;
+            case Globals.Attributes.QUALIFIKATIONEN:
+                for (StellenanzeigenDTO job : allJobs){
+                    if (job.getQualifikation().contains(searchTerm)){
+                        result.add(job);
+                    }
+                }
+                break;
+            case Globals.Attributes.STARTDATUM:
+                for (StellenanzeigenDTO job : allJobs){
+                    if (job.getStartdatum().contains(searchTerm)){
+                        result.add(job);
+                    }
+                }
+                break;
+            case Globals.Attributes.TECHNOLOGIE:
+                for (StellenanzeigenDTO job : allJobs){
+                    if (job.getTechnologien().contains(searchTerm)){
+                        result.add(job);
+                    }
+                }
+                break;
+        }
+        return result;
     }
     public List<StellenanzeigenDTO> filterJobs(List<KeywordDTO> keywords){
-        //Todo
-        return readAllStellenanzeigen();
+        List<StellenanzeigenDTO> result = new ArrayList<>();
+        List<StellenanzeigenDTO> allJobs = readAllStellenanzeigen();
+        for (KeywordDTO keyword : keywords){
+            for (StellenanzeigenDTO job : allJobs){
+                List<KeywordDTO> keywordsForJob = job.getKeywords();
+                for (KeywordDTO keywordForJob : keywordsForJob){
+                    if (keywordForJob.equals(keyword)){
+                        result.add(job);
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    public List<KeywordDTO> getAllKeywords(){
+        List<KeywordDTO> result = new ArrayList<>();
+        List<Keyword> allKeywords = keywordRepo.findAll();
+        for (Keyword keyword : allKeywords){
+            result.add(buildKeywordDTO(keyword));
+        }
+        return result;
     }
 }

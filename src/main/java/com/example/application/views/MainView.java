@@ -1,6 +1,7 @@
 package com.example.application.views;
 
 import com.example.application.controls.JobControl;
+import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.StellenanzeigenDTO;
 import com.example.application.entities.Stellenanzeige;
 import com.example.application.entities.User;
@@ -28,6 +29,7 @@ import jakarta.persistence.Column;
 import org.atmosphere.interceptor.AtmosphereResourceStateRecovery;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -111,7 +113,7 @@ public class MainView extends VerticalLayout {
         FilterFormLayout(){
             TextField filter1 = new TextField("test");
             Button applyFilterbtn = new Button("Filter anwenden", e->{
-               //TODO
+               jobControl.filterJobs(jobControl.getAllKeywords().subList(0, 2));
             });
             add(filter1, applyFilterbtn);
         }
