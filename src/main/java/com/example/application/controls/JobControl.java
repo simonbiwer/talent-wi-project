@@ -277,7 +277,7 @@ public class JobControl {
             for (StellenanzeigenDTO job : allJobs){
                 List<KeywordDTO> keywordsForJob = job.getKeywords();
                 for (KeywordDTO keywordForJob : keywordsForJob){
-                    if (keywordForJob.equals(keyword)){
+                    if (keywordForJob.getKeywordname().toLowerCase(Locale.ROOT).equals(keyword.getKeywordname().toLowerCase(Locale.ROOT))){
                         result.add(job);
                         break;
                     }

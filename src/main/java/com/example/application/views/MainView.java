@@ -113,7 +113,7 @@ public class MainView extends VerticalLayout {
         FilterFormLayout(){
             TextField filter1 = new TextField("test");
             Button applyFilterbtn = new Button("Filter anwenden", e->{
-               jobControl.filterJobs(jobControl.getAllKeywords().subList(0, 2));
+//               jobControl.filterJobs(Globals.Attributes.TITEL, "Developer", jobControl.getAllKeywords().subList(0,2));
             });
             add(filter1, applyFilterbtn);
         }
