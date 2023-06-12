@@ -3,6 +3,7 @@ package com.example.application.views;
 import com.example.application.controls.JobControl;
 import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.StellenanzeigenDTO;
+import com.example.application.dtos.impl.KeywordDTOImpl;
 import com.example.application.entities.Stellenanzeige;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
@@ -21,11 +22,13 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.persistence.Column;
+import jakarta.persistence.MapsId;
 import org.atmosphere.interceptor.AtmosphereResourceStateRecovery;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,6 +59,11 @@ public class MainView extends VerticalLayout {
     private SettingsService settingsService;
 
     Grid<StellenanzeigenDTO> grid;
+
+    Select<String> keywordSelect = new Select<>();
+
+    private List<KeywordDTO> keywords;
+    private HorizontalLayout cards;
 
     public MainView() {
 
@@ -111,11 +119,57 @@ public class MainView extends VerticalLayout {
      */
     class FilterFormLayout extends HorizontalLayout{
         FilterFormLayout(){
-            TextField filter1 = new TextField("test");
-            Button applyFilterbtn = new Button("Filter anwenden", e->{
-//               jobControl.filterJobs(Globals.Attributes.TITEL, "Developer", jobControl.getAllKeywords().subList(0,2));
+            TextField value = new TextField("Wert:");
+
+            Select<String> select = new Select<>();
+            select.setEmptySelectionAllowed(true);
+            select.setLabel("Filtern nach:");
+            select.setItems(Globals.Attributes.TITEL, Globals.Attributes.UNTERNEHMEN, Globals.Attributes.QUALIFIKATIONEN, Globals.Attributes.TECHNOLOGIE, Globals.Attributes.STARTDATUM, Globals.Attributes.PROJEKTDAUER, Globals.Attributes.BESCHREIBUNG);
+            select.setPlaceholder("Wert auswählen");
+
+            keywordSelect.setEmptySelectionAllowed(true);
+            keywordSelect.setPlaceholder("Keyword auswählen");
+            keywordSelect.setLabel("Keywords:");
+
+            keywordSelect.addValueChangeListener(e -> {
+                addKeyword(e.getValue());
+                keywordSelect.setValue(null);
             });
-            add(filter1, applyFilterbtn);
+
+
+            VerticalLayout keyContainer = new VerticalLayout();
+            keyContainer.addClassName("key-vertical");
+
+            cards = new HorizontalLayout();
+            cards.setClassName("cards");
+
+            HorizontalLayout cardButtons = new HorizontalLayout();
+            cardButtons.addClassName("key-vertical");
+
+            keyContainer.add(cardButtons, cards);
+
+            Button applyFilterbtn = new Button("Filter anwenden", e->{
+                Boolean valueSelected = (!value.getValue().isEmpty())&&(!select.getValue().isEmpty());
+                Boolean keywordSelected = keywords.size()>0;
+
+                List<StellenanzeigenDTO> test = new ArrayList<>();
+                grid.setItems(test);
+
+                if(valueSelected && keywordSelected){
+                    grid.setItems(jobControl.filterJobs(select.getValue(), value.getValue(), keywords));
+                }else if(valueSelected){
+                    grid.setItems(jobControl.filterJobs(select.getValue(), value.getValue()));
+                }else if(keywordSelected){
+                    grid.setItems(jobControl.filterJobs(keywords));
+                }else{
+                    grid.setItems(jobControl.readAllStellenanzeigen());
+                }
+
+            });
+            applyFilterbtn.addClassName("default-btn");
+            applyFilterbtn.addThemeName("apply-filter-btn");
+
+            add(select, value, keywordSelect, keyContainer, applyFilterbtn);
         }
     }
 
@@ -138,6 +192,12 @@ public class MainView extends VerticalLayout {
             settingsService.setJobHinzufuegen(false);
             List<StellenanzeigenDTO> jobs = jobControl.readAllStellenanzeigen();
             grid.setItems(jobs);
+            keywords = jobControl.getAllKeywords();
+            List<String> toStrings = new ArrayList<>();
+            for (KeywordDTO element : keywords){
+                toStrings.add(element.getKeywordname().substring(0, 1).toUpperCase()+element.getKeywordname().substring(1));
+            }
+            keywordSelect.setItems(toStrings);
         }
     }
 
@@ -160,4 +220,42 @@ public class MainView extends VerticalLayout {
         return icon;
     }
 
+    /**
+     * Methode, die ein Keyword zur Liste hinzufügt -> gleich zu AddJobView
+     */
+    private void addKeyword(String keyText) {
+        KeywordDTOImpl keyword = new KeywordDTOImpl();
+        keyword.setKeywordname(keyText);
+        MainView.KeyCard card = new MainView.KeyCard(keyword);
+        if (!(keyText==null)) {
+            cards.add(card);
+            keyword.setKeywordname(keyword.getKeywordname().toLowerCase()); //Warum lowercase? Um redundante Keywords zu vermeiden? Ja
+            keywords.add(keyword);
+            //keywordSelect.se
+        }
+    }
+
+    /**
+     * Keyword-Klasse für die Liste -> gleich zu AddJobView
+     */
+    public class KeyCard extends HorizontalLayout {
+        public KeyCard(KeywordDTO title) {
+            Label titleLabel = new Label(title.getKeywordname());
+            Button remove = new Button(VaadinIcon.CLOSE.create());
+            titleLabel.addClassName("key-label");
+            remove.addClassName("key-btn");
+
+            remove.addClickListener(e -> {
+                keywords.remove(title);
+                cards.remove(this);
+            });
+
+            add(titleLabel, remove);
+
+            setPadding(false);
+            setMargin(false);
+            setSpacing(false);
+            setClassName("default-card");
+        }
+    }
 }
