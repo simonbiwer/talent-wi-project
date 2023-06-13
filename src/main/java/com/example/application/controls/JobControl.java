@@ -227,42 +227,42 @@ public class JobControl {
                 break;
             case Globals.Attributes.BESCHREIBUNG:
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getBeschreibung().contains(searchTerm)){
+                    if (job.getBeschreibung() != null && job.getBeschreibung().contains(searchTerm)){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.UNTERNEHMEN:
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getUnternehmen().contains(searchTerm)){
+                    if (job.getUnternehmen() != null && job.getUnternehmen().contains(searchTerm)){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.PROJEKTDAUER:
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getProjektdauer().contains(searchTerm)){
+                    if (job.getProjektdauer() != null && job.getProjektdauer().contains(searchTerm)){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.QUALIFIKATIONEN:
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getQualifikation().contains(searchTerm)){
+                    if (job.getQualifikation() != null && job.getQualifikation().contains(searchTerm)){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.STARTDATUM:
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getStartdatum().contains(searchTerm)){
+                    if (job.getStartdatum() != null && job.getStartdatum().contains(searchTerm)){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.TECHNOLOGIE:
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getTechnologien().contains(searchTerm)){
+                    if (job.getTechnologien() != null && job.getTechnologien().contains(searchTerm)){
                         result.add(job);
                     }
                 }
