@@ -273,24 +273,37 @@ public class JobControl {
     public List<StellenanzeigenDTO> filterJobs(List<KeywordDTO> keywords){
         List<StellenanzeigenDTO> result = new ArrayList<>();
         List<StellenanzeigenDTO> allJobs = readAllStellenanzeigen();
-        for (KeywordDTO keyword : keywords){
             for (StellenanzeigenDTO job : allJobs){
-                List<KeywordDTO> keywordsForJob = job.getKeywords();
-                for (KeywordDTO keywordForJob : keywordsForJob){
-                    if (keywordForJob.getKeywordname().toLowerCase(Locale.ROOT).equals(keyword.getKeywordname().toLowerCase(Locale.ROOT))){
-                        result.add(job);
-                        break;
-                    }
+                if(checkIfContainsKeyword(job, keywords)){
+                    result.add(job);
                 }
-            }
         }
         return result;
     }
+
     public List<KeywordDTO> getAllKeywords(){
         List<KeywordDTO> result = new ArrayList<>();
         List<Keyword> allKeywords = keywordRepo.findAll();
         for (Keyword keyword : allKeywords){
             result.add(buildKeywordDTO(keyword));
+        }
+        return result;
+    }
+
+    /**
+     * Methode Überprüfung, ob die Keywords in einer Stellenanzeige enthalten sind
+     * @param stelle    - Stellenanzeige die überprüft werden soll
+     * @param keywords  - Liste an Keywords, die abgeglichen werden
+     * @return boolean, wenn die Keywords enthalten sind
+     */
+    public boolean checkIfContainsKeyword(StellenanzeigenDTO stelle, List<KeywordDTO> keywords){
+        boolean result = false;
+        for(KeywordDTO keywordJob : stelle.getKeywords()){
+            for(KeywordDTO keywordGiven : keywords){
+                if(keywordJob.getKeywordname().toLowerCase(Locale.ROOT).equals(keywordGiven.getKeywordname().toLowerCase(Locale.ROOT))){
+                    result = true;
+                }
+            }
         }
         return result;
     }

@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -63,6 +64,8 @@ public class MainView extends VerticalLayout {
     Select<String> keywordSelect = new Select<>();
 
     private List<KeywordDTO> keywords;
+
+    private List<KeywordDTO> keywordsAll;
     private HorizontalLayout cards;
 
     public MainView() {
@@ -119,6 +122,8 @@ public class MainView extends VerticalLayout {
      */
     class FilterFormLayout extends HorizontalLayout{
         FilterFormLayout(){
+            keywords = new ArrayList<>();
+
             TextField value = new TextField("Wert:");
 
             Select<String> select = new Select<>();
@@ -192,9 +197,9 @@ public class MainView extends VerticalLayout {
             settingsService.setJobHinzufuegen(false);
             List<StellenanzeigenDTO> jobs = jobControl.readAllStellenanzeigen();
             grid.setItems(jobs);
-            keywords = jobControl.getAllKeywords();
+            keywordsAll = jobControl.getAllKeywords();
             List<String> toStrings = new ArrayList<>();
-            for (KeywordDTO element : keywords){
+            for (KeywordDTO element : keywordsAll){
                 toStrings.add(element.getKeywordname().substring(0, 1).toUpperCase()+element.getKeywordname().substring(1));
             }
             keywordSelect.setItems(toStrings);
@@ -229,9 +234,8 @@ public class MainView extends VerticalLayout {
         MainView.KeyCard card = new MainView.KeyCard(keyword);
         if (!(keyText==null)) {
             cards.add(card);
-            keyword.setKeywordname(keyword.getKeywordname().toLowerCase()); //Warum lowercase? Um redundante Keywords zu vermeiden? Ja
+            keyword.setKeywordname(keyword.getKeywordname().toLowerCase(Locale.ROOT)); //Warum lowercase? Um redundante Keywords zu vermeiden? Ja
             keywords.add(keyword);
-            //keywordSelect.se
         }
     }
 
