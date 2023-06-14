@@ -165,12 +165,18 @@ public class MainView extends VerticalLayout {
             applyFilterbtn.addClassName("default-btn");
             applyFilterbtn.addThemeName("apply-filter-btn");
 
-            Button resetFilterBtn = new Button("Filter zurücksetzen", e-> {
+            Button resetFilterBtn = new Button("Filter zurücksetzen", e -> {
                 keywords.clear();
                 cards.removeAll();
                 jobInjectService.setFilter(null, null, keywords);
                 grid.setItems(jobControl.readAllStellenanzeigen());
+
+                // Felder leeren
+                select.clear();
+                value.clear();
+                keywordSelect.clear();
             });
+
             resetFilterBtn.addClassName("delete-btn");
 
             add(select, value, keywordSelect, keyContainer, applyFilterbtn, resetFilterBtn);
