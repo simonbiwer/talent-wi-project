@@ -210,9 +210,15 @@ public class JobControl {
     public List<StellenanzeigenDTO> filterJobs(String filterAttribute, String searchTerm, List<KeywordDTO> keywords){
         List<StellenanzeigenDTO> attributeList = filterJobs(filterAttribute, searchTerm);
         List<StellenanzeigenDTO> keywordList = filterJobs(keywords);
-        Set<StellenanzeigenDTO> set = new HashSet<>(attributeList);
-        set.addAll(keywordList);
-        return new ArrayList<>(set);
+        List<StellenanzeigenDTO> mergedList = new ArrayList<>();
+        for (StellenanzeigenDTO jobInAttributeList : attributeList){
+            for (StellenanzeigenDTO jobInKeywordList : keywordList){
+                if (jobInAttributeList.getJobid() == jobInKeywordList.getJobid()){
+                    mergedList.add(jobInAttributeList);
+                }
+            }
+        }
+        return mergedList;
     }
     public List<StellenanzeigenDTO> filterJobs(String filterAttribute, String searchTerm){
         List<StellenanzeigenDTO> result = new ArrayList<>();
