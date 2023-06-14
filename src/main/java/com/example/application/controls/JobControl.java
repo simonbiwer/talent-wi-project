@@ -225,50 +225,57 @@ public class JobControl {
         List<StellenanzeigenDTO> allJobs = readAllStellenanzeigen();
         switch (filterAttribute){
             case Globals.Attributes.TITEL:
+                // Filterung nach Titel
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getTitel().contains(searchTerm)){
+                    if (job.getTitel() != null && job.getTitel().toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT))){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.BESCHREIBUNG:
+                // Filterung nach Beschreibung
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getBeschreibung() != null && job.getBeschreibung().contains(searchTerm)){
+                    if (job.getBeschreibung() != null && job.getBeschreibung().toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT))){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.UNTERNEHMEN:
+                // Filterung nach Unternehmen
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getUnternehmen() != null && job.getUnternehmen().contains(searchTerm)){
+                    if (job.getUnternehmen() != null && job.getUnternehmen().toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT))){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.PROJEKTDAUER:
+                // Filterung nach Projektlaufzeit
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getProjektdauer() != null && job.getProjektdauer().contains(searchTerm)){
+                    if (job.getProjektdauer() != null && job.getProjektdauer().toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT))){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.QUALIFIKATIONEN:
+                // Filterung nach Qualifikationen
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getQualifikation() != null && job.getQualifikation().contains(searchTerm)){
+                    if (job.getQualifikation() != null && job.getQualifikation().toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT))){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.STARTDATUM:
+                // Filterung nach Startdatum
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getStartdatum() != null && job.getStartdatum().contains(searchTerm)){
+                    if (job.getStartdatum() != null && job.getStartdatum().toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT))){
                         result.add(job);
                     }
                 }
                 break;
             case Globals.Attributes.TECHNOLOGIE:
+                // Filterung nach Technologien
                 for (StellenanzeigenDTO job : allJobs){
-                    if (job.getTechnologien() != null && job.getTechnologien().contains(searchTerm)){
+                    if (job.getTechnologien() != null && job.getTechnologien().toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT))){
                         result.add(job);
                     }
                 }
@@ -276,13 +283,15 @@ public class JobControl {
         }
         return result;
     }
+
+
     public List<StellenanzeigenDTO> filterJobs(List<KeywordDTO> keywords){
         List<StellenanzeigenDTO> result = new ArrayList<>();
         List<StellenanzeigenDTO> allJobs = readAllStellenanzeigen();
-            for (StellenanzeigenDTO job : allJobs){
-                if(checkIfContainsKeyword(job, keywords)){
-                    result.add(job);
-                }
+        for (StellenanzeigenDTO job : allJobs){
+            if (checkIfContainsKeyword(job, keywords)){
+                result.add(job);
+            }
         }
         return result;
     }
