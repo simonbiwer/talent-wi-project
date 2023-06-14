@@ -3,6 +3,7 @@
     --secondary-color: #f3f5f7;
     --tertiary-color: #E8F0FE;
     --forth-color: #e8ecef;
+    --fifth-color: #afc6e9;
     --delete-color: #DE062DFF;
     --lumo-clickable-cursor: pointer;
 }
@@ -74,11 +75,7 @@
 }
 
 .filter-layout{
-    background-color: var(--tertiary-color);
-    width: 100%;
-    margin-top: 1em;
     align-items: center;
-    padding: 1em 2em 1em 1em;
 }
 
 #apply-filter-btn{
@@ -91,8 +88,18 @@
 }
 
 vaadin-button vaadin-icon{
-    height: 2em;
-    width: 2em;
+    width: 1.2em;
+    padding: 0;
+}
+
+vaadin-accordion{
+    margin-top: 1em;
+    background-color: var(--tertiary-color);
+    width: 100%;
+}
+
+vaadin-accordion-panel{
+    padding: .2em 1em;
 }
 
 vaadin-drawer-toggle::part(icon)::before{
@@ -101,10 +108,10 @@ vaadin-drawer-toggle::part(icon)::before{
 }
 
 .default-card {
-    border: solid #CCCCCC 0px;
+    border: solid var(--fifth-color) 0px;
     border-radius: 10px;
     padding: 1px 6px;
-    background: var(--forth-color);
+    background: var(--fifth-color);
     align-items: center;
 }
 
@@ -118,7 +125,7 @@ vaadin-drawer-toggle::part(icon)::before{
     padding: 0;
     height: 20px;
     width: 20px;
-    background: var(--secondary-color);
+    background: var(--fifth-color);
     cursor: var(--lumo-clickable-cursor);
 }
 

@@ -12,6 +12,7 @@ import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Globals;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.*;
@@ -76,19 +77,13 @@ public class MainView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
+        Accordion accordion = new Accordion();
+
         filter = new FilterFormLayout();
-        filter.setVisible(true);
+        //filter.setVisible(true);
         filter.addClassName("filter-layout");
 
-        HorizontalLayout headerBox = new HorizontalLayout();
-
-        Button toggleFilter = new Button("Filter Anpassen", e -> {
-            filter.setVisible(!filter.isVisible());
-        });
-        toggleFilter.addClassName("default-btn");
-
-        headerBox.add(new Label("Status"), toggleFilter);
-        headerBox.addClassName("custom-header");
+        accordion.add("Filter", filter);
 
         grid = new Grid<>(StellenanzeigenDTO.class, false);
 
@@ -97,7 +92,7 @@ public class MainView extends VerticalLayout {
         grid.addColumn(StellenanzeigenDTO::getUnternehmen).setHeader("Unternehmen");
         grid.addColumn(StellenanzeigenDTO::getStartdatum).setHeader("Startdatum");
         grid.addComponentColumn(stellenAnzeige -> createStatusIcon(!stellenAnzeige.getReserved()))
-                .setHeader(headerBox);
+                .setHeader("Status");
 
 
 
@@ -112,7 +107,7 @@ public class MainView extends VerticalLayout {
 
         addClassName("remove-Vaadin");
         this.getStyle().set("gap", "0");
-        add(filter, grid);
+        add(accordion, grid);
     }
 
     /**
@@ -146,10 +141,7 @@ public class MainView extends VerticalLayout {
             cards = new HorizontalLayout();
             cards.setClassName("cards");
 
-            HorizontalLayout cardButtons = new HorizontalLayout();
-            cardButtons.addClassName("key-vertical");
-
-            keyContainer.add(cardButtons, cards);
+            keyContainer.add(cards);
 
             Button applyFilterbtn = new Button("Filter anwenden", e->{
                 jobInjectService.setFilter(select.getValue(), value.getValue(), keywords);
@@ -298,7 +290,7 @@ public class MainView extends VerticalLayout {
             grid.setItems(jobControl.filterJobs(keywords));
         }else{
             grid.setItems(jobControl.readAllStellenanzeigen());
-            this.filter.setVisible(false);
+            //this.filter.setVisible(false);
         }
     }
 }
