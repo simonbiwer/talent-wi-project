@@ -6,8 +6,7 @@ import com.example.application.dtos.StellenanzeigenDTO;
 import com.example.application.entities.Stellenanzeige;
 import com.example.application.repositories.StellenanzeigeRepository;
 import com.example.application.utils.Globals;
-import com.example.application.utils.JobInjectService;
-import com.example.application.utils.SettingsService;
+import com.example.application.utils.InjectService;
 import com.example.application.utils.UtilNavigation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,10 +23,7 @@ import java.util.HashMap;
 public class ChatGPTControl {
 
     @Autowired
-    private SettingsService settingsService;
-
-    @Autowired
-    private JobInjectService jobInjectService;
+    private InjectService jobInjectService;
 
     public boolean crawlDataWithChatGPT(StellenanzeigenDTO stellenanzeige){
         try{
@@ -53,7 +49,7 @@ public class ChatGPTControl {
             job.setStartdatum(attributes.get(Globals.Attributes.STARTDATUM));
             job.setQualifikation(attributes.get(Globals.Attributes.QUALIFIKATIONEN));
             jobInjectService.setStellenanzeige(job);
-            settingsService.setJobHinzufuegen(true);
+            jobInjectService.setJobHinzufuegen(true);
             UtilNavigation.navigateToJobAdvertisementEdit();
             return true;
         } catch (Exception e){

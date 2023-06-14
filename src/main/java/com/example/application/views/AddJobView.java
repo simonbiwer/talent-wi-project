@@ -10,7 +10,6 @@ import com.example.application.dtos.impl.StellenanzeigenDTOImpl;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
-import com.example.application.utils.SettingsService;
 import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Utils;
 import com.vaadin.flow.component.AttachEvent;

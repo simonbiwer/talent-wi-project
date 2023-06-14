@@ -8,8 +8,7 @@ import com.example.application.dtos.StellenanzeigenDTO;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
-import com.example.application.utils.JobInjectService;
-import com.example.application.utils.SettingsService;
+import com.example.application.utils.InjectService;
 import com.example.application.utils.UtilNavigation;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Key;
@@ -44,10 +43,7 @@ public class JobAdvertisementView extends VerticalLayout {
     private JobControl jobControl;
 
     @Autowired
-    private JobInjectService jobInjectService;
-
-    @Autowired
-    private SettingsService settingsService;
+    private InjectService jobInjectService;
 
     @Autowired
     private LoginControl loginControl;
@@ -184,6 +180,7 @@ public class JobAdvertisementView extends VerticalLayout {
         deleteButton.addClassName("delete-btn");
 
         addButton.addClickListener(event -> {
+            jobInjectService.setStellenanzeige(stellenAnzeige);
             UtilNavigation.navigateToJobAdvertisementEdit();
         });
 
@@ -197,7 +194,7 @@ public class JobAdvertisementView extends VerticalLayout {
         bigButtons.add(contactButton, reserveButton);
 
         List<StellenanzeigenDTO> userData = jobControl.getStellenanzeigenForCurrentUser(loginControl.getCurrentUser().getUserid());
-        if(settingsService.getJobHinzufuegen()){
+        if(jobInjectService.getJobHinzufuegen()){
             bigButtons.add(addButton, deleteButton);
         }else{
             jobInjectService.setStellenanzeige(null);
@@ -208,7 +205,7 @@ public class JobAdvertisementView extends VerticalLayout {
                 }
             }
         }
-        settingsService.setJobHinzufuegen(false);
+        jobInjectService.setJobHinzufuegen(false);
 
         section.add(headline, form, bigButtons);
     }

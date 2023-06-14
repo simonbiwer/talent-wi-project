@@ -7,8 +7,7 @@ import com.example.application.dtos.impl.KeywordDTOImpl;
 import com.example.application.entities.Stellenanzeige;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
-import com.example.application.utils.JobInjectService;
-import com.example.application.utils.SettingsService;
+import com.example.application.utils.InjectService;
 import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Globals;
 import com.vaadin.flow.component.AttachEvent;
@@ -54,10 +53,7 @@ public class MainView extends VerticalLayout {
     private JobControl jobControl;
 
     @Autowired
-    private JobInjectService jobInjectService;
-
-    @Autowired
-    private SettingsService settingsService;
+    private InjectService jobInjectService;
 
     Grid<StellenanzeigenDTO> grid;
 
@@ -67,6 +63,8 @@ public class MainView extends VerticalLayout {
 
     private List<KeywordDTO> keywordsAll;
     private HorizontalLayout cards;
+
+    private  FilterFormLayout filter;
 
     public MainView() {
 
@@ -78,8 +76,8 @@ public class MainView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        FilterFormLayout filter = new FilterFormLayout();
-        filter.setVisible(false);
+        filter = new FilterFormLayout();
+        filter.setVisible(true);
         filter.addClassName("filter-layout");
 
         HorizontalLayout headerBox = new HorizontalLayout();
@@ -154,7 +152,9 @@ public class MainView extends VerticalLayout {
             keyContainer.add(cardButtons, cards);
 
             Button applyFilterbtn = new Button("Filter anwenden", e->{
-                Boolean valueSelected = (!value.getValue().isEmpty())&&(!select.getValue().isEmpty());
+                jobInjectService.setFilter(select.getValue(), value.getValue(), keywords);
+
+                Boolean valueSelected = (select.getValue()!=null)&&(value.getValue()!=null);
                 Boolean keywordSelected = keywords.size()>0;
 
                 List<StellenanzeigenDTO> test = new ArrayList<>();
@@ -169,12 +169,19 @@ public class MainView extends VerticalLayout {
                 }else{
                     grid.setItems(jobControl.readAllStellenanzeigen());
                 }
-
             });
             applyFilterbtn.addClassName("default-btn");
             applyFilterbtn.addThemeName("apply-filter-btn");
 
-            add(select, value, keywordSelect, keyContainer, applyFilterbtn);
+            Button resetFilterBtn = new Button("Filter zurücksetzen", e-> {
+                keywords.clear();
+                cards.removeAll();
+                jobInjectService.setFilter(null, null, keywords);
+                grid.setItems(jobControl.readAllStellenanzeigen());
+            });
+            resetFilterBtn.addClassName("delete-btn");
+
+            add(select, value, keywordSelect, keyContainer, applyFilterbtn, resetFilterBtn);
         }
     }
 
@@ -194,15 +201,14 @@ public class MainView extends VerticalLayout {
             defaultView = (DefaultView) getParent().get();
             defaultView.removeUserTab();
             //Hinzufügen der Daten in der Tabelle
-            settingsService.setJobHinzufuegen(false);
-            List<StellenanzeigenDTO> jobs = jobControl.readAllStellenanzeigen();
-            grid.setItems(jobs);
+            jobInjectService.setJobHinzufuegen(false);
             keywordsAll = jobControl.getAllKeywords();
             List<String> toStrings = new ArrayList<>();
             for (KeywordDTO element : keywordsAll){
                 toStrings.add(element.getKeywordname().substring(0, 1).toUpperCase()+element.getKeywordname().substring(1));
             }
             keywordSelect.setItems(toStrings);
+            loadFilterSettings();
         }
     }
 
@@ -260,6 +266,39 @@ public class MainView extends VerticalLayout {
             setMargin(false);
             setSpacing(false);
             setClassName("default-card");
+        }
+    }
+
+    /**
+     * Methode um die Filtereinstsellungen zu laden
+     */
+    public void loadFilterSettings(){
+        InjectService.Filter filter = jobInjectService.getFilter();
+
+        String filterType = filter.getFilterType();
+        String filterValue = filter.getFilterValue();
+        keywords = filter.getKeywords();
+
+        for(int i = 0; i < keywords.size(); i++) {
+            KeywordDTO temp = keywords.get(i);
+            temp.setKeywordname(temp.getKeywordname().substring(0, 1).toUpperCase()+temp.getKeywordname().substring(1));
+            MainView.KeyCard card = new MainView.KeyCard(temp);
+            cards.add(card);
+        }
+
+        Boolean valueSelected = (filterType!=null)&&(filterValue!=null);
+        Boolean keywordSelected = keywords.size()>0;
+
+
+        if(valueSelected && keywordSelected){
+            grid.setItems(jobControl.filterJobs(filterType, filterValue, keywords));
+        }else if(valueSelected){
+            grid.setItems(jobControl.filterJobs(filterType, filterValue));
+        }else if(keywordSelected){
+            grid.setItems(jobControl.filterJobs(keywords));
+        }else{
+            grid.setItems(jobControl.readAllStellenanzeigen());
+            this.filter.setVisible(false);
         }
     }
 }

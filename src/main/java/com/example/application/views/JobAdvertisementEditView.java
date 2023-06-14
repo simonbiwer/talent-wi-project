@@ -9,8 +9,7 @@ import com.example.application.dtos.impl.StellenanzeigenDTOImpl;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.Globals;
-import com.example.application.utils.JobInjectService;
-import com.example.application.utils.SettingsService;
+import com.example.application.utils.InjectService;
 import com.example.application.utils.UtilNavigation;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Key;
@@ -52,10 +51,7 @@ public class JobAdvertisementEditView extends VerticalLayout {
     private JobControl jobControl;
 
     @Autowired
-    private JobInjectService jobInjectService;
-
-    @Autowired
-    private SettingsService settingsService;
+    private InjectService jobInjectService;
 
     private StellenanzeigenDTO stellenAnzeige;
 
@@ -151,7 +147,7 @@ public class JobAdvertisementEditView extends VerticalLayout {
                     stellenAnzeige.setReserved(false); //TODO
                     stellenAnzeige.setKeywords(keywords);
                     try {
-                        if(settingsService.getJobHinzufuegen()){
+                        if(jobInjectService.getJobHinzufuegen()){
                             InsertJobResult result = jobControl.createStellenanzeige(stellenAnzeige);
                             if (result.OK()) {
                                 jobInjectService.setStellenanzeige(stellenAnzeige);
@@ -233,13 +229,13 @@ public class JobAdvertisementEditView extends VerticalLayout {
     public void loadContent() {
         H1 h1 = new H1(stellenAnzeige.getTitel());
 
-        saveBtn = new Button(settingsService.getJobHinzufuegen() ? "Stellenanzeige speichern" : "Änderungen speichern");
+        saveBtn = new Button(jobInjectService.getJobHinzufuegen() ? "Stellenanzeige speichern" : "Änderungen speichern");
         saveBtn.addClickShortcut(Key.ENTER);
         saveBtn.addClassName("default-btn");
 
-        backBtn = new Button(settingsService.getJobHinzufuegen() ? "Abbrechen" : "Zurück");
+        backBtn = new Button(jobInjectService.getJobHinzufuegen() ? "Abbrechen" : "Zurück");
         backBtn.addClickListener(event -> {
-            if(settingsService.getJobHinzufuegen()){
+            if(jobInjectService.getJobHinzufuegen()){
                 UtilNavigation.navigateToMain();
             }else{
                 UtilNavigation.navigateToJobAdvertisement();

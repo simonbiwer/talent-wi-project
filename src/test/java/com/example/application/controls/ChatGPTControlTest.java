@@ -3,8 +3,7 @@ package com.example.application.controls;
 import com.example.application.dtos.impl.StellenanzeigenDTOImpl;
 import com.example.application.entities.Stellenanzeige;
 import com.example.application.repositories.StellenanzeigeRepository;
-import com.example.application.utils.JobInjectService;
-import com.example.application.utils.SettingsService;
+import com.example.application.utils.InjectService;
 import com.example.application.utils.UtilNavigation;
 import com.vaadin.flow.component.UI;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,10 +25,7 @@ class ChatGPTControlTest {
     private StellenanzeigeRepository jobRepo;
 
     @Mock
-    private JobInjectService jobInjectService;
-
-    @Mock
-    private SettingsService settingsService;
+    private InjectService jobInjectService;
 
     @Mock
     private UtilNavigation utilNavigation;
@@ -71,7 +67,7 @@ class ChatGPTControlTest {
         // Überprüfen, ob jobRepo.save(job) aufgerufen wurde
         verify(jobRepo, times(1)).save(job);
 
-        // Überprüfen, ob settingsService.setJobHinzufuegen(true) aufgerufen wurde
+        // Überprüfen, ob jobInjectService.setJobHinzufuegen(true) aufgerufen wurde
         verify(settingsService, times(1)).setJobHinzufuegen(true);
 
         // Überprüfen, ob UtilNavigation.navigateToJobAdvertisementEdit() aufgerufen wurde
