@@ -1,10 +1,11 @@
 package com.example.application.views;
 
 import com.example.application.controls.JobControl;
+import com.example.application.controls.LoginControl;
 import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.StellenanzeigenDTO;
 import com.example.application.dtos.impl.KeywordDTOImpl;
-import com.example.application.entities.Stellenanzeige;
+import com.example.application.utils.Utils;
 import com.example.application.entities.User;
 import com.example.application.layout.DefaultView;
 import com.example.application.utils.InjectService;
@@ -14,6 +15,7 @@ import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.*;
 import com.vaadin.flow.component.html.Div;
@@ -26,10 +28,6 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.lumo.LumoUtility;
-import jakarta.persistence.Column;
-import jakarta.persistence.MapsId;
-import org.atmosphere.interceptor.AtmosphereResourceStateRecovery;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -56,6 +54,9 @@ public class MainView extends VerticalLayout {
     @Autowired
     private InjectService jobInjectService;
 
+    @Autowired
+    private LoginControl loginControl;
+
     Grid<StellenanzeigenDTO> grid;
 
     Select<String> keywordSelect = new Select<>();
@@ -64,8 +65,11 @@ public class MainView extends VerticalLayout {
 
     private List<KeywordDTO> keywordsAll;
     private HorizontalLayout cards;
-
     private  FilterFormLayout filter;
+    private Accordion accordion;
+    private Checkbox ownToggle;
+    private TextField value;
+    private Select<String> select;
 
     public MainView() {
 
@@ -77,10 +81,10 @@ public class MainView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        Accordion accordion = new Accordion();
+        accordion = new Accordion();
 
         filter = new FilterFormLayout();
-        //filter.setVisible(true);
+        accordion.open(0);
         filter.addClassName("filter-layout");
 
         accordion.add("Filter", filter);
@@ -117,12 +121,12 @@ public class MainView extends VerticalLayout {
         FilterFormLayout(){
             keywords = new ArrayList<>();
 
-            TextField value = new TextField("Wert:");
+            value = new TextField("Wert:");
 
-            Select<String> select = new Select<>();
+            select = new Select<>();
             select.setEmptySelectionAllowed(true);
             select.setLabel("Filtern nach:");
-            select.setItems(Globals.Attributes.TITEL, Globals.Attributes.UNTERNEHMEN, Globals.Attributes.QUALIFIKATIONEN, Globals.Attributes.TECHNOLOGIE, Globals.Attributes.STARTDATUM, Globals.Attributes.PROJEKTDAUER, Globals.Attributes.BESCHREIBUNG);
+            select.setItems(Utils.capitalizeString(Globals.Attributes.TITEL), Utils.capitalizeString(Globals.Attributes.UNTERNEHMEN), Utils.capitalizeString(Globals.Attributes.QUALIFIKATIONEN), Utils.capitalizeString(Globals.Attributes.TECHNOLOGIE), Utils.capitalizeString(Globals.Attributes.STARTDATUM), Utils.capitalizeString(Globals.Attributes.PROJEKTDAUER), Utils.capitalizeString(Globals.Attributes.BESCHREIBUNG));
             select.setPlaceholder("Wert auswählen");
 
             keywordSelect.setEmptySelectionAllowed(true);
@@ -144,23 +148,25 @@ public class MainView extends VerticalLayout {
             keyContainer.add(cards);
 
             Button applyFilterbtn = new Button("Filter anwenden", e->{
-                jobInjectService.setFilter(select.getValue(), value.getValue(), keywords);
+                jobInjectService.setFilter(select.getValue().toLowerCase(Locale.ROOT), value.getValue(), keywords, ownToggle.getValue());
 
                 Boolean valueSelected = (select.getValue()!=null)&&(value.getValue()!=null);
                 Boolean keywordSelected = keywords.size()>0;
 
-                List<StellenanzeigenDTO> test = new ArrayList<>();
-                grid.setItems(test);
+                List<StellenanzeigenDTO> newStellenanzeigen;
 
                 if(valueSelected && keywordSelected){
-                    grid.setItems(jobControl.filterJobs(select.getValue(), value.getValue(), keywords));
+                    newStellenanzeigen = jobControl.filterJobs(select.getValue().toLowerCase(Locale.ROOT), value.getValue(), keywords);
                 }else if(valueSelected){
-                    grid.setItems(jobControl.filterJobs(select.getValue(), value.getValue()));
+                    newStellenanzeigen = jobControl.filterJobs(select.getValue().toLowerCase(Locale.ROOT), value.getValue());
                 }else if(keywordSelected){
-                    grid.setItems(jobControl.filterJobs(keywords));
+                    newStellenanzeigen = jobControl.filterJobs(keywords);
                 }else{
-                    grid.setItems(jobControl.readAllStellenanzeigen());
+                    newStellenanzeigen = jobControl.readAllStellenanzeigen();
                 }
+
+                checkIfOwn(newStellenanzeigen);
+
             });
             applyFilterbtn.addClassName("default-btn");
             applyFilterbtn.addThemeName("apply-filter-btn");
@@ -168,10 +174,10 @@ public class MainView extends VerticalLayout {
             Button resetFilterBtn = new Button("Filter zurücksetzen", e -> {
                 keywords.clear();
                 cards.removeAll();
-                jobInjectService.setFilter(null, null, keywords);
+                jobInjectService.setFilter(null, null, keywords, false);
                 grid.setItems(jobControl.readAllStellenanzeigen());
-
                 // Felder leeren
+                ownToggle.setValue(false);
                 select.clear();
                 value.clear();
                 keywordSelect.clear();
@@ -179,7 +185,18 @@ public class MainView extends VerticalLayout {
 
             resetFilterBtn.addClassName("delete-btn");
 
-            add(select, value, keywordSelect, keyContainer, applyFilterbtn, resetFilterBtn);
+            ownToggle = new Checkbox("Zeige nur eigene Stellenanzeigen");
+
+            HorizontalLayout layoutHorizontal = new HorizontalLayout();
+            layoutHorizontal.addClassName("remove-Vaadin");
+            layoutHorizontal.add(select, value, keywordSelect, keyContainer);
+
+            VerticalLayout layoutVertical = new VerticalLayout();
+            layoutVertical.addClassName("remove-Vaadin");
+            layoutVertical.add(layoutHorizontal, ownToggle);
+
+
+            add(layoutVertical, applyFilterbtn, resetFilterBtn);
         }
     }
 
@@ -203,7 +220,7 @@ public class MainView extends VerticalLayout {
             keywordsAll = jobControl.getAllKeywords();
             List<String> toStrings = new ArrayList<>();
             for (KeywordDTO element : keywordsAll){
-                toStrings.add(element.getKeywordname().substring(0, 1).toUpperCase()+element.getKeywordname().substring(1));
+                toStrings.add(Utils.capitalizeString(element.getKeywordname()));
             }
             keywordSelect.setItems(toStrings);
             loadFilterSettings();
@@ -275,6 +292,7 @@ public class MainView extends VerticalLayout {
 
         String filterType = filter.getFilterType();
         String filterValue = filter.getFilterValue();
+        Boolean toggle = filter.getOwn();
         keywords = filter.getKeywords();
 
         for(int i = 0; i < keywords.size(); i++) {
@@ -284,19 +302,47 @@ public class MainView extends VerticalLayout {
             cards.add(card);
         }
 
+        select.setValue(filterType);
+        value.setValue(filterValue==null ? "" : filterValue);
+        ownToggle.setValue(toggle);
+
         Boolean valueSelected = (filterType!=null)&&(filterValue!=null);
         Boolean keywordSelected = keywords.size()>0;
 
+        List<StellenanzeigenDTO> newStellenanzeigen;
 
         if(valueSelected && keywordSelected){
-            grid.setItems(jobControl.filterJobs(filterType, filterValue, keywords));
+            newStellenanzeigen = jobControl.filterJobs(filterType, filterValue, keywords);
         }else if(valueSelected){
-            grid.setItems(jobControl.filterJobs(filterType, filterValue));
+            newStellenanzeigen = jobControl.filterJobs(filterType, filterValue);
         }else if(keywordSelected){
-            grid.setItems(jobControl.filterJobs(keywords));
+            newStellenanzeigen = jobControl.filterJobs(keywords);
         }else{
-            grid.setItems(jobControl.readAllStellenanzeigen());
-            //this.filter.setVisible(false);
+            newStellenanzeigen = jobControl.readAllStellenanzeigen();
+            accordion.close();
+        }
+
+        checkIfOwn(newStellenanzeigen);
+    }
+
+    /**
+     * Methode um den Join aus eigenen Stellenanzeigen und den gefilterten zu erzeugen
+     * @param newStellenanzeigen    -   Liste der gefilterten Stellenanzeigen
+     */
+    private void checkIfOwn(List<StellenanzeigenDTO> newStellenanzeigen){
+        if(ownToggle.getValue()){
+            List<StellenanzeigenDTO> ownStellenanzeigen = jobControl.getStellenanzeigenForCurrentUser(loginControl.getCurrentUser().getUserid());
+            List<StellenanzeigenDTO> mergedList = new ArrayList<>();
+            for (StellenanzeigenDTO jobInAttributeList : newStellenanzeigen){
+                for (StellenanzeigenDTO jobInKeywordList : ownStellenanzeigen){
+                    if (jobInAttributeList.getJobid() == jobInKeywordList.getJobid()){
+                        mergedList.add(jobInAttributeList);
+                    }
+                }
+            }
+            grid.setItems(mergedList);
+        }else {
+            grid.setItems(newStellenanzeigen);
         }
     }
 }

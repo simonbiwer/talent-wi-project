@@ -107,6 +107,10 @@ public class Utils {
         return retValue;
     }
 
+    public static String  capitalizeString(String phrase){
+        return phrase.substring(0, 1).toUpperCase()+phrase.substring(1);
+    }
+
     public static boolean isURLValid(String urlString) {
         UrlValidator urlValidator = new UrlValidator();
         return urlValidator.isValid(urlString);
