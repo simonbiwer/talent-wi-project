@@ -168,7 +168,7 @@ public class JobAdvertisementView extends VerticalLayout {
 
         Button reserveButton = new Button(stellenAnzeige.getReserved() ? "Reservierung entfernen" : "Reservieren", e -> {
             stellenAnzeige.setReserved(!stellenAnzeige.getReserved());
-            boolean updateResult = jobControl.updateStellenanzeige(stellenAnzeige);
+            boolean updateResult = jobInjectService.getJobHinzufuegen() ? jobControl.createStellenanzeige(stellenAnzeige).OK() : jobControl.updateStellenanzeige(stellenAnzeige);
             if (updateResult) {
                 jobInjectService.setStellenanzeige(stellenAnzeige);
                 UI.getCurrent().getPage().reload();

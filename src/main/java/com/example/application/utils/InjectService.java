@@ -48,11 +48,12 @@ public class InjectService{
         return filter;
     }
 
-    public void setFilter(String filterType, String filterValue, List<KeywordDTO> keywords, boolean own){
+    public void setFilter(String filterType, String filterValue, List<KeywordDTO> keywords, boolean own, boolean reserved){
         filter.setFilterType(filterType);
         filter.setFilterValue(filterValue);
         filter.setKeywords(keywords);
         filter.setOwn(own);
+        filter.setReserved(reserved);
     }
 
 
@@ -63,10 +64,13 @@ public class InjectService{
         private List<KeywordDTO> keywords;
         private boolean own;
 
+        private boolean reserved;
+
         public Filter(){
             filterType = null;
             filterValue = null;
             own = false;
+            reserved = false;
             keywords = new ArrayList<>();
         }
 
@@ -89,6 +93,10 @@ public class InjectService{
         public boolean getOwn(){return own;}
 
         public void setOwn(boolean own){this.own = own;}
+
+        public boolean getReserved(){return reserved;}
+
+        public void setReserved(boolean reserved){this.reserved = reserved;}
 
         public List<KeywordDTO> getKeywords() {
             return keywords;

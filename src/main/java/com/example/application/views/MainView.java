@@ -12,6 +12,7 @@ import com.example.application.utils.InjectService;
 import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Globals;
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
@@ -19,7 +20,9 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.*;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -57,7 +60,7 @@ public class MainView extends VerticalLayout {
     @Autowired
     private LoginControl loginControl;
 
-    Grid<StellenanzeigenDTO> grid;
+    VerticalLayout grid;
 
     Select<String> keywordSelect = new Select<>();
 
@@ -68,13 +71,13 @@ public class MainView extends VerticalLayout {
     private  FilterFormLayout filter;
     private Accordion accordion;
     private Checkbox ownToggle;
+    private Checkbox reservedToggle;
     private TextField value;
     private Select<String> select;
 
     public MainView() {
 
         setWidthFull();
-        setHeightFull();
 
         setMargin(true);
         setHorizontalComponentAlignment(Alignment.CENTER);
@@ -89,25 +92,7 @@ public class MainView extends VerticalLayout {
 
         accordion.add("Filter", filter);
 
-        grid = new Grid<>(StellenanzeigenDTO.class, false);
-
-
-        grid.addColumn(StellenanzeigenDTO::getTitel).setHeader("Titel");
-        grid.addColumn(StellenanzeigenDTO::getUnternehmen).setHeader("Unternehmen");
-        grid.addColumn(StellenanzeigenDTO::getStartdatum).setHeader("Startdatum");
-        grid.addComponentColumn(stellenAnzeige -> createStatusIcon(!stellenAnzeige.getReserved()))
-                .setHeader("Status");
-
-
-
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
-        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
-        grid.setSelectionMode(Grid.SelectionMode.NONE);
-
-        grid.addItemClickListener(event -> {
-            jobInjectService.setStellenanzeige(event.getItem());
-            UtilNavigation.navigateToJobAdvertisement();
-        });
+        grid = new VerticalLayout();
 
         addClassName("remove-Vaadin");
         this.getStyle().set("gap", "0");
@@ -148,7 +133,7 @@ public class MainView extends VerticalLayout {
             keyContainer.add(cards);
 
             Button applyFilterbtn = new Button("Filter anwenden", e->{
-                jobInjectService.setFilter(select.getValue().toLowerCase(Locale.ROOT), value.getValue(), keywords, ownToggle.getValue());
+                jobInjectService.setFilter(select.getValue()==null ? null: select.getValue().toLowerCase(Locale.ROOT), value.getValue()==null ? null: value.getValue().toLowerCase(Locale.ROOT), keywords, ownToggle.getValue(), reservedToggle.getValue());
 
                 Boolean valueSelected = (select.getValue()!=null)&&(value.getValue()!=null);
                 Boolean keywordSelected = keywords.size()>0;
@@ -165,8 +150,7 @@ public class MainView extends VerticalLayout {
                     newStellenanzeigen = jobControl.readAllStellenanzeigen();
                 }
 
-                checkIfOwn(newStellenanzeigen);
-
+                checkIfOwn(checkIfReserved(newStellenanzeigen));
             });
             applyFilterbtn.addClassName("default-btn");
             applyFilterbtn.addThemeName("apply-filter-btn");
@@ -174,18 +158,26 @@ public class MainView extends VerticalLayout {
             Button resetFilterBtn = new Button("Filter zurücksetzen", e -> {
                 keywords.clear();
                 cards.removeAll();
-                jobInjectService.setFilter(null, null, keywords, false);
-                grid.setItems(jobControl.readAllStellenanzeigen());
+                jobInjectService.setFilter(null, null, keywords, false, false);
+                addJobItems(jobControl.readAllStellenanzeigen());
                 // Felder leeren
                 ownToggle.setValue(false);
+                reservedToggle.setValue(false);
                 select.clear();
                 value.clear();
                 keywordSelect.clear();
             });
 
+
             resetFilterBtn.addClassName("delete-btn");
 
             ownToggle = new Checkbox("Zeige nur eigene Stellenanzeigen");
+            ownToggle.addClassName("clickable");
+
+            reservedToggle = new Checkbox("Zeige nur freie Stellenanzeigen");
+            reservedToggle.addClassName("clickable");
+
+            HorizontalLayout horizontalLayout = new HorizontalLayout(ownToggle, reservedToggle);
 
             HorizontalLayout layoutHorizontal = new HorizontalLayout();
             layoutHorizontal.addClassName("remove-Vaadin");
@@ -193,7 +185,7 @@ public class MainView extends VerticalLayout {
 
             VerticalLayout layoutVertical = new VerticalLayout();
             layoutVertical.addClassName("remove-Vaadin");
-            layoutVertical.add(layoutHorizontal, ownToggle);
+            layoutVertical.add(layoutHorizontal, horizontalLayout);
 
 
             add(layoutVertical, applyFilterbtn, resetFilterBtn);
@@ -233,17 +225,15 @@ public class MainView extends VerticalLayout {
      * @param status boolscher Wert, der bestimmt ob die Stellenanzeige bereits belegt ist.
      * @return gibt das Icon zurück, welches dann angezeigt wird
      */
-    private Icon createStatusIcon(boolean status) {
-        Icon icon;
-        if (status) {
-            icon = VaadinIcon.CHECK.create();
-            icon.getElement().getThemeList().add("badge success");
-        } else {
-            icon = VaadinIcon.CLOSE_SMALL.create();
-            icon.getElement().getThemeList().add("badge error");
-        }
-        icon.getStyle().set("padding", "var(--lumo-space-xs");
-        return icon;
+    private Span createStatusIcon(boolean status) {
+        Span available = new Span();
+
+        String theme = String.format("badge %s", status ? "error" : "success");
+        available.getElement().setAttribute("theme", theme);
+        available.getStyle().set("font-size", "small");
+        available.setText(status ? "Reserviert" : "Verfügbar");
+
+        return available;
     }
 
     /**
@@ -293,6 +283,7 @@ public class MainView extends VerticalLayout {
         String filterType = filter.getFilterType();
         String filterValue = filter.getFilterValue();
         Boolean toggle = filter.getOwn();
+        Boolean reserved = filter.getReserved();
         keywords = filter.getKeywords();
 
         for(int i = 0; i < keywords.size(); i++) {
@@ -305,6 +296,7 @@ public class MainView extends VerticalLayout {
         select.setValue(filterType);
         value.setValue(filterValue==null ? "" : filterValue);
         ownToggle.setValue(toggle);
+        reservedToggle.setValue(reserved);
 
         Boolean valueSelected = (filterType!=null)&&(filterValue!=null);
         Boolean keywordSelected = keywords.size()>0;
@@ -322,7 +314,7 @@ public class MainView extends VerticalLayout {
             accordion.close();
         }
 
-        checkIfOwn(newStellenanzeigen);
+        checkIfOwn(checkIfReserved(newStellenanzeigen));
     }
 
     /**
@@ -340,9 +332,77 @@ public class MainView extends VerticalLayout {
                     }
                 }
             }
-            grid.setItems(mergedList);
+            addJobItems(mergedList);
+            accordion.open(0);
         }else {
-            grid.setItems(newStellenanzeigen);
+            addJobItems(newStellenanzeigen);
+        }
+    }
+
+    /**
+     * Methode um den Join aus den reservierten oder nicht reserveirten Stellenanzeige zu erzeugen
+     * @param newStellenanzeigen    -   Liste der gefilterten Stellenanzeigen
+     */
+    private List<StellenanzeigenDTO> checkIfReserved(List<StellenanzeigenDTO> newStellenanzeigen){
+        if(reservedToggle.getValue()) {
+            for(int i = 0; i < newStellenanzeigen.size(); i++){
+                if (newStellenanzeigen.get(i).getReserved()==true){
+                    newStellenanzeigen.remove(i);
+                }
+            }
+            accordion.open(0);
+        }
+        return newStellenanzeigen;
+    }
+
+    /**
+     * Methode um die Elemente der Stellenanzeigen zu erstellen
+     * @param list    -   Liste der anzuzeigenden Stellenanzeige
+     */
+    private void addJobItems(List<StellenanzeigenDTO> list){
+        grid.removeAll();
+        for(StellenanzeigenDTO element: list){
+            VerticalLayout itemBox = new VerticalLayout();
+            H5 header = new H5(element.getTitel());
+
+            HorizontalLayout filler = new HorizontalLayout();
+            filler.add(new Span(element.getUnternehmen()));
+            for(KeywordDTO temp : element.getKeywords()) {
+                temp.setKeywordname(temp.getKeywordname().substring(0, 1).toUpperCase()+temp.getKeywordname().substring(1));
+                MainView.Card card = new MainView.Card(temp);
+                filler.add(card);
+            }
+
+            HorizontalLayout contents = new HorizontalLayout();
+            contents.addClassName("content-layout");
+            contents.add(filler, createStatusIcon(element.getReserved()));
+            contents.setWidthFull();
+            contents.setJustifyContentMode(JustifyContentMode.BETWEEN);
+
+            itemBox.addClassName("itemBox-layout");
+            itemBox.addClickListener(event -> {
+                jobInjectService.setStellenanzeige(element);
+                UtilNavigation.navigateToJobAdvertisement();
+            });
+            itemBox.add(header, contents);
+            grid.add(itemBox);
+        }
+    }
+
+    /**
+     * Keyword-Klasse für die Stellenanzeigen
+     */
+    public class Card extends HorizontalLayout {
+        public Card(KeywordDTO title) {
+            Label titleLabel = new Label(title.getKeywordname());
+            titleLabel.addClassName("key-label-main");
+
+            add(titleLabel);
+
+            setPadding(false);
+            setMargin(false);
+            setSpacing(false);
+            setClassName("default-card");
         }
     }
 }

@@ -1,7 +1,7 @@
 :root {
     --primary-color: #0063d4;
     --secondary-color: #f3f5f7;
-    --tertiary-color: #E8F0FE;
+    --tertiary-color: #e5f0ff;
     --forth-color: #e8ecef;
     --fifth-color: #afc6e9;
     --delete-color: #DE062DFF;
@@ -93,7 +93,7 @@ vaadin-button vaadin-icon{
 }
 
 vaadin-accordion{
-    margin-top: 1em;
+    margin-top: .5em;
     background-color: var(--tertiary-color);
     width: 100%;
 }
@@ -102,9 +102,27 @@ vaadin-accordion-panel{
     padding: .2em 1em;
 }
 
+button{
+    cursor: var(--lumo-clickable-cursor);
+}
+
+.clickable{
+    cursor: var(--lumo-clickable-cursor);
+}
+
 vaadin-drawer-toggle::part(icon)::before{
     height: 30px;
     width: 30px;
+}
+
+.itemBox-layout{
+    border: solid var(--fifth-color) 3px;
+    border-radius: 10px;
+    cursor: var(--lumo-clickable-cursor);
+}
+
+.itemBox-layout:hover{
+    border-color: var(--primary-color);
 }
 
 .default-card {
@@ -131,6 +149,11 @@ vaadin-drawer-toggle::part(icon)::before{
 
 .key-label {
     font-weight: bold;
+    color: var(--primary-color);
+}
+
+.key-label-main{
+    font-size: small;
     color: var(--primary-color);
 }
 
