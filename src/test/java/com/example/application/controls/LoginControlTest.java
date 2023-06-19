@@ -33,12 +33,15 @@ class LoginControlTest {
     private UserRepository userRepository;
 
     private User testUser;
+    private User testUser2;
 
     @BeforeEach
     void setUp() {
         testUser = new User();
         testUser.setEmail("test@test.com");
         testUser.setPasswort("test123");
+        testUser2 = new User();
+
     }
 
     @Test
@@ -80,15 +83,14 @@ class LoginControlTest {
 
     }
 
-//    @Test
-//    void testAuthentificate_mitDatenbankFehler() {
-//        // arrange
-//        when(userRepository.findUserByEmail(testUser.getEmail())).thenThrow(new DataAccessResourceFailureException("Database connection error"));
-//        // act
-//        LoginResultDTO result = loginControl.authentificate(testUser.getEmail(), testUser.getPasswort());
-//        // assert
-//        assertFalse(result.getResult());
-//        assertEquals("Es ist ein Fehler während der Verbindung zur Datenbank aufgetreten: org.springframework.dao.DataAccessResourceFailureException: Database connection error", result.getReason());
-//        assertNull(loginControl.getCurrentUser());
-//    }
+    @Test
+    void testAuthentificate_mitDatenbankFehler() {
+        // arrange
+        when(userRepository.findUserByEmail(testUser2.getEmail())).thenThrow(new DataAccessResourceFailureException("Database connection error"));
+        // act
+        LoginResultDTO result = loginControl.authentificate(testUser2.getEmail(), testUser2.getPasswort());
+        // assert
+        assertFalse(result.getResult());
+        assertNull(loginControl.getCurrentUser());
+    }
 }
