@@ -1,9 +1,12 @@
 package com.example.application.controls;
+import com.example.application.controls.factories.StellenanzeigenFactory;
 import com.example.application.dtos.InsertJobResult;
 import com.example.application.dtos.StellenanzeigenDTO;
 import com.example.application.dtos.impl.InsertJobResultImpl;
 import com.example.application.dtos.impl.StellenanzeigenDTOImpl;
+import com.example.application.entities.Keyword;
 import com.example.application.entities.Stellenanzeige;
+import com.example.application.entities.User;
 import com.example.application.repositories.KeywordRepository;
 import com.example.application.repositories.StellenanzeigeRepository;
 import com.example.application.utils.UtilCurrent;
@@ -12,9 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -55,23 +62,50 @@ public class JobControlTest {
      */
 
 
-//    @Test
-//    public void createStellenanzeige_Should_SaveNewJob_When_SuccessfullySaved() {
-//        // Arrange
-//        StellenanzeigenDTO stellenanzeigenDTO = new StellenanzeigenDTOImpl();
-//        stellenanzeigenDTO.setUrl("example.com");
-//        stellenanzeigenDTO.setKeywords(new ArrayList<>());
-//
-//        // Mocks
-//        when(jobRep.findStellenanzeigeByUrl(any(String.class))).thenReturn(null);
-//        when(keywordRepo.findKeywordByKeywordid(any(Integer.class))).thenReturn(null);
-//
-//        // Act
-//        InsertJobResult result = addJobControl.createStellenanzeige(stellenanzeigenDTO);
-//
-//        // Assert
-//        assertEquals("Abspeicherung der Stellenanzeige erfolgreich!", result.getMessage());
-//    }
+    @Test
+    public void createStellenanzeige_Should_CreateStellenanzeigeObject_WithCorrectValues() {
+        // Create a sample DTO with test values
+        StellenanzeigenDTO dto = new StellenanzeigenDTOImpl();
+        dto.setTitel("Test Title");
+        dto.setBeschreibung("Test Description");
+        dto.setUrl("www.example.com");
+        dto.setQualifikation("Test Qualification");
+        dto.setProjektdauer("Test Duration");
+        dto.setStartdatum("2023-05-16");
+        dto.setTechnologien("Java, Spring");
+        dto.setUnternehmen("Test Company");
+        dto.setReserved(true);
+
+        // Create a sample user object
+        User user = new User(); // Set up the necessary properties of the user object
+
+        // Create a sample list of keywords
+        List<Keyword> keywords = new ArrayList<>();
+        Keyword kw1 = new Keyword();
+        kw1.setKeywordname("testKeyword");
+        Keyword kw2 = new Keyword();
+        kw2.setKeywordname("testKeyword2");
+        // Add keywords to the list
+        keywords.add(kw1);
+        keywords.add(kw2);
+
+        // Call the createStellenanzeige method of the factory
+        Stellenanzeige result = StellenanzeigenFactory.createStellenanzeige(dto, user, keywords);
+
+        // Assert the properties of the created Stellenanzeige object
+        assertEquals(dto.getTitel(), result.getTitel());
+        assertEquals(dto.getBeschreibung(), result.getBeschreibung());
+        assertEquals(dto.getUrl(), result.getUrl());
+        assertEquals(dto.getQualifikation(), result.getQualifikation());
+        assertEquals(dto.getProjektdauer(), result.getProjektdauer());
+        assertEquals(dto.getStartdatum(), result.getStartdatum());
+        assertEquals(dto.getTechnologien(), result.getTechnologien());
+        assertEquals(dto.getUnternehmen(), result.getUnternehmen());
+        assertEquals(dto.getReserved(), result.getReserved());
+        assertEquals(user, result.getUserid());
+        assertEquals(keywords.size(), result.getKeywords().size());
+    }
+
 
 
     @Test
