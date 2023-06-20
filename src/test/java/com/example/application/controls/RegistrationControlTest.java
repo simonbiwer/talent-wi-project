@@ -2,7 +2,9 @@ package com.example.application.controls;
 
 import com.example.application.dtos.impl.UserDTOImpl;
 import com.example.application.entities.User;
+import com.example.application.repositories.SecureTokenRepository;
 import com.example.application.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,14 @@ import java.util.Optional;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
+@Transactional
 class RegistrationControlTest {
     @Autowired
     private  UserRepository userRepository;
     @Autowired
     private  RegistrationControl registrationControl = new RegistrationControl();
+    @Autowired
+    SecureTokenRepository secureTokenRepository;
 
     private Integer userID = null ;// User ID  fürs Löschen
     private Integer userIDEmail = null ;// User ID fürs Löschen
@@ -36,6 +41,7 @@ class RegistrationControlTest {
 
     @AfterAll
     public void deleteUser(){
+        secureTokenRepository.removeSecureTokenByUser(userRepository.findUserByUserid(userID));
         userRepository.deleteById(userID);
 
     }
