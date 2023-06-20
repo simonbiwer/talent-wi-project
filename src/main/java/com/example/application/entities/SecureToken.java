@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 /**
  * @author tb 24.05.23
  * @since 24.05.23
- * Entität zum speichern der Security Tokens für die Email-Verifizierung
+ * Entität zum Speichern der Security Tokens für die Email-Verifizierung
  */
 
 

@@ -12,14 +12,12 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.example.application.controls.LoginControl;
@@ -28,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.flow.component.UI;
 
 /**
- * View zur Anzeige des Login-Formulars zur anmeldung des Nutzers
+ * View zur Anzeige des Login-Formulars zur Anmeldung des Nutzers
  *
  * @author hh
  * @since 24.05.2023
@@ -45,7 +43,7 @@ public class LoginView extends VerticalLayout {
     PasswordField password = new PasswordField("Password");
 
      /**
-     * Hilfs-Klasse zur Erstellung des Formulars
+     * Hilfsklasse zur Erstellung des Formulars
      */
     class LoginForm extends Div {
 

@@ -1,9 +1,11 @@
 package com.example.application.utils;
 
-import com.example.application.dtos.StellenanzeigenDTO;
 import com.vaadin.flow.component.UI;
-
 import java.util.Objects;
+
+/**
+ * Stellt Methoden zur Navigation zwischen den verschiedenen Seiten bereit
+ */
 public class UtilNavigation {
 
 

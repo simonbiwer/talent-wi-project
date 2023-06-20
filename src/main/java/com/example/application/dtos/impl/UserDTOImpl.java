@@ -2,8 +2,6 @@ package com.example.application.dtos.impl;
 
 import com.example.application.dtos.UserDTO;
 
-import java.time.LocalDate;
-
 /**
  * Implementation des UserDTO zur Weitergabe von User-Daten
  * last edited: sb 01.05.23
@@ -21,7 +19,7 @@ public class UserDTOImpl implements UserDTO {
 
 
     /**
-     * Getter und setter methode
+     * Getter und setter Methoden
      */
 
     public void setFirstname(String firstname) {

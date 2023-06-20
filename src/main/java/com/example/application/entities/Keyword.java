@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * @author tb 24.05.23
  * @since 24.05.23
- * Entität zum speichern der Keywords
+ * Entität zum Speichern der Keywords
  */
 
 @Entity

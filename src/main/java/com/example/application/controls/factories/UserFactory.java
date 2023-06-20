@@ -14,7 +14,7 @@ public class UserFactory {
     /**
      * Creates a User object from a UserDTOImpl object.
      *
-     * @param userDTOImpl das UserDTOImpl welches in eine User Entität kovertiert wird.
+     * @param userDTOImpl das UserDTOImpl welches in eine User-Entität konvertiert wird.
      * @return neue Entität mit Daten des DTOs.
      */
     public static User createUser(UserDTOImpl userDTOImpl){

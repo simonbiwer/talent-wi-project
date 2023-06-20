@@ -15,7 +15,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+
+/**
+ * View für die Einstellungen
+ */
 
 @CssImport(value = "./styles/layout-style.css")
 @Route(value = Globals.Pages.SETTINGS_VIEW, layout = DefaultView.class)

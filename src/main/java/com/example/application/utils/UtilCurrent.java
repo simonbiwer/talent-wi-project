@@ -1,10 +1,11 @@
 package com.example.application.utils;
 
-import com.example.application.dtos.impl.UserDTOImpl;
 import com.example.application.entities.User;
 import com.vaadin.flow.component.UI;
 
-
+/**
+ * Klasse, die Informationen zum current User bereitstellt
+ */
 public class UtilCurrent {// Getters
 
     private UtilCurrent() {

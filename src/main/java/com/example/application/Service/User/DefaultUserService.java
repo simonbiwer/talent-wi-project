@@ -1,10 +1,7 @@
 package com.example.application.Service.User;
 
-
-
 import com.example.application.Exception.InvalidTokenException;
 import com.example.application.Exception.UnknownIdentifierException;
-import com.example.application.Exception.UserAlreadyExistException;
 import com.example.application.Service.Email.AccountVerificationEmailContext;
 import com.example.application.Service.Email.EmailService;
 import com.example.application.Service.Token.SecureTokenService;
@@ -17,21 +14,16 @@ import com.example.application.repositories.SecureTokenRepository;
 import com.example.application.repositories.UserRepository;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import jakarta.annotation.Resource;
-import jakarta.mail.MessagingException;
-
-import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Klasse zur Registrierung des Users mit E-Mail Verifikation
+ */
 @Service("userService")
 public class DefaultUserService implements UserService{
 

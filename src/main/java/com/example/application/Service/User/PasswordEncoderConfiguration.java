@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Klasse zur Erstellung eines neuen Passwort-Encoder
+ */
 @Configuration
 public class PasswordEncoderConfiguration {
     @Bean

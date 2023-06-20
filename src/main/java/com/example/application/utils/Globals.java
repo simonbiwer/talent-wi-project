@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ArrayList;
 
-
+/**
+ * Klasse, die alle global verwendeten Strings und andere global genutzten Methoden verwaltet
+ */
 public class Globals {
 
 

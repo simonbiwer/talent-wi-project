@@ -8,9 +8,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.apache.commons.lang3.StringUtils;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import org.apache.commons.validator.routines.UrlValidator;
 
 /**

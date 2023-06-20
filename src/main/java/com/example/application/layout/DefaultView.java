@@ -12,8 +12,6 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.html.Image;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Basis-Layout mit Navbar für die Webseite
@@ -88,7 +86,7 @@ public class DefaultView extends AppLayout {
     }
 
     /**
-     * Methode, die bei der Navigierung der Tabelle zu einem Job, dan zugehörigen Tab dynamisch hinzufügt
+     * Methode, die bei der Navigation der Tabelle zu einem Job, dann zugehörigen Tab dynamisch hinzufügt
      * @param title Titel der Stellenanzeige
      */
     public void navigateToJob(String title){

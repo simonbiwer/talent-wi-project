@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @author tb 24.05.23
  * @since 24.05.23
- * Entität zum speichern der Jobs
+ * Entität zum Speichern der Jobs
  */
 
 
@@ -52,8 +52,6 @@ public class Stellenanzeige {
     @Basic
     @Column(name = "isReserved")
     private boolean isReserved;
-
-    //TODO: Reserved in Datenbank einfügen
 
     @ManyToOne //Fremdschlüssel userid von Entität user
     @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)

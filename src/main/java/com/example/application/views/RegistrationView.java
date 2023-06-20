@@ -2,20 +2,14 @@ package com.example.application.views;
 
 import com.example.application.controls.LoginControl;
 import com.example.application.controls.RegistrationControl;
-import com.example.application.dtos.LoginResultDTO;
-import com.example.application.dtos.impl.LoginResultDTOImpl;
 import com.example.application.dtos.impl.RegistrationResultDTOImpl;
 import com.example.application.dtos.impl.UserDTOImpl;
-import com.example.application.entities.User;
 import com.example.application.utils.Globals;
-import com.example.application.utils.UtilNavigation;
 import com.example.application.utils.Utils;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
@@ -34,7 +28,7 @@ import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * View zur Anzeige des Registrierungs-Formulars zur Regsitrierung des Nutzers.
+ * View zur Anzeige des Registrierungsformulars zur Registrierung des Nutzers.
  *
  * @author hh
  * @since 24.05.2023
@@ -49,10 +43,6 @@ public class RegistrationView extends VerticalLayout {
 
     @Autowired
     private LoginControl loginControl;
-    /*
-    @Autowired
-    private SettingsControl settingsControl;
-     */
 
     // Basic User
     EmailField email = new EmailField("E-Mail");

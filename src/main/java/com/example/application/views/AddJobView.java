@@ -1,9 +1,6 @@
 package com.example.application.views;
 
-import com.example.application.Service.ChatGPT.ChatGPTAPIExample;
 import com.example.application.controls.ChatGPTControl;
-import com.example.application.controls.JobControl;
-import com.example.application.dtos.InsertJobResult;
 import com.example.application.dtos.KeywordDTO;
 import com.example.application.dtos.impl.KeywordDTOImpl;
 import com.example.application.dtos.impl.StellenanzeigenDTOImpl;
@@ -33,10 +30,12 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * View zum Einfügen einer neuen Stellenanzeige
+ */
 
 @CssImport(value = "./styles/layout-style.css")
 @Route(value = Globals.Pages.JOBADD_VIEW, layout = DefaultView.class)
@@ -136,14 +135,6 @@ public class AddJobView extends VerticalLayout {
                 .withValidator(url -> url.length() > 0, "Bitte URL angeben!")
                 .withValidator(url -> Utils.isURLValid(url), "URL ungültig!")
                 .bind(StellenanzeigenDTOImpl::getUrl, StellenanzeigenDTOImpl::setUrl);
-       /* binderJob.forField(company)
-                .bind(StellenanzeigenDTOImpl::getUnternehmen, StellenanzeigenDTOImpl::setUnternehmen);
-        binderJob.forField(technology)
-                .bind(StellenanzeigenDTOImpl::getTechnologien, StellenanzeigenDTOImpl::setTechnologien);
-        binderJob.forField(qualifications)
-                .bind(StellenanzeigenDTOImpl::getQualifikation, StellenanzeigenDTOImpl::setQualifikation);
-        binderJob.forField(range)
-                .bind(StellenanzeigenDTOImpl::getProjektdauer, StellenanzeigenDTOImpl::setProjektdauer);*/
         binderJob.forField(des)
                 .bind(StellenanzeigenDTOImpl::getBeschreibung, StellenanzeigenDTOImpl::setBeschreibung);
 

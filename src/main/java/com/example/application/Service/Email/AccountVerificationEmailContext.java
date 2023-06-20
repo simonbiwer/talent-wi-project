@@ -1,8 +1,6 @@
 package com.example.application.Service.Email;
 
-
 import com.example.application.entities.User;
-import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**

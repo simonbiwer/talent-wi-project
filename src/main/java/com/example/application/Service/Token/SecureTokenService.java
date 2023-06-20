@@ -2,7 +2,9 @@ package com.example.application.Service.Token;
 
 import com.example.application.entities.SecureToken;
 
-
+/**
+ * Interface für das SecureToken
+ */
 public interface SecureTokenService {
 
     SecureToken createSecureToken();

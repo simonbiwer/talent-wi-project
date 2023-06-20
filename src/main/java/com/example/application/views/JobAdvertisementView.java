@@ -20,8 +20,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ import java.util.List;
 
 
 /**
- * Diese Klasse ist für die Anzeige der Daten eines Stellenangebotes zuständig
+ * Diese Klasse ist für die Anzeige der Daten eines Stellenangebotes zuständig.
  * Sie verwendet den JobInjectService um an das benötigte StellenAnzeigeDTO für die Daten zu gelangen
  *
  * @author hh
@@ -124,7 +122,7 @@ public class JobAdvertisementView extends VerticalLayout {
     }
 
     /**
-     * Methode, die nach, der Datenübergabe, die Content des Views füllt
+     * Methode, die nach der Datenübergabe den Content des Views füllt
      */
     public void loadContent(){
         boolean reserved = stellenAnzeige.getReserved();
@@ -226,7 +224,7 @@ public class JobAdvertisementView extends VerticalLayout {
     }
 
     /**
-     * Diese Methode verhindert dass ein Nutzer, der nicht eingeloggt ist, diese View sehen kann
+     * Diese Methode verhindert, dass ein Nutzer, der nicht eingeloggt ist, diese View sehen kann.
      * Außerdem wird hier das StellenanzeigenDTO aus dem InjectionService ausgelesen
      *
      * @param attachEvent Das Event-Objekt.

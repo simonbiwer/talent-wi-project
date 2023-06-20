@@ -2,11 +2,9 @@ package com.example.application.controls;
 
 
 import com.example.application.dtos.LoginResultDTO;
-import com.example.application.dtos.UserDTO;
 import com.example.application.dtos.impl.LoginResultDTOImpl;
 import com.example.application.entities.User;
 import com.example.application.repositories.UserRepository;
-import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

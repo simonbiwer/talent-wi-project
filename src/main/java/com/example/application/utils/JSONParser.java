@@ -1,9 +1,7 @@
 package com.example.application.utils;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import oshi.util.GlobalConfig;
 
 import java.util.HashMap;
 

@@ -3,7 +3,7 @@ package com.example.application.Exception;
 /**
  *  @author tb 24.05.23
  *  @since 24.05.23
- * Exception thrown by system in case some one try to register with already exisiting email
+ * Exception thrown by system in case someone tries to register with already existing email
  * id in the system.
  */
 public class UserAlreadyExistException extends Exception {

@@ -48,9 +48,7 @@ public class JobControl {
             result.setNotOK();
         }
         if (result.OK()){
-            // hier sollte eventuell besser mit einem UserDTO gearbeitet werden
             User currentUser = UtilCurrent.getCurrentUser();
-//            User currentUser = userRep.findById(currentUserDTO.getId()).get();
             List<Keyword> keywords = saveOrReturnKeywords(stellenanzeigenDTO.getKeywords());
             Stellenanzeige newJob = StellenanzeigenFactory.createStellenanzeige(stellenanzeigenDTO, currentUser, keywords);
             try{
@@ -131,7 +129,7 @@ public class JobControl {
 
 
     /**
-     * Methode, die checkt ob die Stellenanzeige zu dieser URL bereits existiert
+     * Methode, die checkt, ob die Stellenanzeige zu dieser URL bereits existiert
      * @param stellenanzeigenDTO neue Stellenanzeige
      * @return boolean
      */
@@ -296,6 +294,10 @@ public class JobControl {
         return result;
     }
 
+    /**
+     * Gibt alle Keywords zurück, die es in der Datenbank gibt
+     * @return alle Keywords
+     */
     public List<KeywordDTO> getAllKeywords(){
         List<KeywordDTO> result = new ArrayList<>();
         List<Keyword> allKeywords = keywordRepo.findAll();
@@ -306,7 +308,7 @@ public class JobControl {
     }
 
     /**
-     * Methode Überprüfung, ob die Keywords in einer Stellenanzeige enthalten sind
+     * Methode zur Überprüfung, ob die Keywords in einer Stellenanzeige enthalten sind
      * @param stelle    - Stellenanzeige die überprüft werden soll
      * @param keywords  - Liste an Keywords, die abgeglichen werden
      * @return boolean, wenn die Keywords enthalten sind

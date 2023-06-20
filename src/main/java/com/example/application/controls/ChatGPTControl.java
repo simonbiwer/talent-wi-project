@@ -25,6 +25,11 @@ public class ChatGPTControl {
     @Autowired
     private InjectService jobInjectService;
 
+    /**
+     * Methode zur Anfrage an die ChatGPT-API
+     * @param stellenanzeige Stellenanzeige, die auf Informationen durchsucht werden soll
+     * @return boolean, ob das Crawlen und Speichern der Attribute funktioniert hat
+     */
     public boolean crawlDataWithChatGPT(StellenanzeigenDTO stellenanzeige){
         try{
             HashMap<String, String> result = ChatGPTAPIExample.sendRequestToChatGPT(stellenanzeige.getUrl());
@@ -35,6 +40,12 @@ public class ChatGPTControl {
         }
     }
 
+    /**
+     * Methode, die die gecrawlten Attribute in der Datenbank abspeichert
+     * @param job Stellenanzeige, zu der die Attribute gehören
+     * @param attributes gecrawlte Attribute
+     * @return boolean, ob das Abspeichern funktioniert hat
+     */
     private boolean saveAttributes(StellenanzeigenDTO job, HashMap<String, String> attributes){
         try{
             job.setTechnologien(attributes.get(Globals.Attributes.TECHNOLOGIE));

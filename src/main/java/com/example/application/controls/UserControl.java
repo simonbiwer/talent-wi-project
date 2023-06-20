@@ -1,7 +1,6 @@
 package com.example.application.controls;
 
 import com.example.application.entities.User;
-import com.example.application.repositories.KeywordRepository;
 import com.example.application.repositories.StellenanzeigeRepository;
 import com.example.application.repositories.UserRepository;
 import jakarta.transaction.Transactional;
