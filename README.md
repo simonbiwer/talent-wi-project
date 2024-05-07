@@ -1,6 +1,6 @@
 # Talent
 
-Here will be the description of our project "Talent".
+The application talent is a platform where users can save and manage job offers found on job various platforms. The job information are crawled by using OpenAI.
 
 ## Running the application
 
